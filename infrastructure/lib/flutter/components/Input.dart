@@ -1,22 +1,27 @@
 
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:rxdart/rxdart.dart';
 
 class Input extends StatefulWidget {
   Input(this.theme, {
-    this.model,
     this.icon,
     this.keyboardType = TextInputType.text,
     this.hint,
-    this.onTapIcon
+    this.onTapIcon,
+    this.margin,
+    this.padding,
+    this.stream
   }) : super();
 
-  final InputModel model;
   final InputThemes theme;
   final String icon;
   final String hint;
   final TextInputType keyboardType;
   final onTapIcon;
+  final EdgeInsets margin;
+  final EdgeInsets padding;
+  final Stream<InputController> stream;
 
   @override
   _InputState createState() => _InputState();
@@ -24,76 +29,87 @@ class Input extends StatefulWidget {
 
 class _InputState extends State<Input> {
 
-
-  void clearError(){
+  void clearError(InputController model){
     setState(() {
-      widget.model?.errorMsg = null;
+      model?.errorMsg = null;
     });
   }
 
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.centerRight,
-      overflow: Overflow.visible,
-      children: [
-        Container(
-            height: 60,
-            padding: EdgeInsets.only(
-                left: 20,
-                right: (widget.icon != null? 50 : 20)
-            ),
-            alignment: Alignment.center,
-            decoration: widget.theme.background,
-            child: Wrap(
-              children: [
-                TextField(
-                  controller: widget.model?.controller,
-                  cursorColor: widget.theme.textColor,
-                  keyboardType: widget.keyboardType,
-                  style: TextStyle(
-                    color: widget.theme.textColor,
-                  ),
-                  decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: widget.hint,
-                      hintStyle: TextStyle(
-                          color: widget.theme.hintColor
-                      )
-                  ),
-                  onChanged: (value) {
-                    clearError();
-                  },
+    return StreamBuilder(
+      stream: widget.stream,
+      builder: (context, snapshot) {
+        InputController model = snapshot.data;
+        
+        return Container(
+          padding: widget.padding,
+          margin: widget.margin,
+          child: Stack(
+            alignment: Alignment.centerRight,
+            overflow: Overflow.visible,
+            children: [
+              Container(
+                height: 60,
+                padding: EdgeInsets.only(
+                  left: 20,
+                  right: (widget.icon != null? 50 : 20)
                 ),
-                ((widget.model?.errorMsg) != null?
-                Container(
-                  transform: Matrix4.translationValues(0, -10, 0),
-                  child: Text(widget.model?.errorMsg,
-                      style: TextStyle(color: Constants.Colors.RED_ERROR)
+                alignment: Alignment.center,
+                decoration: widget.theme.background,
+                child: Wrap(
+                  children: [
+                    TextField(
+                      controller: model,
+                      cursorColor: widget.theme.textColor,
+                      keyboardType: widget.keyboardType,
+                      style: TextStyle(
+                        color: widget.theme.textColor,
+                      ),
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        hintText: widget.hint,
+                        hintStyle: TextStyle(
+                            color: widget.theme.hintColor
+                        )
+                      ),
+                      onChanged: (value) {
+                        clearError(model);
+                      },
+                    ),
+                    AnimatedContainer(
+                      duration: Duration(milliseconds: 500),
+                      height: model?.errorMsg != null? 20 : 0,
+                      curve: Curves.ease,
+                      transform: Matrix4.translationValues(0, -10, 0),
+                      child: Text(model?.errorMsg ?? "",
+                        style: TextStyle(color: Constants.Colors.RED_ERROR)
+                      ),
+                    )
+                  ],
+                )
+              ),
+              ((model?.iconPath ?? widget.icon) != null?
+                Material(
+                  color: Colors.transparent,
+                  child: Ink(
+                    padding: EdgeInsets.only(right: 10, left: 10),
+                    child: Ink.image(image: AssetImage(model?.iconPath ?? widget.icon),
+                      height: 30,
+                      width: 30,
+                      fit: widget.theme.iconFit,
+                      child: InkWell(
+                        onTap: widget.onTapIcon,
+                      ),
+                    ),
                   ),
                 ) : Container()
-                )
-              ],
-            )
-        ),
-        ((widget.model?.iconPath ?? widget.icon) != null?
-        Material(
-          color: Colors.transparent,
-          child: Ink(
-            padding: EdgeInsets.only(right: 10, left: 10),
-            child: Ink.image(image: AssetImage(widget.model?.iconPath ?? widget.icon),
-              height: 30,
-              width: 30,
-              fit: widget.theme.iconFit,
-              child: InkWell(
-                onTap: widget.onTapIcon,
-              ),
-            ),
-          ),
-        ) : Container()
-        )
-      ],
+              )
+            ],
+          )
+        );
+      }
     );
   }
 }
@@ -153,15 +169,60 @@ class InputThemes {
 
 }
 
-class InputModel {
-  InputModel({
-    this.controller,
-    this.errorMsg,
-    this.iconPath
+class InputController extends TextEditingController {
+
+  InputController({
+    this.required,
+    this.requiredMessage = "Este campo é obrigatório",
+    this.minLength = -1,
+    this.minLengthMessage
   });
 
-  final TextEditingController controller;
   String errorMsg;
   String iconPath;
+
+  final bool required;
+  final String requiredMessage;
+  final int minLength;
+  final String minLengthMessage;
+
+  bool validate(){
+    List<bool> test = [
+      (required? _checkIsEmpty() : true),
+      _checkIsMoreThanMinLength()
+    ];
+    
+    return !test.contains(false);
+  }
+
+  bool _checkIsEmpty(){
+    if(isEmpty()){
+      errorMsg = requiredMessage;
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool isEmpty(){
+    return !(text.trim().length > 0);
+  }
+
+  bool _checkIsMoreThanMinLength(){
+    if(!isMoreThanMinLength()){
+      errorMsg = minLengthMessage ?? "O mínimo de caracteres é $minLength";
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  bool isMoreThanMinLength() {
+    return (text.length >= minLength);
+  }
+  
+  void refresh(BehaviorSubject<InputController> stream) {
+    stream.add(this);
+  }
 
 }

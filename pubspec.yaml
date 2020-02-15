@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  rxdart: ^0.18.0
 
   # Clean architecture modules "domain", "data" and my plus "infrastructure"
   domain:
@@ -37,9 +38,7 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  rxdart: ^0.18.0
-  http: ^0.12.0+1
-
+  flutter_stetho: ^0.5.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

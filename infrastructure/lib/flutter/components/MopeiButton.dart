@@ -17,49 +17,49 @@ class MopeiButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: theme.buttonBackground.borderRadius,
-      color: Colors.transparent,
-      child: Ink(
-        height: 50,
-        decoration: theme.buttonBackground,
-        width: double.maxFinite,
-        child: InkWell(
+    return StreamBuilder(
+      stream: isLoading ?? StreamController<bool>().stream,
+      initialData: false,
+      builder: (context, AsyncSnapshot<bool> snapshot) {
+        bool isLoading = snapshot.data;
+        return Material(
           borderRadius: theme.buttonBackground.borderRadius,
-          onTap: onTap,
-          child: Center(
-            child: StreamBuilder(
-              stream: isLoading ?? StreamController<bool>().stream,
-              initialData: false,
-              builder: (context, AsyncSnapshot<bool> snapshot) {
-                if(snapshot.data){
-                  return Container(
+          color: Colors.transparent,
+          child: Ink(
+            height: 50,
+            decoration: (isLoading? theme.buttonDisabledBackground : theme.buttonBackground),
+            width: double.maxFinite,
+            child: InkWell(
+              borderRadius: theme.buttonBackground.borderRadius,
+              onTap: (isLoading? null : onTap),
+              child: Center(
+                child: (isLoading?
+                  Container(
                     height: 20,
                     width: 20,
                     child: CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(theme.progressColor),
                       strokeWidth: 2,
                     ),
-                  );
-                } else {
-                  return Text(text?.toUpperCase() ?? "",
+                  ) : Text(text?.toUpperCase() ?? "",
                     style: theme.textStyle,
-                  );
-                }
-              },
+                  )
+                )
+              ),
             ),
           ),
-        ),
-      ),
-    );
+        );
+      }
+    ) ;
   }
 }
 
 class MopeiButtonTheme {
 
-  MopeiButtonTheme(this.textStyle, this.buttonBackground, this.elevation, this.progressColor);
+  MopeiButtonTheme(this.textStyle, this.buttonBackground, this.buttonDisabledBackground, this.elevation, this.progressColor);
 
   final BoxDecoration buttonBackground;
+  final BoxDecoration buttonDisabledBackground;
   final TextStyle textStyle;
   final double elevation;
   final Color progressColor;
@@ -79,6 +79,17 @@ class MopeiButtonTheme {
         ]
       )
     ),
+    BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        gradient: LinearGradient(
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+            colors: [
+              Colors.grey,
+              Colors.blueGrey
+            ]
+        )
+    ),
     0,
     Colors.black
   );
@@ -90,6 +101,10 @@ class MopeiButtonTheme {
       BoxDecoration(
           borderRadius: BorderRadius.circular(50),
           border: Border.all(color: Constants.Colors.GRADIENT_BUTTON_END, style: BorderStyle.solid, width: 1)
+      ),
+      BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          border: Border.all(color: Colors.grey, style: BorderStyle.solid, width: 1)
       ),
       2,
       Colors.black

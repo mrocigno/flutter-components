@@ -1,35 +1,19 @@
-import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/components/Hyperlink.dart';
-import 'package:infrastructure/flutter/components/BackgroundLogin.dart';
 import 'package:infrastructure/flutter/components/Input.dart';
 import 'package:infrastructure/flutter/components/MopeiButton.dart';
-import 'package:infrastructure/flutter/base/BaseScreen.dart';
-import 'package:mopei_app/src/ui/login/LoginBloc.dart';
+import 'package:mopei_app/src/ui/login/HomeLoginScreen.dart';
+import 'package:mopei_app/src/ui/login/pagelogin/PageLoginBloc.dart';
 
-class LoginScreen extends BaseScreen {
+class PageLoginScreen extends StatelessWidget {
+  PageLoginScreen({this.navigationPage});
 
-  final LoginBloc loginBloc = LoginBloc();
-
-
-  @override
-  Widget build(BuildContext context) {
-
-    bind(loginBloc.isLoading, (value) {
-      dev.log(value? "treu" : "false");
-    });
-
-    return BackgroundLogin(
-      child:
-    );
-  }
-}
-
-class PageLogin extends StatelessWidget {
+  final CustomPageController navigationPage;
+  final PageLoginBloc pageLoginBloc = PageLoginBloc();
 
   @override
   Widget build(BuildContext context) {
-    Container(
+    return Container(
       padding: EdgeInsets.all(20),
       child: Column(
         children: <Widget>[
@@ -41,23 +25,14 @@ class PageLogin extends StatelessWidget {
               ),
             ),
           ),
-          Container(
+          Input(InputThemes.blackBackground,
+            hint: "E-mail",
             margin: EdgeInsets.only(top: 20),
-            child: StreamBuilder(
-              stream: loginBloc.emailStream,
-              builder: (context, snapshot){
-                return Input(InputThemes.blackBackground,
-                  hint: "e-mail",
-                  model: snapshot.data,
-                );
-              },
-            ),
+            stream: pageLoginBloc.emailStream
           ),
-          Container(
-            margin: EdgeInsets.only(top: 20),
-            child: Input(InputThemes.blackBackground,
-                hint: "senha"
-            ),
+          Input(InputThemes.blackBackground,
+            hint: "Senha",
+            margin: EdgeInsets.only(top: 20)
           ),
           Expanded(
             child: Container(),
@@ -66,9 +41,9 @@ class PageLogin extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 20),
             child: MopeiButton(MopeiButtonTheme.mainTheme,
               text: "Entrar",
-              isLoading: loginBloc.isLoading,
+              isLoading: pageLoginBloc.isLoading,
               onTap: () {
-                loginBloc.doLogin();
+                pageLoginBloc.doLogin();
               },
             ),
           ),
@@ -79,6 +54,7 @@ class PageLogin extends StatelessWidget {
                 child: Container(
                   child: Hyperlink("Esqueceu a senha?",
                     theme: HyperlinkTheme.loginTheme,
+                    onPress: () => navigationPage.navigateTo(0)
                   ),
                 ),
               ),
@@ -88,6 +64,7 @@ class PageLogin extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Hyperlink("Criar conta",
                     theme: HyperlinkTheme.loginTheme,
+                    onPress: () => navigationPage.navigateTo(2),
                   ),
                 ),
               )
@@ -95,7 +72,7 @@ class PageLogin extends StatelessWidget {
           )
         ],
       ),
-    ),
+    );
   }
 
 }
