@@ -3,6 +3,7 @@ import 'dart:developer' as dev;
 import 'package:infrastructure/flutter/components/BackgroundLogin.dart';
 import 'package:infrastructure/flutter/base/BaseScreen.dart';
 import 'package:mopei_app/src/ui/login/pagecreateaccount/PageCreateAccountScreen.dart';
+import 'package:mopei_app/src/ui/login/pageforgotpassword/PageForgotPasswordScreen.dart';
 import 'package:mopei_app/src/ui/login/pagelogin/PageLoginScreen.dart';
 
 class HomeLoginScreen extends BaseScreen {
@@ -16,11 +17,8 @@ class HomeLoginScreen extends BaseScreen {
     return BackgroundLogin(
       child: WillPopScope(
         onWillPop: () async {
-//          if(page == 0 || page == 2){
-            await navigationPage.navigateTo(1);
-            return false;
-//          }
-//          return true;
+          await navigationPage.navigateTo(1);
+          return page == 1;
         },
         child: PageView(
           onPageChanged: (index) {
@@ -29,8 +27,8 @@ class HomeLoginScreen extends BaseScreen {
           controller: navigationPage,
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
-            Container(
-              color: Colors.blue,
+            PageForgotPasswordScreen(
+              navigationPage: navigationPage,
             ),
             PageLoginScreen(
               navigationPage: navigationPage,

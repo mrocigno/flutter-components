@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:rxdart/rxdart.dart';
+import 'dart:developer' as dev;
 
-class Input extends StatefulWidget {
+class Input extends StatelessWidget {
   Input(this.theme, {
     this.icon,
     this.keyboardType = TextInputType.text,
@@ -11,7 +12,7 @@ class Input extends StatefulWidget {
     this.onTapIcon,
     this.margin,
     this.padding,
-    this.stream
+    this.controller
   }) : super();
 
   final InputThemes theme;
@@ -21,97 +22,88 @@ class Input extends StatefulWidget {
   final onTapIcon;
   final EdgeInsets margin;
   final EdgeInsets padding;
-  final Stream<InputController> stream;
-
-  @override
-  _InputState createState() => _InputState();
-}
-
-class _InputState extends State<Input> {
-
-  void clearError(InputController model){
-    setState(() {
-      model?.errorMsg = null;
-    });
-  }
-
+  final InputController controller;
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: widget.stream,
-      builder: (context, snapshot) {
-        InputController model = snapshot.data;
-        
-        return Container(
-          padding: widget.padding,
-          margin: widget.margin,
-          child: Stack(
-            alignment: Alignment.centerRight,
-            overflow: Overflow.visible,
-            children: [
-              Container(
+    return Container(
+        padding: padding,
+        margin: margin,
+        child: Stack(
+          alignment: Alignment.centerRight,
+          overflow: Overflow.visible,
+          children: [
+            Container(
                 height: 60,
                 padding: EdgeInsets.only(
-                  left: 20,
-                  right: (widget.icon != null? 50 : 20)
+                    left: 20,
+                    right: (icon != null? 50 : 20)
                 ),
                 alignment: Alignment.center,
-                decoration: widget.theme.background,
+                decoration: theme.background,
                 child: Wrap(
                   children: [
                     TextField(
-                      controller: model,
-                      cursorColor: widget.theme.textColor,
-                      keyboardType: widget.keyboardType,
+                      controller: controller,
+                      cursorColor: theme.textColor,
+                      keyboardType: keyboardType,
                       style: TextStyle(
-                        color: widget.theme.textColor,
+                        color: theme.textColor,
                       ),
                       decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: widget.hint,
-                        hintStyle: TextStyle(
-                            color: widget.theme.hintColor
-                        )
+                          border: InputBorder.none,
+                          hintText: hint,
+                          hintStyle: TextStyle(
+                              color: theme.hintColor
+                          )
                       ),
                       onChanged: (value) {
-                        clearError(model);
+                        controller.setError(null);
                       },
                     ),
-                    AnimatedContainer(
-                      duration: Duration(milliseconds: 500),
-                      height: model?.errorMsg != null? 20 : 0,
-                      curve: Curves.ease,
-                      transform: Matrix4.translationValues(0, -10, 0),
-                      child: Text(model?.errorMsg ?? "",
-                        style: TextStyle(color: Constants.Colors.RED_ERROR)
-                      ),
+                    StreamBuilder(
+                      stream: controller.errorMsg,
+                      builder: (ctx, errorMsg) {
+                        return AnimatedContainer(
+                          duration: Duration(milliseconds: 500),
+                          height: controller.hasError? 20 : 0,
+                          curve: Curves.ease,
+                          transform: Matrix4.translationValues(0, -10, 0),
+                          child: Text(errorMsg ?? "",
+                              style: TextStyle(color: Constants.Colors.RED_ERROR)
+                          ),
+                        );
+                      },
                     )
                   ],
                 )
-              ),
-              ((model?.iconPath ?? widget.icon) != null?
-                Material(
+            ),
+            StreamBuilder(
+              stream: controller._iconPath,
+              builder: (ctx, path) {
+                if(!controller.hasIcon) return Container();
+                return Material(
                   color: Colors.transparent,
                   child: Ink(
                     padding: EdgeInsets.only(right: 10, left: 10),
-                    child: Ink.image(image: AssetImage(model?.iconPath ?? widget.icon),
+                    child: Ink.image(image: AssetImage(path ?? icon),
                       height: 30,
                       width: 30,
-                      fit: widget.theme.iconFit,
+                      fit: theme.iconFit,
                       child: InkWell(
-                        onTap: widget.onTapIcon,
+                        onTap: onTapIcon,
                       ),
                     ),
                   ),
-                ) : Container()
-              )
-            ],
-          )
-        );
-      }
+                );
+              },
+            )
+          ],
+        )
     );
   }
+
+
 }
 
 class InputThemes {
@@ -169,7 +161,7 @@ class InputThemes {
 
 }
 
-class InputController extends TextEditingController {
+class InputController extends TextEditingController{
 
   InputController({
     this.required,
@@ -178,9 +170,30 @@ class InputController extends TextEditingController {
     this.minLengthMessage
   });
 
-  String errorMsg;
-  String iconPath;
+  PublishSubject<String> errorMsg = PublishSubject();
+  BehaviorSubject<String> _iconPath = BehaviorSubject();
+//  TextEditingController _textEditingController;
 
+//  setText(String text){
+//    _textEditingController.text = text;
+//  }
+//
+//  String getText() {
+//    return _textEditingController.text;
+//  }
+
+  setError(String msg){
+    errorMsg.add(msg);
+    hasError = msg != null;
+  }
+
+  setIcon(String path){
+    _iconPath.add(path);
+    hasIcon = path != null;
+  }
+
+  bool hasError = false;
+  bool hasIcon = false;
   final bool required;
   final String requiredMessage;
   final int minLength;
@@ -197,7 +210,7 @@ class InputController extends TextEditingController {
 
   bool _checkIsEmpty(){
     if(isEmpty()){
-      errorMsg = requiredMessage;
+      setError(requiredMessage);
       return false;
     } else {
       return true;
@@ -210,7 +223,7 @@ class InputController extends TextEditingController {
 
   bool _checkIsMoreThanMinLength(){
     if(!isMoreThanMinLength()){
-      errorMsg = minLengthMessage ?? "O mínimo de caracteres é $minLength";
+      setError(minLengthMessage ?? "O mínimo de $minLength caracteres");
       return false;
     } else {
       return true;

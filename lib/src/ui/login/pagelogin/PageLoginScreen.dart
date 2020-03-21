@@ -11,6 +11,9 @@ class PageLoginScreen extends StatelessWidget {
   final CustomPageController navigationPage;
   final PageLoginBloc pageLoginBloc = PageLoginBloc();
 
+  InputController emailController = InputController();
+  InputController passController = InputController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -28,12 +31,12 @@ class PageLoginScreen extends StatelessWidget {
           Input(InputThemes.blackBackground,
             hint: "E-mail",
             margin: EdgeInsets.only(top: 20),
-            stream: pageLoginBloc.emailStream
+            controller: emailController
           ),
-          Input(InputThemes.blackBackground,
-            hint: "Senha",
-            margin: EdgeInsets.only(top: 20)
-          ),
+//          Input(InputThemes.blackBackground,
+//            hint: "Senha",
+//            margin: EdgeInsets.only(top: 20)
+//          ),
           Expanded(
             child: Container(),
           ),

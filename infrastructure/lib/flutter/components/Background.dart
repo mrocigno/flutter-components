@@ -6,50 +6,52 @@ class Background extends StatelessWidget{
     Key key,
     this.child,
     this.title = "",
-    this.showDrawer = false
+    this.showDrawer = false,
+    this.theme,
+    this.onNavigationClick
   }) : super(key: key);
 
   final Widget child;
   final String title;
   final bool showDrawer;
+  final Function onNavigationClick;
+  BackgroundTheme theme;
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffKey = GlobalKey();
+    theme ??= BackgroundTheme.main;
+
+    Widget leading;
+    if (showDrawer) {
+      leading = Ink.image(image: AssetImage("assets/icMenu.png"),
+        child: InkWell(
+          onTap: () => _scaffKey.currentState.openDrawer(),
+        )
+      );
+    } else if (onNavigationClick != null) {
+      leading = InkWell(
+        child: Icon(Icons.arrow_back),
+        onTap: onNavigationClick,
+      );
+    }
 
     return Stack(
       children: [
         Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Constants.Colors.GRADIENT_BACKGROUND_INI,
-                Constants.Colors.GRADIENT_BACKGROUND_END
-              ]
-            )
-          ),
+          decoration: theme.decoration,
         ),
         Scaffold(
           key: _scaffKey,
           backgroundColor: Colors.transparent,
           appBar: AppBar(
-            title: Center(child: Text(title)),
+            centerTitle: theme.centralizeTitle,
+            title: Text(title),
             backgroundColor: Colors.transparent,
             elevation: 0,
-            actions: <Widget>[
-              Text("aaa")
-            ],
-            leading: (showDrawer?
-              Ink.image(image: AssetImage("assets/icMenu.png"),
-                child: InkWell(
-                  onTap: () => _scaffKey.currentState.openDrawer(),
-                ),
-              ) : null
-            )
+            leading: leading
           ),
           body: child,
           drawer: (showDrawer?
@@ -67,6 +69,31 @@ class Background extends StatelessWidget{
 
 class BackgroundTheme {
 
+  static BackgroundTheme main = BackgroundTheme(
+    BoxDecoration(
+      gradient: LinearGradient(
+        begin: Alignment.topCenter,
+        end: Alignment.bottomCenter,
+        colors: [
+          Constants.Colors.GRADIENT_BACKGROUND_INI,
+          Constants.Colors.GRADIENT_BACKGROUND_END
+        ]
+      )
+    ),
+    true
+  );
+
+  static BackgroundTheme loginPage = BackgroundTheme(
+    BoxDecoration(
+      color: Constants.Colors.BLACK_TRANSPARENT
+    ),
+    false
+  );
+
+  BackgroundTheme(this.decoration, this.centralizeTitle);
+
+  final BoxDecoration decoration;
+  final bool centralizeTitle;
 
 
 }
