@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mopei_app/src/ui/login/HomeLoginScreen.dart';
+import 'package:mopei_app/src/ui/home/HomeScreen.dart';
+import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:flutter_stetho/flutter_stetho.dart';
 
 void main() => runApp(MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeLoginScreen(),
+      home: HomeScreen(),
     );
   }
 }

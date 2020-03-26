@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
 class BackgroundLogin extends StatelessWidget{
   BackgroundLogin({
@@ -14,11 +15,19 @@ class BackgroundLogin extends StatelessWidget{
     return Stack(
       children: <Widget>[
         Container(
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+            color: Constants.Colors.BLACK_TRANSPARENT,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20)
+            ),
+          ),
           height: double.infinity,
           width: double.infinity,
-          child: Image.asset("assets/loginBackground.png",
-            fit: BoxFit.cover,
-          ),
+//          child: Image.asset("assets/loginBackground.png",
+//            fit: BoxFit.cover,
+//          ),
         ),
         Scaffold(
           backgroundColor: Colors.transparent,

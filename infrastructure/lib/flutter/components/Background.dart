@@ -42,6 +42,7 @@ class Background extends StatelessWidget{
           width: double.infinity,
           height: double.infinity,
           decoration: theme.decoration,
+          clipBehavior: Clip.hardEdge,
         ),
         Scaffold(
           key: _scaffKey,
@@ -85,7 +86,11 @@ class BackgroundTheme {
 
   static BackgroundTheme loginPage = BackgroundTheme(
     BoxDecoration(
-      color: Constants.Colors.BLACK_TRANSPARENT
+      color: Constants.Colors.BLACK_TRANSPARENT,
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(20),
+        topLeft: Radius.circular(20)
+      )
     ),
     false
   );

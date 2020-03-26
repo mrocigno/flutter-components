@@ -1,8 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:infrastructure/flutter/components/inputs/FormValidate.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:rxdart/rxdart.dart';
 import 'dart:developer' as dev;
+
+import 'InputController.dart';
 
 class Input extends StatelessWidget {
   Input(this.theme, {
@@ -12,20 +15,30 @@ class Input extends StatelessWidget {
     this.onTapIcon,
     this.margin,
     this.padding,
-    this.controller
-  }) : super();
+    this.controller,
+    this.obscureText = false
+  });
 
   final InputThemes theme;
+  final bool obscureText;
   final String icon;
   final String hint;
   final TextInputType keyboardType;
   final onTapIcon;
   final EdgeInsets margin;
   final EdgeInsets padding;
-  final InputController controller;
+  InputController controller;
 
   @override
   Widget build(BuildContext context) {
+
+    controller ??= InputController();
+    if(icon != null){
+      controller.setIcon(icon);
+    }
+
+    FormValidateState.registerForValidate(context, this);
+
     return Container(
         padding: padding,
         margin: margin,
@@ -43,10 +56,15 @@ class Input extends StatelessWidget {
                 decoration: theme.background,
                 child: Wrap(
                   children: [
-                    TextField(
+                    TextFormField(
                       controller: controller,
                       cursorColor: theme.textColor,
                       keyboardType: keyboardType,
+                      obscureText: obscureText,
+                      validator: (value) {
+                        controller.validate();
+                        return ;
+                      },
                       style: TextStyle(
                         color: theme.textColor,
                       ),
@@ -61,9 +79,10 @@ class Input extends StatelessWidget {
                         controller.setError(null);
                       },
                     ),
-                    StreamBuilder(
-                      stream: controller.errorMsg,
-                      builder: (ctx, errorMsg) {
+                    StreamBuilder<String>(
+                      stream: controller.getErrorStream(),
+                      builder: (ctx, snapshot) {
+                        String errorMsg = snapshot.data;
                         return AnimatedContainer(
                           duration: Duration(milliseconds: 500),
                           height: controller.hasError? 20 : 0,
@@ -78,10 +97,11 @@ class Input extends StatelessWidget {
                   ],
                 )
             ),
-            StreamBuilder(
-              stream: controller._iconPath,
-              builder: (ctx, path) {
+            StreamBuilder<String>(
+              stream: controller.getIconStream(),
+              builder: (ctx, snapshot) {
                 if(!controller.hasIcon) return Container();
+                String path = snapshot.data;
                 return Material(
                   color: Colors.transparent,
                   child: Ink(
@@ -102,8 +122,6 @@ class Input extends StatelessWidget {
         )
     );
   }
-
-
 }
 
 class InputThemes {
@@ -158,84 +176,4 @@ class InputThemes {
   final Color textColor;
   final Color hintColor;
   final BoxFit iconFit;
-
-}
-
-class InputController extends TextEditingController{
-
-  InputController({
-    this.required,
-    this.requiredMessage = "Este campo é obrigatório",
-    this.minLength = -1,
-    this.minLengthMessage
-  });
-
-  PublishSubject<String> errorMsg = PublishSubject();
-  BehaviorSubject<String> _iconPath = BehaviorSubject();
-//  TextEditingController _textEditingController;
-
-//  setText(String text){
-//    _textEditingController.text = text;
-//  }
-//
-//  String getText() {
-//    return _textEditingController.text;
-//  }
-
-  setError(String msg){
-    errorMsg.add(msg);
-    hasError = msg != null;
-  }
-
-  setIcon(String path){
-    _iconPath.add(path);
-    hasIcon = path != null;
-  }
-
-  bool hasError = false;
-  bool hasIcon = false;
-  final bool required;
-  final String requiredMessage;
-  final int minLength;
-  final String minLengthMessage;
-
-  bool validate(){
-    List<bool> test = [
-      (required? _checkIsEmpty() : true),
-      _checkIsMoreThanMinLength()
-    ];
-    
-    return !test.contains(false);
-  }
-
-  bool _checkIsEmpty(){
-    if(isEmpty()){
-      setError(requiredMessage);
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  bool isEmpty(){
-    return !(text.trim().length > 0);
-  }
-
-  bool _checkIsMoreThanMinLength(){
-    if(!isMoreThanMinLength()){
-      setError(minLengthMessage ?? "O mínimo de $minLength caracteres");
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  bool isMoreThanMinLength() {
-    return (text.length >= minLength);
-  }
-  
-  void refresh(BehaviorSubject<InputController> stream) {
-    stream.add(this);
-  }
-
 }
