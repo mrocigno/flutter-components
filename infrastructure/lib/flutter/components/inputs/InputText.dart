@@ -87,7 +87,7 @@ class Input extends StatelessWidget {
                           duration: Duration(milliseconds: 500),
                           height: controller.hasError? 20 : 0,
                           curve: Curves.ease,
-                          transform: Matrix4.translationValues(0, -10, 0),
+                          transform: Matrix4.translationValues(0, (controller.hasError? -10 : 10), 0),
                           child: Text(errorMsg ?? "",
                               style: TextStyle(color: Constants.Colors.RED_ERROR)
                           ),
@@ -103,17 +103,16 @@ class Input extends StatelessWidget {
                 if(!controller.hasIcon) return Container();
                 String path = snapshot.data;
                 return Material(
+                  borderRadius: BorderRadius.all(Radius.circular(30)),
+                  clipBehavior: Clip.hardEdge,
                   color: Colors.transparent,
-                  child: Ink(
-                    padding: EdgeInsets.only(right: 10, left: 10),
-                    child: Ink.image(image: AssetImage(path ?? icon),
-                      height: 30,
+                  child: IconButton(
+                    icon: Image.asset(path ?? icon,
                       width: 30,
+                      height: 30,
                       fit: theme.iconFit,
-                      child: InkWell(
-                        onTap: onTapIcon,
-                      ),
                     ),
+                    onPressed: onTapIcon
                   ),
                 );
               },
@@ -125,51 +124,63 @@ class Input extends StatelessWidget {
 }
 
 class InputThemes {
-  InputThemes(this.background, this.textColor, this.hintColor, this.iconFit);
+  InputThemes({
+    this.background, this.textColor, this.hintColor, this.iconFit
+  });
 
   static InputThemes whiteBackground = InputThemes(
-      BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: Constants.Colors.WHITE_TRANSPARENT
-      ),
-      Colors.white,
-      Color.fromRGBO(255, 255, 255, .5),
-      BoxFit.contain
+      textColor: Colors.white,
+      hintColor: Color.fromRGBO(255, 255, 255, .5),
+      iconFit: BoxFit.contain,
+      background: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: Constants.Colors.WHITE_TRANSPARENT
+      )
   );
 
   static InputThemes blackBackground = InputThemes(
-      BoxDecoration(
+    textColor: Colors.white,
+    hintColor: Color.fromRGBO(255, 255, 255, .5),
+    iconFit: BoxFit.contain,
+    background: BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+      color: Constants.Colors.BLACK_TRANSPARENT
+    )
+  );
+
+  static InputThemes loginTheme = InputThemes(
+      textColor: Colors.black,
+      hintColor: Color.fromRGBO(0, 0, 0, .5),
+      iconFit: BoxFit.contain,
+      background: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
           color: Constants.Colors.BLACK_TRANSPARENT
-      ),
-      Colors.white,
-      Color.fromRGBO(255, 255, 255, .5),
-      BoxFit.contain
+      )
   );
 
   static InputThemes searchTheme = InputThemes(
-      BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        color: Constants.Colors.BLACK_TRANSPARENT,
-        border: Border.all(
-          width: 1,
-          style: BorderStyle.solid,
-          color: Constants.Colors.WHITE_TRANSPARENT
-        )
-      ),
-      Colors.white,
-      Color.fromRGBO(255, 255, 255, .5),
-      BoxFit.scaleDown
+    textColor: Colors.white,
+    hintColor: Color.fromRGBO(255, 255, 255, .5),
+    iconFit: BoxFit.scaleDown,
+    background: BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+      color: Constants.Colors.BLACK_TRANSPARENT,
+      border: Border.all(
+        width: 1,
+        style: BorderStyle.solid,
+        color: Constants.Colors.WHITE_TRANSPARENT
+      )
+    )
   );
 
   static InputThemes searchSolidTheme = InputThemes(
-      BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: Colors.white
-      ),
-      Colors.black,
-      Color.fromRGBO(0, 0, 0, .5),
-      BoxFit.scaleDown
+    textColor: Colors.black,
+    hintColor: Color.fromRGBO(0, 0, 0, .5),
+    iconFit: BoxFit.scaleDown,
+    background: BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+      color: Colors.white
+    )
   );
 
   final BoxDecoration background;

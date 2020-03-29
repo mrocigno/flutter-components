@@ -35,7 +35,7 @@ class HyperlinkTheme {
 
   static HyperlinkTheme loginTheme = HyperlinkTheme(
     TextStyle(
-      color: Colors.white,
+      color: Colors.black,
       fontSize: 18
     )
   );

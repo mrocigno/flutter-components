@@ -17,6 +17,9 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  flutter_localizations:
+    sdk: flutter
+
   flutter:
     sdk: flutter
 
@@ -34,12 +37,12 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_stetho: ^0.5.2
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
@@ -53,7 +56,13 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-   - assets/
+   - assets/img/
+   - assets/strings/
+
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: fonts/lato.ttf
   #  - images/a_dot_burr.jpeg
   #  - images/a_dot_ham.jpeg
 
@@ -69,9 +78,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
+  #    - family: Lato
+  #      fonts:
+  #        - asset: fonts/lato.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

@@ -17,7 +17,7 @@ class BackgroundLogin extends StatelessWidget{
         Container(
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
-            color: Constants.Colors.BLACK_TRANSPARENT,
+            color: Constants.Colors.BOTTOM_NAVIGATION_BAR_COLOR,
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20)

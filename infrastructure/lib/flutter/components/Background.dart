@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infrastructure/flutter/components/HomeBottomNavigationBar.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
 class Background extends StatelessWidget{
@@ -8,31 +9,42 @@ class Background extends StatelessWidget{
     this.title = "",
     this.showDrawer = false,
     this.theme,
-    this.onNavigationClick
+    this.onNavigationClick,
+    this.actions,
+    this.bottomNavigation,
   }) : super(key: key);
 
   final Widget child;
   final String title;
   final bool showDrawer;
   final Function onNavigationClick;
-  BackgroundTheme theme;
+  final List<AppBarAction> actions;
+  final Widget bottomNavigation;
+  final BackgroundTheme theme;
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
+
+  final GlobalKey _titleKey = GlobalKey();
+  GlobalKey get titleKey => _titleKey;
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffKey = GlobalKey();
-    theme ??= BackgroundTheme.main;
+    BackgroundTheme _theme = theme ?? BackgroundTheme.main;
 
     Widget leading;
     if (showDrawer) {
-      leading = Ink.image(image: AssetImage("assets/icMenu.png"),
-        child: InkWell(
-          onTap: () => _scaffKey.currentState.openDrawer(),
-        )
+      leading = IconButton(
+        icon: Image.asset("assets/img/icMenu.png",
+          width: 24,
+          height: 24,
+        ),
+        onPressed: () => _scaffoldKey.currentState.openDrawer(),
       );
     } else if (onNavigationClick != null) {
-      leading = InkWell(
-        child: Icon(Icons.arrow_back),
-        onTap: onNavigationClick,
+      leading = IconButton(
+        icon: Icon(Icons.arrow_back, color: _theme.titleColor),
+        onPressed: onNavigationClick,
       );
     }
 
@@ -41,28 +53,35 @@ class Background extends StatelessWidget{
         Container(
           width: double.infinity,
           height: double.infinity,
-          decoration: theme.decoration,
+          decoration: _theme.decoration,
           clipBehavior: Clip.hardEdge,
         ),
         Scaffold(
-          key: _scaffKey,
+          key: _scaffoldKey,
           backgroundColor: Colors.transparent,
+          bottomNavigationBar: bottomNavigation,
           appBar: AppBar(
-            centerTitle: theme.centralizeTitle,
-            title: Text(title),
+            centerTitle: _theme.centralizeTitle,
+            title: Text(title,
+              key: _titleKey,
+              style: TextStyle(
+                  color: _theme.titleColor
+              ),
+            ),
             backgroundColor: Colors.transparent,
             elevation: 0,
-            leading: leading
+            leading: leading,
+            actions: actions,
           ),
           body: child,
           drawer: (showDrawer?
-            Drawer(
-              child: Container(
-                color: Colors.red,
-              ),
-            ) : null
+          Drawer(
+            child: Container(
+              color: Colors.red,
+            ),
+          ) : null
           ),
-        )
+        ),
       ],
     );
   }
@@ -71,7 +90,9 @@ class Background extends StatelessWidget{
 class BackgroundTheme {
 
   static BackgroundTheme main = BackgroundTheme(
-    BoxDecoration(
+    centralizeTitle: true,
+    titleColor: Colors.white,
+    decoration: BoxDecoration(
       gradient: LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
@@ -80,25 +101,41 @@ class BackgroundTheme {
           Constants.Colors.GRADIENT_BACKGROUND_END
         ]
       )
-    ),
-    true
+    )
   );
 
   static BackgroundTheme loginPage = BackgroundTheme(
-    BoxDecoration(
-      color: Constants.Colors.BLACK_TRANSPARENT,
-      borderRadius: BorderRadius.only(
-        topRight: Radius.circular(20),
-        topLeft: Radius.circular(20)
-      )
-    ),
-    false
+    centralizeTitle: false,
+    titleColor: Colors.black,
+    decoration: BoxDecoration(
+//      color: Constants.Colors.BLACK_TRANSPARENT,
+        borderRadius: BorderRadius.only(
+            topRight: Radius.circular(20),
+            topLeft: Radius.circular(20)
+        )
+    )
   );
 
-  BackgroundTheme(this.decoration, this.centralizeTitle);
+  BackgroundTheme({this.decoration, this.centralizeTitle, this.titleColor});
 
   final BoxDecoration decoration;
   final bool centralizeTitle;
+  final Color titleColor;
+}
 
+class AppBarAction extends StatelessWidget{
 
+  final String imgPath;
+  final Function onTap;
+
+  AppBarAction({this.imgPath, this.onTap});
+
+  @override
+  Widget build(BuildContext context) => IconButton(
+    icon: Image.asset(imgPath,
+      width: 24,
+      height: 24,
+    ),
+    onPressed: onTap,
+  );
 }

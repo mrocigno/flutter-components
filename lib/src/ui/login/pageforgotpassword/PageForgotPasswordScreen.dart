@@ -36,7 +36,7 @@ class PageForgotPasswordScreen extends StatelessWidget {
               padding: EdgeInsets.all(20),
               child: Column(
                 children: <Widget>[
-                  Input(InputThemes.whiteBackground,
+                  Input(InputThemes.loginTheme,
                     hint: "E-mail",
                     keyboardType: TextInputType.emailAddress,
                     margin: EdgeInsets.only(top: 10),

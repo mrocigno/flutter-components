@@ -38,7 +38,7 @@ class PageLoginScreen extends StatelessWidget {
             Center(
               child: Text(
                 "Mopei",
-                style: TextStyle(color: Colors.white, fontSize: 40),
+                style: TextStyle(fontSize: 40),
               ),
             ),
             Expanded(
@@ -46,14 +46,14 @@ class PageLoginScreen extends StatelessWidget {
                 child: Column(
                   children: <Widget>[
                     Input(
-                      InputThemes.blackBackground,
+                      InputThemes.loginTheme,
                       hint: "E-mail",
                       margin: EdgeInsets.only(top: 20),
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                     ),
                     Input(
-                      InputThemes.blackBackground,
+                      InputThemes.loginTheme,
                       obscureText: true,
                       hint: "Senha",
                       margin: EdgeInsets.only(top: 20),
@@ -63,9 +63,6 @@ class PageLoginScreen extends StatelessWidget {
                 ),
               ),
             ),
-//          Expanded(
-//            child: Container(),
-//          ),
             Container(
               margin: EdgeInsets.only(bottom: 20),
               child: MopeiButton(
