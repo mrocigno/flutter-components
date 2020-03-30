@@ -29,77 +29,75 @@ class PageLoginScreen extends StatelessWidget {
 
     var formKey = GlobalKey<FormValidateState>();
 
-    return Container(
+    return FormValidate(
       padding: EdgeInsets.all(20),
-      child: FormValidate(
-        key: formKey,
-        child: Column(
-          children: <Widget>[
-            Center(
-              child: Text(
-                "Mopei",
-                style: TextStyle(fontSize: 40),
-              ),
+      key: formKey,
+      child: Column(
+        children: <Widget>[
+          Center(
+            child: Text(
+              "Mopei",
+              style: TextStyle(fontSize: 40),
             ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Input(
-                      InputThemes.loginTheme,
-                      hint: "E-mail",
-                      margin: EdgeInsets.only(top: 20),
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                    ),
-                    Input(
-                      InputThemes.loginTheme,
-                      obscureText: true,
-                      hint: "Senha",
-                      margin: EdgeInsets.only(top: 20),
-                      controller: passController,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(bottom: 20),
-              child: MopeiButton(
-                MopeiButtonTheme.mainTheme,
-                text: "Entrar",
-                isLoading: pageLoginBloc.isLoading,
-                onTap: () {
-                  print("${formKey.currentState.validate()}");
-                },
-              ),
-            ),
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    child: Hyperlink("Esqueceu a senha?",
-                        theme: HyperlinkTheme.loginTheme,
-                        onPress: () => navigationPage.navigateTo(0)),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Input(
+                    InputThemes.loginTheme,
+                    hint: "E-mail",
+                    margin: EdgeInsets.only(top: 20),
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
                   ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    child: Hyperlink(
-                      "Criar conta",
+                  Input(
+                    InputThemes.loginTheme,
+                    obscureText: true,
+                    hint: "Senha",
+                    margin: EdgeInsets.only(top: 20),
+                    controller: passController,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(bottom: 20),
+            child: MopeiButton(
+              MopeiButtonTheme.mainTheme,
+              text: "Entrar",
+              isLoading: pageLoginBloc.isLoading,
+              onTap: () {
+                print("${formKey.currentState.validate()}");
+              },
+            ),
+          ),
+          Row(
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Container(
+                  child: Hyperlink("Esqueceu a senha?",
                       theme: HyperlinkTheme.loginTheme,
-                      onPress: () => navigationPage.navigateTo(2),
-                    ),
+                      onPress: () => navigationPage.navigateTo(0)),
+                ),
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  child: Hyperlink(
+                    "Criar conta",
+                    theme: HyperlinkTheme.loginTheme,
+                    onPress: () => navigationPage.navigateTo(2),
                   ),
-                )
-              ],
-            )
-          ],
-        ),
-      )
+                ),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

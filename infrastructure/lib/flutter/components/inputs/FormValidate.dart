@@ -6,10 +6,12 @@ import 'package:infrastructure/flutter/components/inputs/InputText.dart';
 class FormValidate extends StatefulWidget {
   FormValidate({
     Key key,
-    this.child
+    this.child,
+    this.padding
   }) : super(key: key);
 
   final Widget child;
+  final EdgeInsetsGeometry padding;
 
   @override
   FormValidateState createState() => FormValidateState();
@@ -33,6 +35,7 @@ class FormValidateState extends State<FormValidate> {
     return _FormValidateScope(
       state: this,
       child: Container(
+        padding: widget.padding,
         child: widget.child,
       ),
     );

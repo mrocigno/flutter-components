@@ -22,15 +22,19 @@ class PageForgotPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Background(
-      theme: BackgroundTheme.loginPage,
-      showDrawer: false,
-      title: "Esqueci a senha",
-      onNavigationClick: () {
-        navigationPage.navigateTo(1);
-      },
+    return Container(
       child: Column(
         children: <Widget>[
+          AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.black),
+            title: Text("Esqueci a senha",
+              style: TextStyle(
+                  color: Colors.black
+              ),
+            ),
+          ),
           Expanded(
             child: SingleChildScrollView(
               padding: EdgeInsets.all(20),

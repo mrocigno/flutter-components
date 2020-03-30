@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:developer' as dev;
 import 'package:infrastructure/flutter/components/BackgroundLogin.dart';
+import 'package:infrastructure/flutter/components/HomeBottomNavigationBar.dart';
+import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:infrastructure/flutter/components/inputs/InputText.dart';
+import 'package:mopei_app/main.dart';
 import 'package:mopei_app/src/ui/login/pagecreateaccount/PageCreateAccountScreen.dart';
 import 'package:mopei_app/src/ui/login/pageforgotpassword/PageForgotPasswordScreen.dart';
 import 'package:mopei_app/src/ui/login/pagelogin/PageLoginScreen.dart';
@@ -14,23 +19,9 @@ class LoginModal {
   void show(){
     int page = 1;
     final navigationPage = CustomPageController(page);
-    PageForgotPasswordScreen pageForgotPassword =
-      PageForgotPasswordScreen(navigationPage: navigationPage);
 
-    PageLoginScreen pageLogin =
-      PageLoginScreen(navigationPage: navigationPage);
-
-    PageCreateAccountScreen pageCreateAccount =
-      PageCreateAccountScreen(navigationPage: navigationPage);
-
-
-    showModalBottomSheet(
-      backgroundColor: Colors.transparent,
-      context: context,
-      builder: (context) {
-
-        return BackgroundLogin(
-          child: WillPopScope(
+    BackgroundLogin modalView = BackgroundLogin(
+        child: WillPopScope(
             onWillPop: () async {
               await navigationPage.navigateTo(1);
               return page == 1;
@@ -38,17 +29,26 @@ class LoginModal {
             child: PageView(
               onPageChanged: (index) {
                 page = index;
+                MyApp.configSystemStyleUI();
               },
               controller: navigationPage,
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
-                pageForgotPassword,
-                pageLogin,
-                pageCreateAccount
+                PageForgotPasswordScreen(navigationPage: navigationPage),
+                PageLoginScreen(navigationPage: navigationPage),
+                PageCreateAccountScreen(navigationPage: navigationPage)
               ],
             )
-          )
-        );
+        )
+    );
+
+
+    showModalBottomSheet(
+      backgroundColor: Colors.transparent,
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return modalView;
       }
     );
   }

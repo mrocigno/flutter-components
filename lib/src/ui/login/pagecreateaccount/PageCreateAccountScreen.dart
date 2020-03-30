@@ -57,61 +57,65 @@ class PageCreateAccountScreen extends StatelessWidget {
 
     var formKey = GlobalKey<FormValidateState>();
 
-    return Background(
-      title: "Criar conta",
-      theme: BackgroundTheme.loginPage,
-      showDrawer: false,
-      onNavigationClick: () {navigationPage.navigateTo(1);},
-      child: FormValidate(
-        key: formKey,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  children: <Widget>[
-                    Input(InputThemes.loginTheme,
-                      hint: "E-mail",
-                      margin: EdgeInsets.only(top: 20),
-                      controller: emailController,
-                    ),
-                    Input(InputThemes.loginTheme,
-                      hint: "Telefone",
-                      margin: EdgeInsets.only(top: 20),
-                      controller: phoneController,
-                    ),
-                    Input(InputThemes.loginTheme,
-                      hint: "Senha",
-                      margin: EdgeInsets.only(top: 20),
-                      controller: passwordController,
-                      obscureText: true,
-                    ),
-                    Input(InputThemes.loginTheme,
-                      hint: "Confirme a senha",
-                      margin: EdgeInsets.only(top: 20),
-                      controller: confirmPasswordController,
-                      obscureText: true,
-                    )
-                  ],
-                ),
-              ),
+    return Column(
+      children: <Widget>[
+        AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text("Criar conta",
+            style: TextStyle(
+                color: Colors.black
             ),
-            Container(
-              padding: EdgeInsets.all(20),
-              child: MopeiButton(MopeiButtonTheme.mainTheme,
-                text: "salvar",
-                isLoading: pageCreateAccountBloc.isLoading,
-                onTap: () {
-                  if(formKey.currentState.validate()){
-                    pageCreateAccountBloc.createAccount();
-                  }
-                },
+          ),
+        ),
+        Expanded(
+          child: SingleChildScrollView(
+            child: FormValidate(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              key: formKey,
+              child: Column(
+                children: <Widget>[
+                  Input(InputThemes.loginTheme,
+                    hint: "E-mail",
+                    margin: EdgeInsets.only(top: 20),
+                    controller: emailController,
+                  ),
+                  Input(InputThemes.loginTheme,
+                    hint: "Telefone",
+                    margin: EdgeInsets.only(top: 20),
+                    controller: phoneController,
+                  ),
+                  Input(InputThemes.loginTheme,
+                    hint: "Senha",
+                    margin: EdgeInsets.only(top: 20),
+                    controller: passwordController,
+                    obscureText: true,
+                  ),
+                  Input(InputThemes.loginTheme,
+                    hint: "Confirme a senha",
+                    margin: EdgeInsets.only(top: 20),
+                    controller: confirmPasswordController,
+                    obscureText: true,
+                  )
+                ],
               ),
             )
-          ],
+          ),
         ),
-      )
+        Container(
+          padding: EdgeInsets.all(20),
+          child: MopeiButton(MopeiButtonTheme.mainTheme,
+            text: "salvar",
+            isLoading: pageCreateAccountBloc.isLoading,
+            onTap: () {
+              if(formKey.currentState.validate()){
+                pageCreateAccountBloc.createAccount();
+              }
+            },
+          ),
+        )
+      ],
     );
   }
 

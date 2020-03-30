@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:infrastructure/flutter/components/Background.dart';
+import 'package:infrastructure/flutter/components/HomeBottomNavigationBar.dart';
 import 'package:infrastructure/flutter/constants/Routes.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:mopei_app/src/ui/home/HomeScreen.dart';
+import 'package:mopei_app/src/ui/login/LoginModal.dart';
 
 class SplashScreen extends StatelessWidget {
 

@@ -13,6 +13,5 @@ class Colors {
   static const Color RED_ERROR = Color.fromRGBO(246, 75, 99, 1);
 
   static const Color BOTTOM_NAVIGATION_BAR_COLOR = Color(0xFFEEEEEE);
-  static const String TESTE = "";
 
 }

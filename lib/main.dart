@@ -1,35 +1,57 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:infrastructure/flutter/constants/Routes.dart' as Constants;
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget with WidgetsBindingObserver{
+
+
+
+  static void configSystemStyleUI(){
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark
+    ));
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
 
-    SystemChrome.setSystemUIOverlayStyle(
-        SystemUiOverlayStyle(
-            systemNavigationBarColor: Constants.Colors.BOTTOM_NAVIGATION_BAR_COLOR,
-            systemNavigationBarIconBrightness: Brightness.dark
-        )
-    );
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
+    configSystemStyleUI();
 
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Lato',
+    WidgetsBinding.instance.addObserver(this);
+
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle(systemNavigationBarIconBrightness: Brightness.dark),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          fontFamily: 'Lato',
+        ),
+        home: SplashScreen(),
       ),
-      home: SplashScreen(),
-//      routes: {
-//        Constants.Routes.HOME_SCREEN: (context) => HomeScreen()
-//      },
     );
   }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    configSystemStyleUI();
+  }
+
+  @override
+  // ignore: missing_return
+  Future<bool> didPushRoute(String route) {
+    configSystemStyleUI();
+  }
+
+
 }
 
 //V operator [](Object key);

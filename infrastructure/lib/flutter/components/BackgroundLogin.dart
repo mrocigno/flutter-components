@@ -12,30 +12,21 @@ class BackgroundLogin extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    return Stack(
-      children: <Widget>[
-        Container(
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            color: Constants.Colors.BOTTOM_NAVIGATION_BAR_COLOR,
-            borderRadius: BorderRadius.only(
+    double padding = MediaQuery.of(context).viewInsets.bottom;
+    double height = (MediaQuery.of(context).size.height / 2) + padding;
+
+    return Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(
+          color: Constants.Colors.BOTTOM_NAVIGATION_BAR_COLOR,
+          borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20)
-            ),
           ),
-          height: double.infinity,
-          width: double.infinity,
-//          child: Image.asset("assets/loginBackground.png",
-//            fit: BoxFit.cover,
-//          ),
         ),
-        Scaffold(
-          backgroundColor: Colors.transparent,
-          body: SafeArea(
-              child: child
-          ),
-        )
-      ],
+        height: height,
+        padding: EdgeInsets.only(bottom: padding),
+        child: child
     );
   }
 }
