@@ -6,6 +6,8 @@ import 'package:infrastructure/flutter/components/Background.dart';
 import 'package:infrastructure/flutter/components/HomeBottomNavigationBar.dart';
 import 'package:infrastructure/flutter/constants/Routes.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
+import 'package:infrastructure/flutter/utils/AnimationsUtils.dart';
+import 'package:infrastructure/flutter/utils/ScreenTransitions.dart';
 import 'package:mopei_app/src/ui/home/HomeScreen.dart';
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
 
@@ -19,29 +21,22 @@ class SplashScreen extends StatelessWidget {
   Background get _widgetBackground => _backgroundKey.currentWidget;
 
   void toHome(BuildContext context) {
-    Navigator.pushReplacement(context, PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => HomeScreen(),
-      transitionDuration: Duration(milliseconds: 800),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        return FadeTransition(
-          opacity: animation,
-          child: child,
-        );
-      },
-    ));
+    ScreenTransitions.pushReplacement(context, HomeScreen());
+  }
+
+  double calculateTitlePosition(){
+    RenderBox renderTitle = _widgetBackground.titleKey.currentContext.findRenderObject();
+    Offset positionTitle = renderTitle.localToGlobal(Offset.zero);
+
+    RenderBox renderAnimated = _textKey.currentContext.findRenderObject();
+    Offset positionAnimated = renderAnimated.localToGlobal(Offset.zero);
+    return positionAnimated.dy - positionTitle.dy;
   }
 
   @override
   Widget build(BuildContext context) {
-    double titlePosition = 0;
 
     Strings.initialize().then((value) {
-      RenderBox renderTitle = _widgetBackground.titleKey.currentContext.findRenderObject();
-      Offset positionTitle = renderTitle.localToGlobal(Offset.zero);
-
-      RenderBox renderAnimated = _textKey.currentContext.findRenderObject();
-      Offset positionAnimated = renderAnimated.localToGlobal(Offset.zero);
-      titlePosition = positionAnimated.dy - positionTitle.dy;
       startAnimate.add(true);
     });
 
@@ -52,21 +47,52 @@ class SplashScreen extends StatelessWidget {
           stream: startAnimate.stream,
           initialData: false,
           builder: (context, snapshot) {
-            return AnimatedContainer(
-              duration: Duration(milliseconds: 1000),
-              curve: Curves.ease,
-              onEnd: () => toHome(context),
-              transform: Matrix4.translationValues(0, (snapshot.data? (titlePosition * -1) : 0), 0),
-              child: AnimatedOpacity(
-                opacity: snapshot.data? 1 : 0,
-                duration: Duration(seconds: 1),
-                curve: Curves.ease,
-                child: Text("Mopei", key: _textKey, style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20
-                ))
-              ),
+            return AnimationsUtils(
+              startAnimation: snapshot.data,
+              child: Text("Mopei", key: _textKey, style: TextStyle(
+                fontSize: 20,
+                color: Colors.white
+              )),
+              animations: [
+                Animate(
+                  sequence: 1,
+                  builder: (child, started, onEnd) => AnimatedOpacity(
+                      opacity: started? 1 : 0,
+                      duration: Duration(milliseconds: 500),
+                      curve: Curves.ease,
+                      onEnd: onEnd,
+                      child: child
+                  ),
+                ),
+                Animate(
+                  sequence: 2,
+                  builder: (child, started, onEnd) => AnimatedContainer(
+                    duration: Duration(milliseconds: 1000),
+                    curve: Curves.ease,
+                    onEnd: () => toHome(context),
+                    transform: Matrix4.translationValues(0, (started? (calculateTitlePosition() * -1) : 0), 0),
+                    child: child
+                  ),
+                )
+              ],
             );
+
+
+//            return AnimatedContainer(
+//              duration: Duration(milliseconds: 1000),
+//              curve: Curves.ease,
+//              onEnd: () => toHome(context),
+//              transform: Matrix4.translationValues(0, (snapshot.data? (titlePosition * -1) : 0), 0),
+//              child: AnimatedOpacity(
+//                opacity: snapshot.data? 1 : 0,
+//                duration: Duration(seconds: 1),
+//                curve: Curves.ease,
+//                child: Text("Mopei", key: _textKey, style: TextStyle(
+//                    color: Colors.white,
+//                    fontSize: 20
+//                ))
+//              ),
+//            );
           },
         )
       )
@@ -74,3 +100,4 @@ class SplashScreen extends StatelessWidget {
   }
 
 }
+
