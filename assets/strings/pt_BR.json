@@ -1,7 +1,6 @@
 {
   "app_name": "Mopei",
-  "teste": {
-    "one": "teste",
-    "other": "testes"
-  }
+  "home_page_1": "Destaques",
+  "home_page_2": "Categorias",
+  "home_page_3": "Favoritos"
 }

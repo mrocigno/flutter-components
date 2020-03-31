@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:developer' as dev;
-import 'package:infrastructure/flutter/components/BackgroundLogin.dart';
+import 'package:infrastructure/flutter/components/backgrounds/BackgroundLogin.dart';
 import 'package:infrastructure/flutter/components/HomeBottomNavigationBar.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';

@@ -1,4 +1,3 @@
-import 'package:infrastructure/flutter/components/Background.dart';
 import 'package:infrastructure/flutter/components/inputs/InputController.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:flutter/material.dart';

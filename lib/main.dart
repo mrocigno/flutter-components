@@ -3,12 +3,11 @@ import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
+import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget with WidgetsBindingObserver{
-
-
 
   static void configSystemStyleUI(){
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -31,7 +30,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Constants.Colors.PRIMARY_SWATCH,
           fontFamily: 'Lato',
         ),
         home: SplashScreen(),

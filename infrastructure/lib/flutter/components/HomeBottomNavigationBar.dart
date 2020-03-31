@@ -9,7 +9,7 @@ class HomeBottomNavigationBar extends StatelessWidget {
 
     double iconSize = 24.0;
     return Material(
-      color: Constants.Colors.BOTTOM_NAVIGATION_BAR_COLOR,
+      color: Constants.Colors.BACKGROUND_WHITE,
       elevation: 5,
       child: Padding(
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
