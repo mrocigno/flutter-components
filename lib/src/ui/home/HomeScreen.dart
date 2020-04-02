@@ -34,6 +34,7 @@ class HomeScreen extends StatelessWidget {
           Input(InputThemes.searchTheme,
             icon: "assets/img/icSearchWhite.png",
             margin: EdgeInsets.all(20),
+            onTapIcon: (){},
           ),
           Expanded(
             child: BackgroundContainer(
