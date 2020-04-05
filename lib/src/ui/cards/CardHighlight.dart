@@ -44,7 +44,7 @@ class CardHighlight extends StatelessWidget {
                     active: model.favorite,
                     onPressed: (active) {
                       model.favorite = active;
-                      onFavoriteButtonPressed();
+                      onFavoriteButtonPressed?.call();
                     },
                   )
                 ],

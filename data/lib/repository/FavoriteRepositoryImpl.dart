@@ -7,7 +7,9 @@ import 'package:domain/repository/FavoriteRepository.dart';
 
 class FavoriteRepositoryImpl extends FavoriteRepository {
 
-  FavoriteLocal local = FavoriteLocal();
+  final FavoriteLocal local;
+
+  FavoriteRepositoryImpl(this.local);
 
   @override
   insertFavorite(Item item) {

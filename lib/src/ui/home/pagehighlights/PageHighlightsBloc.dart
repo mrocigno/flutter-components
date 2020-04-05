@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
+import 'package:mopei_app/src/di/Injection.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PageHighlightsBloc extends BaseBloc {
 
-  HighlightsUseCase useCase = HighlightsUseCase(
-    favoriteRepository: FavoriteRepositoryImpl()
-  );
+  HighlightsUseCase useCase = Injection.inject();
 
   BehaviorSubject<List<Item>> highlights = BehaviorSubject();
 

@@ -1,7 +1,11 @@
 import 'dart:developer' as dev;
 
+import 'package:data/repository/FavoriteRepositoryImpl.dart';
+import 'package:domain/usecase/FavoritesUseCase.dart';
+import 'package:domain/usecase/HighlightsUseCase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mopei_app/src/di/Injection.dart';
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
@@ -24,6 +28,8 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
     configSystemStyleUI();
 
     WidgetsBinding.instance.addObserver(this);
+
+    Injection.initialize(context, initializer);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(systemNavigationBarIconBrightness: Brightness.dark),
@@ -50,15 +56,27 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
     configSystemStyleUI();
   }
 
+  InjectionInitializer initializer = (list) {
+
+    //region Data Source
+    list.addAll([
+      FavoriteLocal(),
+      FavoriteRemote()
+    ]);
+    //endregion
+
+    //region Repositories
+    list.addAll([
+      FavoriteRepositoryImpl(Injection.inject())
+    ]);
+    //endregion
+
+    //region Use Cases
+    list.addAll([
+      HighlightsUseCase(favoriteRepository: Injection.inject()),
+      FavoritesUseCase(favoriteRepository: Injection.inject())
+    ]);
+    //endregion
+  };
 
 }
-
-//V operator [](Object key);
-//
-///**
-// * Associates the [key] with the given [value].
-// *
-// * If the key was already in the map, its associated value is changed.
-// * Otherwise the key/value pair is added to the map.
-// */
-//void operator []=(K key, V value);
