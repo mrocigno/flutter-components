@@ -1,4 +1,6 @@
+import 'package:data/repository/FavoriteRepositoryImpl.dart';
 import 'package:domain/entity/Item.dart';
+import 'package:domain/usecase/HighlightsUseCase.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
@@ -6,16 +8,24 @@ import 'package:infrastructure/flutter/base/BaseBloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 class PageHighlightsBloc extends BaseBloc {
-  
+
+  HighlightsUseCase useCase = HighlightsUseCase(
+    favoriteRepository: FavoriteRepositoryImpl()
+  );
+
   BehaviorSubject<List<Item>> highlights = BehaviorSubject();
 
   PageHighlightsBloc(){
     highlights.onCancel = () => highlights.close();
   }
 
+  void addToFavorite(Item item){
+    useCase.insertFavorite(item);
+  }
+
   void getHighlights() {
     launchData(() async {
-//      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(Duration(seconds: 2));
       highlights.add([
         Item(
           mainImageUrl: "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094414550HDR.JPG",

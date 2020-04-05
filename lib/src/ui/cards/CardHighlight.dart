@@ -5,15 +5,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
-import 'package:infrastructure/flutter/components/TextStyles.dart';
+import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'dart:developer' as dev;
 
 class CardHighlight extends StatelessWidget {
 
   final Item model;
+  final Function onFavoriteButtonPressed;
 
   CardHighlight({
-    this.model
+    this.model,
+    this.onFavoriteButtonPressed
   });
 
   @override
@@ -42,6 +44,7 @@ class CardHighlight extends StatelessWidget {
                     active: model.favorite,
                     onPressed: (active) {
                       model.favorite = active;
+                      onFavoriteButtonPressed();
                     },
                   )
                 ],

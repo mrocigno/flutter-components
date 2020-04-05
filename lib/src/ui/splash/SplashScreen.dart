@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:data/db/Config.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/animations/ChainAnimations.dart';
 import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
@@ -34,6 +35,8 @@ class SplashScreen extends StatelessWidget {
     Strings.initialize().then((value) {
       startAnimate.add(true);
     });
+
+    Config.open();
 
     return Background(
       key: _backgroundKey,

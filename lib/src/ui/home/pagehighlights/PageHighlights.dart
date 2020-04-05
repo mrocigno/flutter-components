@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
 import 'package:infrastructure/flutter/components/TabView.dart';
-import 'package:infrastructure/flutter/components/TextStyles.dart';
+import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:mopei_app/src/ui/cards/CardHighlight.dart';
 import 'package:mopei_app/src/ui/home/pagehighlights/PageHighlightsBloc.dart';
@@ -22,57 +22,65 @@ class PageHighlights extends TabChild {
       bloc.getHighlights();
     });
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: 40, top: 20, right: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(Strings.strings["highlights_title"],
-                style: TextStyles.titleBlack,
-              ),
-              StreamBuilder(
-                  stream: bloc.isLoading,
-                  builder: (context, snapshot) {
-                    if(snapshot.data ?? false){
-                      return Container(
-                          height: 20,
-                          width: 20,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2
-                          )
-                      );
-                    } else {
-                      return Container();
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 40, top: 20, right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(Strings.strings["highlights_title"],
+                  style: TextStyles.titleBlack,
+                ),
+                StreamBuilder(
+                    stream: bloc.isLoading,
+                    builder: (context, snapshot) {
+                      if(snapshot.data ?? false){
+                        return Container(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                                strokeWidth: 2
+                            )
+                        );
+                      } else {
+                        return Container();
+                      }
                     }
-                  }
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
-        Expanded(
-            flex: 1,
+          Container(
+            height: 360,
+            width: double.maxFinite,
             child: StreamBuilder<List<Item>>(
               stream: bloc.highlights,
               builder: (context, snapshot) {
                 return ListView.builder(
-                  padding: EdgeInsets.only(left: 10, top: 20),
+                  padding: EdgeInsets.only(left: 10, top: 20, bottom: 10),
                   itemCount: snapshot.data?.length ?? 0,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return Container(
                         margin: EdgeInsets.only(right: 20),
                         alignment: Alignment.center,
-                        child: CardHighlight(model: snapshot.data[index])
+                        child: CardHighlight(
+                          model: snapshot.data[index],
+                          onFavoriteButtonPressed: () {
+                            bloc.addToFavorite(snapshot.data[index]);
+                          },
+                        )
                     );
                   },
                 );
               },
-            )
-        )
-      ],
+            ),
+          )
+        ],
+      ),
     );
   }
 

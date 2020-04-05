@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  sqflite:
+  path:
 
   # Clean architecture modules "domain", "data" and my plus "infrastructure"
   domain:

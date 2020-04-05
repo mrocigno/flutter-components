@@ -1,3 +1,5 @@
+import 'package:data/dao/FavoriteDao.dart';
+import 'package:data/db/Config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,7 +36,9 @@ class HomeScreen extends StatelessWidget {
           Input(InputThemes.searchTheme,
             icon: "assets/img/icSearchWhite.png",
             margin: EdgeInsets.all(20),
-            onTapIcon: (){},
+            onTapIcon: (){
+
+            },
           ),
           Expanded(
             child: BackgroundContainer(
