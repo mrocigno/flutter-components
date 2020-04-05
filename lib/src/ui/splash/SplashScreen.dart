@@ -1,15 +1,10 @@
 import 'dart:async';
-import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:infrastructure/flutter/animations/ChainAnimations.dart';
 import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
-import 'package:infrastructure/flutter/components/HomeBottomNavigationBar.dart';
-import 'package:infrastructure/flutter/constants/Routes.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:infrastructure/flutter/utils/AnimationsUtils.dart';
 import 'package:infrastructure/flutter/utils/ScreenTransitions.dart';
 import 'package:mopei_app/src/ui/home/HomeScreen.dart';
-import 'package:mopei_app/src/ui/login/LoginModal.dart';
 
 class SplashScreen extends StatelessWidget {
 
@@ -47,7 +42,7 @@ class SplashScreen extends StatelessWidget {
           stream: startAnimate.stream,
           initialData: false,
           builder: (context, snapshot) {
-            return AnimationsUtils(
+            return ChainAnimations(
               startAnimation: snapshot.data,
               child: Text("Mopei", key: _textKey, style: TextStyle(
                 fontSize: 20,
@@ -76,23 +71,6 @@ class SplashScreen extends StatelessWidget {
                 )
               ],
             );
-
-
-//            return AnimatedContainer(
-//              duration: Duration(milliseconds: 1000),
-//              curve: Curves.ease,
-//              onEnd: () => toHome(context),
-//              transform: Matrix4.translationValues(0, (snapshot.data? (titlePosition * -1) : 0), 0),
-//              child: AnimatedOpacity(
-//                opacity: snapshot.data? 1 : 0,
-//                duration: Duration(seconds: 1),
-//                curve: Curves.ease,
-//                child: Text("Mopei", key: _textKey, style: TextStyle(
-//                    color: Colors.white,
-//                    fontSize: 20
-//                ))
-//              ),
-//            );
           },
         )
       )

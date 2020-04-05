@@ -1,16 +1,13 @@
-import 'dart:async';
-
 import 'package:domain/entity/Item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/scheduler/ticker.dart';
 import 'dart:developer' as dev;
 
 import 'package:infrastructure/flutter/components/TabView.dart';
 import 'package:infrastructure/flutter/components/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:infrastructure/flutter/utils/AnimationsUtils.dart';
 import 'package:mopei_app/src/ui/cards/CardHighlight.dart';
 import 'package:mopei_app/src/ui/home/pagehighlights/PageHighlightsBloc.dart';
+import 'package:rxdart/rxdart.dart';
 
 class PageHighlights extends TabChild {
 
@@ -44,7 +41,7 @@ class PageHighlights extends TabChild {
                           height: 20,
                           width: 20,
                           child: CircularProgressIndicator(
-                              strokeWidth: 2
+                            strokeWidth: 2
                           )
                       );
                     } else {

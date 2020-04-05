@@ -15,7 +15,7 @@ class PageHighlightsBloc extends BaseBloc {
 
   void getHighlights() {
     launchData(() async {
-      await Future.delayed(Duration(seconds: 2));
+//      await Future.delayed(Duration(seconds: 2));
       highlights.add([
         Item(
           mainImageUrl: "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094414550HDR.JPG",
@@ -31,6 +31,42 @@ class PageHighlightsBloc extends BaseBloc {
           mainImageUrl: "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094443068.jpg",
           value: 200.99,
           name: "Retrovisor de lado"
+        ),
+        Item(
+          mainImageUrl: "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094509685.jpg",
+          value: 10.00,
+          name: "Retrovisor por baixo",
+          favorite: true
+        ),
+        Item(
+          mainImageUrl: "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094509685.jpg",
+          value: 10.00,
+          name: "Retrovisor por baixo",
+          favorite: true
+        ),
+        Item(
+          mainImageUrl: "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094509685.jpg",
+          value: 10.00,
+          name: "Retrovisor por baixo",
+          favorite: true
+        ),
+        Item(
+          mainImageUrl: "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094509685.jpg",
+          value: 10.00,
+          name: "Retrovisor por baixo",
+          favorite: true
+        ),
+        Item(
+          mainImageUrl: "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094509685.jpg",
+          value: 10.00,
+          name: "Retrovisor por baixo",
+          favorite: true
+        ),
+        Item(
+          mainImageUrl: "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094509685.jpg",
+          value: 10.00,
+          name: "Retrovisor por baixo",
+          favorite: true
         ),
         Item(
           mainImageUrl: "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094509685.jpg",

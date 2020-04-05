@@ -4,7 +4,7 @@ import 'package:infrastructure/flutter/components/inputs/InputController.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
-import 'package:infrastructure/flutter/components/MopeiButton.dart';
+import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:mopei_app/src/ui/login/pagecreateaccount/PageCreateAccountBloc.dart';
 

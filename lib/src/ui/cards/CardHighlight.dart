@@ -3,11 +3,10 @@ import 'dart:async';
 import 'package:domain/entity/Item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/components/TextStyles.dart';
 import 'dart:developer' as dev;
-
-import 'package:infrastructure/flutter/utils/AnimationsUtils.dart';
 
 class CardHighlight extends StatelessWidget {
 
@@ -39,38 +38,12 @@ class CardHighlight extends StatelessWidget {
                     height: double.infinity,
                     width: double.infinity,
                   ),
-                  Material(
-                      borderRadius: BorderRadius.all(Radius.circular(30)),
-                      clipBehavior: Clip.hardEdge,
-                      color: Colors.transparent,
-                      child: BumpAnimated(
-                        child: (controller, animation) {
-                          StreamController<bool> active = StreamController();
-                          active.onCancel = (){
-                            active.close();
-                          };
-                          return ScaleTransition(
-                            scale: animation,
-                            child: StreamBuilder(
-                              stream: active.stream,
-                              initialData: model.favorite,
-                              builder: (context, activeResp) => IconButton(
-                                icon: (activeResp.data?
-                                  Icon(Icons.star, color: Colors.amber) :
-                                  Icon(Icons.star_border)
-                                ),
-                                onPressed: (){
-                                  if(activeResp.data) controller.reverse();
-                                  else controller.forward();
-                                  model.favorite = !activeResp.data;
-                                  active.add(!activeResp.data);
-                                },
-                              ),
-                            )
-                          );
-                        }
-                      )
-                  ),
+                  FavoriteButton(
+                    active: model.favorite,
+                    onPressed: (active) {
+                      model.favorite = active;
+                    },
+                  )
                 ],
               ),
             ),
