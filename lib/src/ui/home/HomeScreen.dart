@@ -1,4 +1,3 @@
-import 'package:data/dao/FavoriteDao.dart';
 import 'package:data/db/Config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +16,7 @@ import 'package:mopei_app/src/ui/home/pagehighlights/PageHighlights.dart';
 import 'dart:developer' as dev;
 
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
+import 'package:path/path.dart';
 
 
 class HomeScreen extends StatelessWidget {
@@ -45,21 +45,23 @@ class HomeScreen extends StatelessWidget {
             icon: "assets/img/icSearchWhite.png",
             margin: EdgeInsets.all(20),
             onTapIcon: (){
-
+              dev.log("masue");
             },
           ),
           Expanded(
             child: BackgroundContainer(
               child: TabView(
                 onPageChange: (page) {
-                  if(page == 2){
+                  if(page == 1){
+                    bloc.getCategories();
+                  } else if (page == 2) {
                     bloc.getFavorites();
                   }
                 },
                 children: [
-                  PageHighlights(),
-                  PageCategories(),
-                  PageFavorites()
+                  PageHighlights(context),
+                  PageCategories(context),
+                  PageFavorites(context)
                 ],
               )
             )

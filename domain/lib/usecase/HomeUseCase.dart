@@ -1,22 +1,38 @@
 import 'dart:developer' as dev;
 
-import 'package:domain/entity/Item.dart';
-import 'package:domain/repository/FavoriteRepository.dart';
+import 'package:domain/entity/Category.dart';
+import 'package:domain/entity/Product.dart';
+import 'package:domain/repository/CategoryRepository.dart';
+import 'package:domain/repository/ProductsRepository.dart';
 
 class HomeUseCase {
 
-  final FavoriteRepository favoriteRepository;
+  final ProductsRepository productsRepository;
+  final CategoryRepository categoryRepository;
 
   HomeUseCase({
-    this.favoriteRepository
+    this.productsRepository,
+    this.categoryRepository
   });
 
-  Future<List<Item>> getFavorites() {
-    return favoriteRepository.getAll();
+  Future<void> refreshProducts() {
+    return productsRepository.refreshProducts();
   }
 
-  void insertFavorite(Item item) async {
-    favoriteRepository.insertFavorite(item);
+  Future<List<Product>> getHighlights(){
+    return productsRepository.getHighlights();
+  }
+
+  Future<List<Category>> getCategories(){
+    return categoryRepository.getCategories();
+  }
+
+  Future<List<Product>> getFavorites() {
+    return productsRepository.getFavorites();
+  }
+
+  void setFavorite(Product product) async {
+    productsRepository.setFavorite(product);
   }
 
 }

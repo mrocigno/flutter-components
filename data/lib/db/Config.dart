@@ -1,5 +1,4 @@
-
-import 'package:data/dao/FavoriteDao.dart';
+import 'package:data/dao/ProductsDao.dart';
 import 'package:data/db/DaoBase.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -8,7 +7,7 @@ import 'dart:developer' as dev;
 class Config {
 
   static List<DaoBase> _dao = [
-    FavoriteDao()
+    ProductsDao()
   ];
 
   static T daoProvider<T extends DaoBase>() {

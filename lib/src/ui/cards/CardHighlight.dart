@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:domain/entity/Item.dart';
+import 'package:domain/entity/Product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
@@ -10,7 +10,7 @@ import 'dart:developer' as dev;
 
 class CardHighlight extends StatelessWidget {
 
-  final Item model;
+  final Product model;
   final Function onFavoriteButtonPressed;
 
   CardHighlight({

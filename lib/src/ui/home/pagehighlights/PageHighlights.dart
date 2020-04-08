@@ -1,15 +1,20 @@
-import 'package:domain/entity/Item.dart';
+import 'package:domain/entity/Product.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
 import 'package:infrastructure/flutter/components/TabView.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
+import 'package:infrastructure/flutter/utils/Functions.dart';
 import 'package:mopei_app/src/di/Injection.dart';
 import 'package:mopei_app/src/ui/cards/CardHighlight.dart';
 import 'package:mopei_app/src/ui/home/HomeBloc.dart';
 
 class PageHighlights extends TabChild {
+
+  final BuildContext context;
+
+  PageHighlights(this.context);
 
   HomeBloc bloc = Injection.inject();
 
@@ -23,7 +28,7 @@ class PageHighlights extends TabChild {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 40, top: 20, right: 20),
+            padding: EdgeInsets.only(left: 40, top: 20, right: 20, bottom: heightByPercent(context, 7)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -52,7 +57,7 @@ class PageHighlights extends TabChild {
           Container(
             height: 360,
             width: double.maxFinite,
-            child: StreamBuilder<List<Item>>(
+            child: StreamBuilder<List<Product>>(
               stream: bloc.highlights,
               builder: (context, snapshot) {
                 return ListView.builder(

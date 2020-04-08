@@ -1,7 +1,9 @@
 import 'dart:developer' as dev;
 
-import 'package:data/repository/FavoriteRepositoryImpl.dart';
-import 'package:domain/repository/FavoriteRepository.dart';
+import 'package:data/repository/CategoryRepositoryImpl.dart';
+import 'package:data/repository/ProductsRepositoryImpl.dart';
+import 'package:domain/repository/CategoryRepository.dart';
+import 'package:domain/repository/ProductsRepository.dart';
 import 'package:domain/usecase/HomeUseCase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,13 +62,25 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
 
   final InjectionInitializer initializer = (module) {
 
-    module.singleton(() => FavoriteLocal());
-    module.singleton(() => FavoriteRemote());
+    module.singleton(() => ProductsLocal());
+    module.singleton(() => ProductsRemote());
 
-    module.singleton<FavoriteRepository>(() =>
-        FavoriteRepositoryImpl(Injection.inject()));
+    module.singleton(() => CategoryLocal());
+    module.singleton(() => CategoryRemote());
 
-    module.singleton(() => HomeUseCase(favoriteRepository: Injection.inject()));
+    module.singleton<ProductsRepository>(() => ProductsRepositoryImpl(
+      local: Injection.inject(),
+      remote: Injection.inject()
+    ));
+    module.singleton<CategoryRepository>(() => CategoryRepositoryImpl(
+      local: Injection.inject(),
+      remote: Injection.inject()
+    ));
+
+    module.singleton(() => HomeUseCase(
+      productsRepository: Injection.inject(),
+      categoryRepository: Injection.inject()
+    ));
 
     module.singleton(() => HomeBloc());
 

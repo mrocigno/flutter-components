@@ -1,18 +1,14 @@
-import 'package:flutter/material.dart';
-import 'dart:developer' as dev;
+class ProductResponse {
 
-class Item {
-
+  
   int id;
-  int remoteId;
   String mainImageUrl;
   String name;
   double value;
   bool favorite;
 
-  Item({
+  ProductResponse({
     this.id,
-    this.remoteId,
     this.mainImageUrl = "",
     this.value = 0.0,
     this.name = "",

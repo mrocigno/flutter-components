@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
 import 'package:infrastructure/flutter/components/TabView.dart';
+import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
+import 'package:infrastructure/flutter/utils/Functions.dart';
 import 'package:mopei_app/src/di/Injection.dart';
 import 'package:mopei_app/src/ui/home/HomeBloc.dart';
 
 class PageCategories extends TabChild {
+
+  final BuildContext context;
+
+  PageCategories(this.context);
 
   HomeBloc bloc = Injection.inject();
 
@@ -16,28 +22,47 @@ class PageCategories extends TabChild {
 
   @override
   Widget get child {
-//    return Container(color: Colors.red);
-    return SingleChildScrollView(
-      child: Container(
-        height: 360,
-        width: double.maxFinite,
-        child: StreamBuilder<List<Category>>(
-          stream: bloc.categories,
-          builder: (context, snapshot) {
-            return ListView.builder(
-              padding: EdgeInsets.only(left: 10, top: 20, bottom: 10),
-              itemCount: snapshot.data?.length ?? 0,
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                return Container(
-                    margin: EdgeInsets.only(right: 20),
-                    alignment: Alignment.center,
 
+    return Container(
+      alignment: Alignment.center,
+      child: StreamBuilder<List<Category>>(
+        stream: bloc.categories,
+        builder: (context, snapshot) {
+          return Container(
+            height: 400,
+            child: GridView.count(
+              padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              children: snapshot.data?.map((category) {
+                return Container(
+                  margin: EdgeInsets.only(right: 20, bottom: 20),
+                  alignment: Alignment.center,
+                  child: Material(
+                    borderRadius: BorderRadius.all(Radius.circular(20)),
+                    elevation: 5,
+                    clipBehavior: Clip.hardEdge,
+                    child: Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Image.asset("assets/img/icCategoryHelm.png"),
+                            )
+                          ),
+                          Text(category.name, style: TextStyles.poppinsMedium)
+                        ],
+                      ),
+                    ),
+                  ),
                 );
-              },
-            );
-          },
-        ),
+              })?.toList() ?? [Container()],
+            ),
+          );
+        },
       ),
     );
   }
