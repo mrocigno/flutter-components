@@ -9,6 +9,8 @@ import 'package:infrastructure/flutter/components/HomeBottomNavigationBar.dart';
 import 'package:infrastructure/flutter/components/backgrounds/BackgroundContainer.dart';
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:mopei_app/src/di/Injection.dart';
+import 'package:mopei_app/src/ui/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/home/pagecategories/PageCategories.dart';
 import 'package:mopei_app/src/ui/home/pagefavorites/PageFavorites.dart';
 import 'package:mopei_app/src/ui/home/pagehighlights/PageHighlights.dart';
@@ -19,8 +21,14 @@ import 'package:mopei_app/src/ui/login/LoginModal.dart';
 
 class HomeScreen extends StatelessWidget {
 
+  final HomeBloc bloc = Injection.inject();
+
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      bloc.getHighlights();
+    });
+
     return Background(
       title: "Mopei",
       showDrawer: true,
@@ -43,6 +51,11 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             child: BackgroundContainer(
               child: TabView(
+                onPageChange: (page) {
+                  if(page == 2){
+                    bloc.getFavorites();
+                  }
+                },
                 children: [
                   PageHighlights(),
                   PageCategories(),

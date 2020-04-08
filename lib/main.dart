@@ -1,11 +1,12 @@
 import 'dart:developer' as dev;
 
 import 'package:data/repository/FavoriteRepositoryImpl.dart';
-import 'package:domain/usecase/FavoritesUseCase.dart';
-import 'package:domain/usecase/HighlightsUseCase.dart';
+import 'package:domain/repository/FavoriteRepository.dart';
+import 'package:domain/usecase/HomeUseCase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mopei_app/src/di/Injection.dart';
+import 'package:mopei_app/src/ui/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
@@ -20,27 +21,28 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
     ));
   }
 
+  @override
+  StatelessElement createElement() {
+    //TODO if need context, create a method to initialize one time in build
+    Injection.initialize(initializer);
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
+    return super.createElement();
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
 
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
     configSystemStyleUI();
-
     WidgetsBinding.instance.addObserver(this);
 
-    Injection.initialize(context, initializer);
-
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: SystemUiOverlayStyle(systemNavigationBarIconBrightness: Brightness.dark),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Constants.Colors.PRIMARY_SWATCH,
-          fontFamily: 'Lato',
-        ),
-        home: SplashScreen(),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Constants.Colors.PRIMARY_SWATCH,
+        fontFamily: 'Lato',
       ),
+      home: SplashScreen(),
     );
   }
 
@@ -56,27 +58,18 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
     configSystemStyleUI();
   }
 
-  InjectionInitializer initializer = (list) {
+  final InjectionInitializer initializer = (module) {
 
-    //region Data Source
-    list.addAll([
-      FavoriteLocal(),
-      FavoriteRemote()
-    ]);
-    //endregion
+    module.singleton(() => FavoriteLocal());
+    module.singleton(() => FavoriteRemote());
 
-    //region Repositories
-    list.addAll([
-      FavoriteRepositoryImpl(Injection.inject())
-    ]);
-    //endregion
+    module.singleton<FavoriteRepository>(() =>
+        FavoriteRepositoryImpl(Injection.inject()));
 
-    //region Use Cases
-    list.addAll([
-      HighlightsUseCase(favoriteRepository: Injection.inject()),
-      FavoritesUseCase(favoriteRepository: Injection.inject())
-    ]);
-    //endregion
+    module.singleton(() => HomeUseCase(favoriteRepository: Injection.inject()));
+
+    module.singleton(() => HomeBloc());
+
   };
 
 }

@@ -5,23 +5,19 @@ import 'dart:developer' as dev;
 import 'package:infrastructure/flutter/components/TabView.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
+import 'package:mopei_app/src/di/Injection.dart';
 import 'package:mopei_app/src/ui/cards/CardHighlight.dart';
-import 'package:mopei_app/src/ui/home/pagehighlights/PageHighlightsBloc.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:mopei_app/src/ui/home/HomeBloc.dart';
 
 class PageHighlights extends TabChild {
 
-  PageHighlightsBloc bloc = PageHighlightsBloc();
+  HomeBloc bloc = Injection.inject();
 
   @override
   String get title => Strings.strings["home_page_1"];
 
   @override
   Widget get child {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      bloc.getHighlights();
-    });
-
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'package:data/db/Config.dart';
+import 'package:data/repository/FavoriteRepositoryImpl.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/animations/ChainAnimations.dart';
 import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/utils/ScreenTransitions.dart';
+import 'package:mopei_app/src/di/Injection.dart';
 import 'package:mopei_app/src/ui/home/HomeScreen.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -14,6 +16,7 @@ class SplashScreen extends StatelessWidget {
 
   final GlobalKey _textKey = GlobalKey();
   final GlobalKey _backgroundKey = GlobalKey();
+
   Background get _widgetBackground => _backgroundKey.currentWidget;
 
   void toHome(BuildContext context) {

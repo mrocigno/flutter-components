@@ -3,44 +3,86 @@ import 'package:infrastructure/flutter/components/inputs/InputText.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'dart:developer' as dev;
 
-class TabView extends StatelessWidget {
+class TabView extends StatefulWidget {
 
   TabView({
     this.children = const <TabChild>[],
-    this.theme
+    this.theme,
+    this.onPageChange,
+    this.initialIndex
   });
 
   final List<TabChild> children;
   final TabViewTheme theme;
+  final PageChange onPageChange;
+  final int initialIndex;
+
+  @override
+  _TabViewState createState() => _TabViewState();
+
+}
+
+typedef PageChange = void Function(int page);
+
+class _TabViewState extends State<TabView> with SingleTickerProviderStateMixin{
+
+  TabController _controller;
+  int prevPage = 0;
+
+  @override
+  void initState() {
+    prevPage = widget.initialIndex ?? 0;
+    _controller ??= TabController(
+      length: widget.children.length,
+      vsync: this,
+      initialIndex: prevPage
+    );
+    if(widget.onPageChange != null){
+      _controller.addListener(() {
+        if(prevPage != _controller.index){
+          widget.onPageChange(_controller.index);
+        }
+        prevPage = _controller.index;
+      });
+    }
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _controller?.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    TabViewTheme _theme = theme ?? TabViewTheme.homeTheme;
+    TabViewTheme _theme = widget.theme ?? TabViewTheme.homeTheme;
 
-    return DefaultTabController(
-        length: 3,
-        child: Column(
-          children: <Widget>[
-            Padding(
-              padding: _theme.padding,
-              child: TabBar(
-                labelColor: Colors.black,
-                labelStyle: TextStyle(fontWeight: FontWeight.bold),
-                unselectedLabelColor: Colors.grey,
-                unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
-                tabs: children.map((e) => Tab(text: e.title)).toList()
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: TabBarView(
-                children: children.map((e) => e.child).toList()
-              ),
-            )
-          ],
+    return Column(
+      children: <Widget>[
+        Padding(
+          padding: _theme.padding,
+          child: TabBar(
+            controller: _controller,
+            labelColor: Colors.black,
+            labelStyle: TextStyle(fontWeight: FontWeight.bold),
+            unselectedLabelColor: Colors.grey,
+            unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
+            tabs: widget.children.map((e) => Tab(text: e.title)).toList()
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: TabBarView(
+            controller: _controller,
+            children: widget.children.map((e) => e.child).toList()
+          ),
         )
+      ],
     );
   }
+
 }
 
 class TabViewTheme {
