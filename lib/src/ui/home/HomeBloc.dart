@@ -39,6 +39,11 @@ class HomeBloc extends BaseBloc {
   void getHighlights() {
     launchData(() async {
       _highlights.add(await useCase.getHighlights());
+    });
+  }
+
+  void refreshHighlights(){
+    launchData(() async {
       await useCase.refreshProducts();
       _highlights.add(await useCase.getHighlights());
     });

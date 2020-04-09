@@ -26,7 +26,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      bloc.getHighlights();
+      bloc.refreshHighlights();
     });
 
     return Background(
@@ -52,10 +52,10 @@ class HomeScreen extends StatelessWidget {
             child: BackgroundContainer(
               child: TabView(
                 onPageChange: (page) {
-                  if(page == 1){
-                    bloc.getCategories();
-                  } else if (page == 2) {
-                    bloc.getFavorites();
+                  switch(page){
+                    case 0: bloc.getHighlights(); break;
+                    case 1: bloc.getCategories(); break;
+                    case 2: bloc.getFavorites(); break;
                   }
                 },
                 children: [

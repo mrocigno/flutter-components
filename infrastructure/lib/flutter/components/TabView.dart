@@ -75,6 +75,7 @@ class _TabViewState extends State<TabView> with SingleTickerProviderStateMixin{
         Expanded(
           flex: 1,
           child: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
             controller: _controller,
             children: widget.children.map((e) => e.child).toList()
           ),
