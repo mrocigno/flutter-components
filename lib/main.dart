@@ -8,6 +8,7 @@ import 'package:domain/usecase/HomeUseCase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mopei_app/src/di/Injection.dart';
+import 'package:mopei_app/src/ui/WhiteTable.dart';
 import 'package:mopei_app/src/ui/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
@@ -44,7 +45,8 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
         primarySwatch: Constants.Colors.PRIMARY_SWATCH,
         fontFamily: 'Lato',
       ),
-      home: SplashScreen(),
+//      home: SplashScreen(),
+      home: WhiteTable(),
     );
   }
 

@@ -31,7 +31,7 @@ class HomeUseCase {
     return productsRepository.getFavorites();
   }
 
-  void setFavorite(Product product) async {
+  void setFavorite(Product product) {
     productsRepository.setFavorite(product);
   }
 

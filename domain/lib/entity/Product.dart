@@ -16,5 +16,17 @@ class Product {
     this.favorite = false
   });
 
+  @override
+  String toString() {
+    // TODO: implement toString
+    return [
+      localId,
+      remoteId,
+      mainImageUrl,
+      value,
+      name,
+      favorite
+    ].toString();
+  }
   
 }

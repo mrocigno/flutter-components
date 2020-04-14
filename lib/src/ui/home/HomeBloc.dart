@@ -32,7 +32,7 @@ class HomeBloc extends BaseBloc {
     });
   }
 
-  void addToFavorite(Product product){
+  void addToFavorite(Product product) {
     useCase.setFavorite(product);
   }
 

@@ -21,10 +21,7 @@ class ChainAnimations extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    if(startAnimation){
-      _notifier.value = 1;
-    }
+     _notifier.value = 1;
 
     return AnimatedBuilder(
       animation: _notifier,
@@ -32,8 +29,8 @@ class ChainAnimations extends StatelessWidget {
       builder: (context, child) {
         Widget widget = child;
         animations.forEach((element) {
-          widget = element.builder(widget, (_notifier.value >= element.sequence), upSequence);
-          if(_notifier.value == element.sequence) element.onStart?.call();
+          widget = element.builder(widget, (_notifier.value >= element.sequence && startAnimation), upSequence);
+          if(_notifier.value == element.sequence && startAnimation) element.onStart?.call();
         });
         return widget;
       },

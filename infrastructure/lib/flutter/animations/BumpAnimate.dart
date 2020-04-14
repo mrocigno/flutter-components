@@ -38,7 +38,7 @@ class _BumpAnimateState extends State<BumpAnimate> with TickerProviderStateMixin
       TweenSequenceItem(tween: Tween(begin: 1.5, end: 1.0), weight: 1.0),
     ]).animate(_controller);
 
-    if(widget.startAnimation) _controller.forward().then((value) => widget.onEnd());
+    if(widget.startAnimation) _controller.forward().then((value) => widget.onEnd?.call());
 
     return ScaleTransition(
         scale: animation,

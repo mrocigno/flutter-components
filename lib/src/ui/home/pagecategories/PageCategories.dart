@@ -21,7 +21,7 @@ class PageCategories extends TabChild {
   String get title => Strings.strings["home_page_2"];
 
   @override
-  Widget get child {
+  StatelessWidget get child {
 
     return Container(
       alignment: Alignment.center,

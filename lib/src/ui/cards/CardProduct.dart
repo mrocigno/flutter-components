@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:domain/entity/Product.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/animations/ChainAnimations.dart';
 import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
@@ -22,105 +20,107 @@ class CardProduct extends StatefulWidget {
   });
 
   @override
-  CardProductState createState() => CardProductState();
+  State<StatefulWidget> createState() => CardProductState();
 }
 
-class CardProductState extends State<CardProduct> {
-  bool showing = true;
-  void hideCard() {
-    setState(() {
-      showing = false;
-    });
+class CardProductState extends State<CardProduct> with TickerProviderStateMixin {
+
+  AnimationController controller;
+
+  @override
+  void dispose() {
+    super.dispose();
+    controller?.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return ChainAnimations(
-      animations: [
-        Animate(
-          sequence: 1,
-          builder: (child, started, onEnd) => AnimatedOpacity(
-            duration: Duration(milliseconds: 200),
-            opacity: started? 0 : 1,
-            onEnd: onEnd,
-            child: child,
-          ),
-        ),
-        Animate(
-          sequence: 2,
-          builder: (child, started, onEnd) => AnimatedContainer(
-            duration: Duration(milliseconds: 100),
-            child: child,
-            height: started? 0 : 150,
-          ),
-        )
-      ],
-      startAnimation: !showing,
-      child: Material(
-        elevation: 2,
-        color: Colors.white,
-        // borderRadius: BorderRadius.all(Radius.circular(20)),
-        clipBehavior: Clip.hardEdge,
-        child: Container(
-          height: 150,
-          child: Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Stack(
-                  alignment: Alignment.topRight,
-                  children: [
-                    Image.network(widget.model.mainImageUrl,
-                      alignment: Alignment.center,
-                      height: double.infinity,
-                      width: double.infinity,
+    controller = AnimationController(vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
+
+    Animation<double> opacity = Tween(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(parent: controller, curve: Interval(0.0, 0.4, curve: Curves.ease))
+    );
+    Animation<double> size = Tween(begin: 150.0, end: 0.0).animate(
+      CurvedAnimation(parent: controller, curve: Interval(0.4, 1.0, curve: Curves.ease))
+    );
+
+    if(!widget.model.favorite && widget.hideWhenDisfavor) controller.forward();
+
+    return AnimatedBuilder(
+      animation: opacity,
+      builder: (context, child) {
+        return Opacity(
+          opacity: opacity.value,
+          child: Material(
+            elevation: 2,
+            color: Colors.white,
+            clipBehavior: Clip.hardEdge,
+            child: Container(
+              height: size.value,
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        Image.network(widget.model.mainImageUrl,
+                          alignment: Alignment.center,
+                          height: double.infinity,
+                          width: double.infinity,
+                        ),
+                        FavoriteButton(
+                          active: widget.model.favorite,
+                          onPressed: (active) {
+                            setState(() {
+                              widget.model.favorite = active;
+                            });
+                            widget.onFavoriteButtonPressed?.call();
+                          },
+                        )
+                      ],
                     ),
-                    FavoriteButton(
-                      active: widget.model.favorite,
-                      onPressed: (active) {
-                        if(!active && widget.hideWhenDisfavor) hideCard();
-                        widget.model.favorite = active;
-                        widget.onFavoriteButtonPressed?.call();
-                      },
-                    )
-                  ],
-                ),
-              ),
-              Expanded(
-                flex: 2,
-                child: Row(
-                  children: [
-                    Container(
-                      width: 1,
-                      color: Constants.Colors.BLACK_TRANSPARENT,
-                      margin: EdgeInsets.symmetric(vertical: 20),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(widget.model.name, style: TextStyles.titleBlack),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 1,
+                          color: Constants.Colors.BLACK_TRANSPARENT,
+                          margin: EdgeInsets.symmetric(vertical: 20),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: 5, bottom: 5),
-                                child: Text("R\$"),
-                              ),
-                              Text("${widget.model.value}", style: TextStyle(fontSize: 30),)
+                              Text(widget.model.name, style: TextStyles.titleBlack),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 5, bottom: 5),
+                                    child: Text("R\$"),
+                                  ),
+                                  Text("${widget.model.value}", style: TextStyle(fontSize: 30),)
+                                ],
+                              )
                             ],
-                          )
-                        ],
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              )
-            ],
+                  )
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
+
 }
