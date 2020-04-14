@@ -45,8 +45,8 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
         primarySwatch: Constants.Colors.PRIMARY_SWATCH,
         fontFamily: 'Lato',
       ),
-//      home: SplashScreen(),
-      home: WhiteTable(),
+      home: SplashScreen(),
+//      home: WhiteTable(),
     );
   }
 

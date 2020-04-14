@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:math' as math;
 import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -13,52 +13,74 @@ class AnimatedStar extends StatefulWidget {
   final bool autoStart;
 
   @override
-  State<StatefulWidget> createState() => AnimatedStartState();
+  State<StatefulWidget> createState() => AnimatedStarState();
 
 }
 
-class AnimatedStartState extends State<AnimatedStar> {
-  bool animate = false;
-  void startAnimation(){
-    setState(() {
-      animate = true;
-    });
-  }
+class AnimatedStarState extends State<AnimatedStar> with SingleTickerProviderStateMixin {
+
+  AnimationController controller;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if(widget.autoStart) startAnimation();
-    });
+    Duration duration = Duration(milliseconds: 1500);
+    controller = AnimationController(
+        vsync: this,
+        duration: duration
+    );
+  }
+
+  @override
+  void dispose() {
+    controller?.stop();
+    controller?.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     double size = 100;
-    Duration duration = Duration(milliseconds: 2000);
-    double axis = 10;
-    double rotate = .5;
-    Curve curve = Curves.ease;
+    Animation<double> rotate = Tween(begin: 0.0, end: math.pi).animate(controller);
 
-    List<Widget> shadow = List.generate(5, (index) => AnimatedContainer(
-      duration: duration,
-      transform: Matrix4.translationValues(animate? (index + axis) : -(index + axis) , 0, 0)
-        ..rotateY(animate? rotate : -rotate),
-      width: size, height: size,
-      curve: curve,
-      child: Icon(Icons.star, color: Colors.amber, size: size,)
-    ));
+    if(widget.autoStart) controller?.repeat();
 
-    shadow.add(AnimatedContainer(
-      duration: duration,
-      height: size, width: size,
-      curve: curve,
-      alignment: Alignment.center,
-      onEnd: () {setState(() {animate = !animate; });},
-      transform: Matrix4.rotationY(animate? rotate : -rotate)
-        ..setTranslationRaw(animate? axis : -axis, 0, 0),
-      child: Icon(Icons.star, color: Colors.amberAccent, size: size,)
+    List<Widget> shadow = List.generate(5, (index) {
+      Animation<double> axis = TweenSequence([
+        TweenSequenceItem(tween: Tween(begin: size, end: size + index), weight: 1),
+        TweenSequenceItem(tween: Tween(begin: size - index, end: size), weight: 1),
+      ]).animate(controller);
+
+      return AnimatedBuilder(
+        animation: controller,
+        builder: (context, child) {
+
+          return Container(
+              transform: Matrix4.identity()
+                ..translate(axis.value/2, axis.value/2)
+                ..multiply(Matrix4.rotationY(rotate.value))
+                ..translate(-(axis.value/2), -(axis.value/2)),
+              alignment: Alignment.center,
+              height: size, width: size,
+              child: Icon(Icons.star, color: Colors.amber, size: size,)
+          );
+        },
+      );
+    });
+
+    shadow.add(AnimatedBuilder(
+      animation: controller,
+      builder: (context, child) {
+        return Container(
+          transform: Matrix4.identity()
+            ..translate(size/2, size/2)
+            ..multiply(Matrix4.rotationY(rotate.value))
+            ..translate(-(size/2), -(size/2)),
+          alignment: Alignment.center,
+          height: size, width: size,
+          child: Icon(Icons.star, color: Colors.amberAccent, size: size,)
+        );
+      },
     ));
 
     return Stack(
