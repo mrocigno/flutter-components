@@ -4,33 +4,36 @@ import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
 class MopeiButton extends StatelessWidget {
-  MopeiButton(this.theme, {
+  MopeiButton({
+    this.theme,
     this.onTap,
     this.text,
     this.isLoading
   });
 
   final MopeiButtonTheme theme;
-  final onTap;
+  final Function onTap;
   final String text;
   final Stream<bool> isLoading;
 
   @override
   Widget build(BuildContext context) {
+    MopeiButtonTheme _theme = theme ?? MopeiButtonTheme.mainTheme;
+
     return StreamBuilder(
       stream: isLoading ?? StreamController<bool>().stream,
       initialData: false,
       builder: (context, AsyncSnapshot<bool> snapshot) {
         bool isLoading = snapshot.data;
         return Material(
-          borderRadius: theme.buttonBackground.borderRadius,
+          borderRadius: _theme.buttonBackground.borderRadius,
           color: Colors.transparent,
           child: Ink(
             height: 50,
-            decoration: (isLoading? theme.buttonDisabledBackground : theme.buttonBackground),
+            decoration: (isLoading? _theme.buttonDisabledBackground : _theme.buttonBackground),
             width: double.maxFinite,
             child: InkWell(
-              borderRadius: theme.buttonBackground.borderRadius,
+              borderRadius: _theme.buttonBackground.borderRadius,
               onTap: (isLoading? null : onTap),
               child: Center(
                 child: (isLoading?
@@ -38,11 +41,11 @@ class MopeiButton extends StatelessWidget {
                     height: 20,
                     width: 20,
                     child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(theme.progressColor),
+                      valueColor: AlwaysStoppedAnimation<Color>(_theme.progressColor),
                       strokeWidth: 2,
                     ),
                   ) : Text(text?.toUpperCase() ?? "",
-                    style: theme.textStyle,
+                    style: _theme.textStyle,
                   )
                 )
               ),

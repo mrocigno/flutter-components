@@ -28,9 +28,7 @@ dependencies:
 
   rxdart: ^0.18.0
 
-  # Clean architecture modules "domain", "data" and my plus "infrastructure"
-  domain:
-    path: domain
+
   data:
     path: data
   infrastructure:

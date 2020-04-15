@@ -51,7 +51,7 @@ class PageForgotPasswordScreen extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.all(20),
-            child: MopeiButton(MopeiButtonTheme.mainTheme,
+            child: MopeiButton(
               text: "enviar",
               isLoading: pageForgotPasswordBloc.isLoading,
               onTap: () {

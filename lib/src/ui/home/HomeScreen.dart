@@ -4,8 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infrastructure/flutter/components/TabView.dart';
 import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
-import 'package:infrastructure/flutter/components/HomeBottomNavigationBar.dart';
-import 'package:infrastructure/flutter/components/backgrounds/BackgroundContainer.dart';
+import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:mopei_app/src/di/Injection.dart';
@@ -18,6 +17,7 @@ import 'dart:developer' as dev;
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:path/path.dart';
 
+import 'HomeBottomNavigationBar.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -27,6 +27,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       bloc.refreshHighlights();
+      bloc.refreshCategories();
     });
 
     return Background(

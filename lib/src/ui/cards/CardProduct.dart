@@ -1,11 +1,16 @@
 import 'dart:async';
 
-import 'package:domain/entity/Product.dart';
+import 'package:data/entity/Product.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
+import 'package:infrastructure/flutter/components/textviews/Amount.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'dart:developer' as dev;
+
+import 'package:infrastructure/flutter/utils/ScreenTransitions.dart';
+import 'package:mopei_app/src/di/Injection.dart';
+import 'package:mopei_app/src/ui/details/ProductDetails.dart';
 
 class CardProduct extends StatefulWidget {
 
@@ -57,64 +62,65 @@ class CardProductState extends State<CardProduct> with TickerProviderStateMixin 
             elevation: 2,
             color: Colors.white,
             clipBehavior: Clip.hardEdge,
-            child: Container(
-              height: size.value,
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        Image.network(widget.model.mainImageUrl,
-                          alignment: Alignment.center,
-                          height: double.infinity,
-                          width: double.infinity,
-                        ),
-                        FavoriteButton(
-                          active: widget.model.favorite,
-                          onPressed: (active) {
-                            setState(() {
-                              widget.model.favorite = active;
-                            });
-                            widget.onFavoriteButtonPressed?.call();
-                          },
-                        )
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Row(
-                      children: [
-                        Container(
-                          width: 1,
-                          color: Constants.Colors.BLACK_TRANSPARENT,
-                          margin: EdgeInsets.symmetric(vertical: 20),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.all(10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(widget.model.name, style: TextStyles.titleBlack),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(right: 5, bottom: 5),
-                                    child: Text("R\$"),
-                                  ),
-                                  Text("${widget.model.value}", style: TextStyle(fontSize: 30),)
-                                ],
-                              )
-                            ],
+            child: InkWell(
+              onTap: () => ScreenTransitions.push(context, ProductDetails(
+                model: widget.model,
+              )),
+              child: Container(
+                height: size.value,
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          Hero(tag: "image ${widget.model.localId}",
+                            child: Image.network(widget.model.mainImageUrl,
+                              alignment: Alignment.center,
+                              height: double.infinity,
+                              width: double.infinity,
+                            ),
                           ),
-                        ),
-                      ],
+                          Hero(
+                            tag: "favoriteStar ${widget.model.localId}",
+                            child: FavoriteButton(
+                              active: widget.model.favorite,
+                              onPressed: (active) {
+                                setState(() {
+                                  widget.model.favorite = active;
+                                });
+                                widget.onFavoriteButtonPressed?.call();
+                              },
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  )
-                ],
+                    Expanded(
+                      flex: 2,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 1,
+                            color: Constants.Colors.BLACK_TRANSPARENT,
+                            margin: EdgeInsets.symmetric(vertical: 20),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(10),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(widget.model.name, style: TextStyles.titleBlack),
+                                Amount(amount: widget.model.value)
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

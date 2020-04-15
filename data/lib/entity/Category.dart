@@ -2,12 +2,14 @@ import 'dart:developer' as dev;
 
 class Category {
   
-  int id;
+  int localId;
+  int remoteId;
   String imgPath;
   String name;
   
   Category({
-    this.id,
+    this.localId,
+    this.remoteId,
     this.name,
     this.imgPath
   });

@@ -14,8 +14,6 @@ dependencies:
   path:
 
   # Clean architecture modules "domain", "data" and my plus "infrastructure"
-  domain:
-    path: ../domain
   infrastructure:
     path: ../infrastructure
 

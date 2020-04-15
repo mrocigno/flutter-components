@@ -1,17 +1,19 @@
 import 'package:data/db/DaoBase.dart';
+import 'package:data/entity/Product.dart';
 import 'package:data/mapper/ProductMapper.dart';
-import 'package:domain/entity/Product.dart';
 import 'package:infrastructure/flutter/utils/Mapper.dart';
 import 'package:sqflite/sql.dart';
 
-class ProductsDao extends DaoBase {
+class ProductsDao extends DaoBase<Product> {
   
   @override
   String get sqlCreate => 
     "CREATE TABLE $tableName ("
           "id INTEGER PRIMARY KEY AUTOINCREMENT, "
           "remoteId INTEGER UNIQUE, "
+          "provider TEXT, "
           "name TEXT, "
+          "description TEXT, "
           "mainImageUrl TEXT, "
           "value REAL, "
           "favorite NUMERIC"
@@ -24,20 +26,14 @@ class ProductsDao extends DaoBase {
   ProductMapper get mapper => ProductMapper();
 
   void setFavorite(Product product){
-    db.update(tableName, mapper.toMap(product), 
+    db.update(tableName, mapper.toDataMap(product),
       where: "id == ?",
       whereArgs: [product.localId]
     );
   }
 
-  void addProduct(Product product){
-    db.insert(tableName, mapper.toMap(product), 
-      conflictAlgorithm: ConflictAlgorithm.ignore
-    );
-  }
-
   Future<List<Product>> getHighlights() async {
-    List<Product> result = (await db.query(tableName)).map((e) => mapper.fromMap(e)).toList();
+    List<Product> result = (await db.query(tableName)).map((e) => mapper.fromDataMap(e)).toList();
     
     return result;
   }
@@ -45,7 +41,7 @@ class ProductsDao extends DaoBase {
   Future<List<Product>> getFavorites() async {
     List<Product> result = (await db.query(tableName, 
       where: "favorite = 1"
-    )).map((e) => mapper.fromMap(e)).toList();
+    )).map((e) => mapper.fromDataMap(e)).toList();
     
     return result;
   }

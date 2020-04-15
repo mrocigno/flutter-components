@@ -1,4 +1,4 @@
-import 'package:domain/entity/Category.dart';
+import 'package:data/entity/Category.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
@@ -29,12 +29,11 @@ class PageCategories extends TabChild {
         stream: bloc.categories,
         builder: (context, snapshot) {
           return Container(
-            height: 400,
             child: GridView.count(
               padding: EdgeInsets.only(left: 10, top: 20, bottom: 20),
-              crossAxisCount: 2,
+              crossAxisCount: 3,
               shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
+              scrollDirection: Axis.vertical,
               children: snapshot.data?.map((category) {
                 return Container(
                   margin: EdgeInsets.only(right: 20, bottom: 20),

@@ -68,14 +68,19 @@ class AnimatedStarState extends State<AnimatedStar> with SingleTickerProviderSta
       );
     });
 
+    Animation<double> axis = TweenSequence([
+      TweenSequenceItem(tween: Tween(begin: size, end: size - 2), weight: 1),
+      TweenSequenceItem(tween: Tween(begin: size + 2, end: size), weight: 1),
+    ]).animate(controller);
+
     shadow.add(AnimatedBuilder(
       animation: controller,
       builder: (context, child) {
         return Container(
           transform: Matrix4.identity()
-            ..translate(size/2, size/2)
+            ..translate(axis.value/2, axis.value/2)
             ..multiply(Matrix4.rotationY(rotate.value))
-            ..translate(-(size/2), -(size/2)),
+            ..translate(-(axis.value/2), -(axis.value/2)),
           alignment: Alignment.center,
           height: size, width: size,
           child: Icon(Icons.star, color: Colors.amberAccent, size: size,)

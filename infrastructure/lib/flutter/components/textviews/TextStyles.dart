@@ -9,9 +9,14 @@ class TextStyles {
     fontSize: 20,
   );
 
+  static const TextStyle productTitle = TextStyle(
+    color: Colors.black,
+    fontSize: 30,
+  );
+
   static const TextStyle poppinsMedium = TextStyle(
     color: Constants.Colors.GRAY,
-    fontSize: 15
+    fontSize: 17
   );
 
 }

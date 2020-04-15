@@ -105,7 +105,7 @@ class PageCreateAccountScreen extends StatelessWidget {
         ),
         Container(
           padding: EdgeInsets.all(20),
-          child: MopeiButton(MopeiButtonTheme.mainTheme,
+          child: MopeiButton(
             text: "salvar",
             isLoading: pageCreateAccountBloc.isLoading,
             onTap: () {

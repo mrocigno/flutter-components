@@ -1,14 +1,12 @@
 import 'dart:developer' as dev;
 
-import 'package:data/repository/CategoryRepositoryImpl.dart';
-import 'package:data/repository/ProductsRepositoryImpl.dart';
-import 'package:domain/repository/CategoryRepository.dart';
-import 'package:domain/repository/ProductsRepository.dart';
-import 'package:domain/usecase/HomeUseCase.dart';
+import 'package:data/repository/CategoryRepository.dart';
+import 'package:data/repository/ProductsRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mopei_app/src/di/Injection.dart';
 import 'package:mopei_app/src/ui/WhiteTable.dart';
+import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
 import 'package:mopei_app/src/ui/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
@@ -19,6 +17,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
 
   static void configSystemStyleUI(){
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
       systemNavigationBarColor: Colors.transparent,
       systemNavigationBarIconBrightness: Brightness.dark
     ));
@@ -70,21 +69,17 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
     module.singleton(() => CategoryLocal());
     module.singleton(() => CategoryRemote());
 
-    module.singleton<ProductsRepository>(() => ProductsRepositoryImpl(
+    module.singleton(() => ProductsRepository(
       local: Injection.inject(),
       remote: Injection.inject()
     ));
-    module.singleton<CategoryRepository>(() => CategoryRepositoryImpl(
+    module.singleton(() => CategoryRepository(
       local: Injection.inject(),
       remote: Injection.inject()
-    ));
-
-    module.singleton(() => HomeUseCase(
-      productsRepository: Injection.inject(),
-      categoryRepository: Injection.inject()
     ));
 
     module.singleton(() => HomeBloc());
+    module.factory(() => ProductDetailsBloc());
 
   };
 

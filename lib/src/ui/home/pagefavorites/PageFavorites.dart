@@ -1,4 +1,4 @@
-import 'package:domain/entity/Product.dart';
+import 'package:data/entity/Product.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/animations/AnimatedStar.dart';
 import 'dart:developer' as dev;

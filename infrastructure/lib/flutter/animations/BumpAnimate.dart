@@ -22,6 +22,7 @@ class _BumpAnimateState extends State<BumpAnimate> with TickerProviderStateMixin
   @override
   void dispose() {
     super.dispose();
+    _controller?.stop();
     _controller?.dispose();
   }
 

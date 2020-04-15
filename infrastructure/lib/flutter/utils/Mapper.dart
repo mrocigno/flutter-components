@@ -1,11 +1,9 @@
-abstract class Mapper<ResponseObject, Entity> {
+abstract class Mapper<Entity> {
 
-  Entity transform(ResponseObject input);
+  Entity fromResponse(Map<String, Object> input);
 
-  ResponseObject reverse(Entity input);
+  Map<String, Object> toDataMap(Entity input);
 
-  Map<String, Object> toMap(Entity input);
-
-  Entity fromMap(Map<String, Object> input);
+  Entity fromDataMap(Map<String, Object> input);
 
 }

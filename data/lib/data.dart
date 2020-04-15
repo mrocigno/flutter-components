@@ -1,4 +1,4 @@
-library data;
+library sdk;
 
 /// A Calculator.
 class Calculator {

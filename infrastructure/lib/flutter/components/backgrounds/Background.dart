@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/HomeBottomNavigationBar.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
 class Background extends StatelessWidget{
@@ -62,6 +61,7 @@ class Background extends StatelessWidget{
           bottomNavigationBar: bottomNavigation,
           appBar: AppBar(
             centerTitle: _theme.centralizeTitle,
+            iconTheme: IconThemeData(color: _theme.titleColor),
             title: Text(title,
               key: _titleKey,
               style: TextStyle(
@@ -104,6 +104,14 @@ class BackgroundTheme {
     )
   );
 
+  static BackgroundTheme details = BackgroundTheme(
+    centralizeTitle: true,
+    titleColor: Constants.Colors.COLOR_PRIMARY,
+    decoration: BoxDecoration(
+      color: Constants.Colors.BACKGROUND_WHITE
+    )
+  );
+
   static BackgroundTheme loginPage = BackgroundTheme(
     centralizeTitle: false,
     titleColor: Colors.black,
@@ -125,17 +133,18 @@ class BackgroundTheme {
 
 class AppBarAction extends StatelessWidget{
 
+  final Icon icon;
   final String imgPath;
   final Function onTap;
 
-  AppBarAction({this.imgPath, this.onTap});
+  AppBarAction({this.imgPath, this.onTap, this.icon});
 
   @override
   Widget build(BuildContext context) => IconButton(
-    icon: Image.asset(imgPath,
+    icon: (icon != null? icon : Image.asset(imgPath,
       width: 24,
       height: 24,
-    ),
+    )),
     onPressed: onTap,
   );
 }

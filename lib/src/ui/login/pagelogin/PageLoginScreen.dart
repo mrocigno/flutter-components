@@ -65,7 +65,6 @@ class PageLoginScreen extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(bottom: 20),
             child: MopeiButton(
-              MopeiButtonTheme.mainTheme,
               text: "Entrar",
               isLoading: pageLoginBloc.isLoading,
               onTap: () {
