@@ -19,8 +19,13 @@ class HomeBloc extends BaseBloc {
   BehaviorSubject<List<Product>> _favorites = BehaviorSubject();
   Observable<List<Product>> get favorites => _favorites.stream;
 
-  ProductsRepository productsRepository = Injection.inject();
-  CategoryRepository categoryRepository = Injection.inject();
+  final ProductsRepository productsRepository;
+  final CategoryRepository categoryRepository;
+
+  HomeBloc({
+    this.productsRepository,
+    this.categoryRepository
+  });
 
   void getFavorites() {
     launchData(() async {

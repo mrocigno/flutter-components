@@ -5,27 +5,26 @@ class Background extends StatelessWidget{
   Background({
     Key key,
     this.child,
-    this.title = "",
+    this.title,
     this.showDrawer = false,
     this.theme,
     this.onNavigationClick,
     this.actions,
     this.bottomNavigation,
+    this.onWillPop
   }) : super(key: key);
 
   final Widget child;
-  final String title;
+  final Widget title;
   final bool showDrawer;
   final Function onNavigationClick;
   final List<AppBarAction> actions;
   final Widget bottomNavigation;
   final BackgroundTheme theme;
+  final WillPopCallback onWillPop;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
-
-  final GlobalKey _titleKey = GlobalKey();
-  GlobalKey get titleKey => _titleKey;
 
   @override
   Widget build(BuildContext context) {
@@ -47,42 +46,41 @@ class Background extends StatelessWidget{
       );
     }
 
-    return Stack(
-      children: [
-        Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: _theme.decoration,
-          clipBehavior: Clip.hardEdge,
-        ),
-        Scaffold(
-          key: _scaffoldKey,
-          backgroundColor: Colors.transparent,
-          bottomNavigationBar: bottomNavigation,
-          appBar: AppBar(
-            centerTitle: _theme.centralizeTitle,
-            iconTheme: IconThemeData(color: _theme.titleColor),
-            title: Text(title,
-              key: _titleKey,
-              style: TextStyle(
-                  color: _theme.titleColor
-              ),
-            ),
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            decoration: _theme.decoration,
+            clipBehavior: Clip.hardEdge,
+          ),
+          Scaffold(
+            key: _scaffoldKey,
             backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: leading,
-            actions: actions,
-          ),
-          body: child,
-          drawer: (showDrawer?
-          Drawer(
-            child: Container(
-              color: Colors.red,
+            bottomNavigationBar: bottomNavigation,
+            appBar: AppBar(
+              centerTitle: _theme.centralizeTitle,
+              iconTheme: IconThemeData(color: _theme.titleColor),
+              textTheme: TextTheme(headline6: TextStyle(color: _theme.titleColor, fontSize: 20, fontFamily: "lato")),
+              title: title,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              leading: leading,
+              actions: actions,
             ),
-          ) : null
+            body: child,
+            drawer: (showDrawer?
+            Drawer(
+              child: Container(
+                color: Colors.red,
+              ),
+            ) : null
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -7,7 +7,7 @@ import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/utils/Functions.dart';
 import 'package:mopei_app/src/di/Injection.dart';
-import 'package:mopei_app/src/ui/home/HomeBloc.dart';
+import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 
 class PageCategories extends TabChild {
 

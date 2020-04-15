@@ -6,7 +6,7 @@ import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/utils/ScreenTransitions.dart';
 import 'package:mopei_app/src/di/Injection.dart';
-import 'package:mopei_app/src/ui/home/HomeScreen.dart';
+import 'package:mopei_app/src/ui/main/MainScreen.dart';
 
 class SplashScreen extends StatelessWidget {
 
@@ -14,16 +14,14 @@ class SplashScreen extends StatelessWidget {
   final StreamController<bool> startAnimate = StreamController();
 
   final GlobalKey _textKey = GlobalKey();
-  final GlobalKey _backgroundKey = GlobalKey();
-
-  Background get _widgetBackground => _backgroundKey.currentWidget;
+  final GlobalKey _titleKey = GlobalKey();
 
   void toHome(BuildContext context) {
-    ScreenTransitions.pushReplacement(context, HomeScreen());
+    ScreenTransitions.pushReplacement(context, MainScreen());
   }
 
   double calculateTitlePosition(){
-    RenderBox renderTitle = _widgetBackground.titleKey.currentContext.findRenderObject();
+    RenderBox renderTitle = _titleKey.currentContext.findRenderObject();
     Offset positionTitle = renderTitle.localToGlobal(Offset.zero);
 
     RenderBox renderAnimated = _textKey.currentContext.findRenderObject();
@@ -41,7 +39,7 @@ class SplashScreen extends StatelessWidget {
     Config.open();
 
     return Background(
-      key: _backgroundKey,
+      title: Text("", key: _titleKey),
       child: Center(
         child: StreamBuilder<bool>(
           stream: startAnimate.stream,

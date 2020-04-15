@@ -16,11 +16,13 @@ import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:mopei_app/src/di/Injection.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
+import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 
 class ProductDetails extends StatelessWidget {
 
   final Product model;
   final ProductDetailsBloc bloc = Injection.inject();
+  final MainNavigationBloc navigationBloc = Injection.inject();
 
   ProductDetails({
     this.model,
@@ -47,7 +49,6 @@ class ProductDetails extends StatelessWidget {
       bottomNavigation: StreamBuilder<Cart>(
         stream: bloc.cart,
         builder: (context, snapshot) {
-//          if(!snapshot.hasData) return SizedBox(height: 0, width: 0);
           return AnimatedContainer(
             duration: Duration(milliseconds: 300),
             constraints: snapshot.hasData? BoxConstraints(maxHeight: 200) : BoxConstraints(maxHeight: 0),
@@ -70,6 +71,10 @@ class ProductDetails extends StatelessWidget {
                       child: MopeiButton(
                         text: Strings.strings["see_cart"],
                         theme: MopeiButtonTheme.outlined,
+                        onTap: () {
+                          navigationBloc.setPage(1);
+                          Navigator.pop(context);
+                        },
                       ),
                     )
                   ],

@@ -9,7 +9,7 @@ import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/utils/Functions.dart';
 import 'package:mopei_app/src/di/Injection.dart';
 import 'package:mopei_app/src/ui/cards/CardProduct.dart';
-import 'package:mopei_app/src/ui/home/HomeBloc.dart';
+import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 
 class PageFavorites extends TabChild {
 
