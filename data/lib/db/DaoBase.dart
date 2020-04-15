@@ -9,7 +9,7 @@ abstract class DaoBase<Entity> {
   String get sqlCreate;
 
   Mapper<Entity> get mapper;
-
+  
   Database db;
 
   void addOne(Entity entity){

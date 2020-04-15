@@ -7,7 +7,7 @@ import 'package:sqflite/sql.dart';
 class ProductsDao extends DaoBase<Product> {
   
   @override
-  String get sqlCreate => 
+  String get sqlCreate =>
     "CREATE TABLE $tableName ("
           "id INTEGER PRIMARY KEY AUTOINCREMENT, "
           "remoteId INTEGER UNIQUE, "

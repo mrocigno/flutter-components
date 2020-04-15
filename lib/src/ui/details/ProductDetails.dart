@@ -1,4 +1,5 @@
 import 'dart:developer' as dev;
+import 'package:data/entity/Cart.dart';
 import 'package:flutter/services.dart';
 import 'package:infrastructure/flutter/components/backgrounds/BackgroundSliver.dart';
 import 'package:infrastructure/flutter/components/backgrounds/BackgroundThemes.dart';
@@ -26,25 +27,31 @@ class ProductDetails extends StatelessWidget {
   });
 
   void addToCart(){
-    bloc.updateCart(model);
+    bloc.addToCart(model);
   }
 
-  void removeFromCart(){
-    bloc.updateCart(model);
+  void removeFromCart(Cart cart){
+    bloc.removeFromCart(cart);
+  }
+
+  @override
+  StatelessElement createElement() {
+    bloc.getCartData(model);
+    return super.createElement();
   }
 
   @override
   Widget build(BuildContext context) {
     return BackgroundSliver(
       expandedHeight: 300,
-      bottomNavigation: StreamBuilder(
-        stream: bloc.onCart,
-        initialData: model.favorite,
+      bottomNavigation: StreamBuilder<Cart>(
+        stream: bloc.cart,
         builder: (context, snapshot) {
+//          if(!snapshot.hasData) return SizedBox(height: 0, width: 0);
           return AnimatedContainer(
             duration: Duration(milliseconds: 300),
-            constraints: snapshot.data? BoxConstraints(maxHeight: 200) : BoxConstraints(maxHeight: 0),
-            transform: Matrix4.translationValues(0, snapshot.data? 0 : 200, 0),
+            constraints: snapshot.hasData? BoxConstraints(maxHeight: 200) : BoxConstraints(maxHeight: 0),
+            transform: Matrix4.translationValues(0, snapshot.hasData? 0 : 200, 0),
             child: BottomScaffoldContainer(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -134,13 +141,12 @@ class ProductDetails extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child: StreamBuilder(
-                      stream: bloc.onCart,
-                      initialData: model.favorite,
+                    child: StreamBuilder<Cart>(
+                      stream: bloc.cart,
                       builder: (context, snapshot) {
                         return MopeiButton(
-                          text: Strings.strings[snapshot.data? "added" : "buy"],
-                          onTap: snapshot.data? addToCart : removeFromCart,
+                          text: Strings.strings[snapshot.hasData? "added" : "buy"],
+                          onTap: snapshot.hasData? () => removeFromCart(snapshot.data) : addToCart,
                         );
                       },
                     ),

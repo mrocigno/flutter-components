@@ -1,5 +1,6 @@
 import 'dart:developer' as dev;
 
+import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/CategoryRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:flutter/material.dart';
@@ -78,9 +79,10 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
       remote: Injection.inject()
     ));
 
+    module.singleton(() => CartRepository());
+
     module.singleton(() => HomeBloc());
     module.factory(() => ProductDetailsBloc());
-
   };
 
 }

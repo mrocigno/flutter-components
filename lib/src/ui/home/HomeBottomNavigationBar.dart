@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 class HomeBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     double iconSize = 24.0;
+
     return Material(
       color: Constants.Colors.BACKGROUND_WHITE,
       elevation: 5,
@@ -24,9 +24,23 @@ class HomeBottomNavigationBar extends StatelessWidget {
                 title: Text("Home")
             ),
             BottomNavigationBarItem(
-                icon: Image.asset("assets/img/icCart.png", width: iconSize, height: iconSize,),
-                activeIcon: Image.asset("assets/img/icCartActive.png", width: iconSize, height: iconSize,),
-                title: Text("Carrinho")
+              icon: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  Image.asset("assets/img/icCart.png", width: iconSize, height: iconSize,),
+                  Container(
+                    height: 10,
+                    width: 10,
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.all(Radius.circular(5))
+                    ),
+                    transform: Matrix4.translationValues(5, -5, 0),
+                  )
+                ],
+              ),
+              activeIcon: Image.asset("assets/img/icCartActive.png", width: iconSize, height: iconSize,),
+              title: Text("Carrinho")
             ),
 //        BottomNavigationBarItem(
 //          icon: Image.asset("assets/img/icBitcoin.png", width: iconSize, height: iconSize,),
@@ -48,6 +62,4 @@ class HomeBottomNavigationBar extends StatelessWidget {
       ),
     );
   }
-
-
 }
