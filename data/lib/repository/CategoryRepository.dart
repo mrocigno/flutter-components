@@ -4,24 +4,20 @@ import 'package:data/dao/CategoriesDao.dart';
 import 'package:data/db/Config.dart';
 import 'package:data/entity/Category.dart';
 import 'package:data/mapper/CategoryMapper.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 
 class CategoryRepository {
-  final CategoryLocal local;
-  final CategoryRemote remote;
-
-  CategoryRepository({
-      this.local,
-      this.remote
-  });
+  final CategoryLocal _local = inject();
+  final CategoryRemote _remote = inject();
 
   Future<List<Category>> getCategories(){
-    return local.getAllCategories();
+    return _local.getAllCategories();
   }
 
   Future<void> refreshCategories() async {
-    List<Category> categories = await remote.getCategories();
+    List<Category> categories = await _remote.getCategories();
     categories?.forEach((element) {
-      local.addCategory(element);
+      _local.addCategory(element);
     });
   }
 
@@ -32,7 +28,7 @@ class CategoryLocal {
   CategoriesDao _dao = Config.daoProvider();
 
   void addCategory(Category category){
-    _dao.addOne(category);
+    _dao.save(category);
   }
 
   Future<List<Category>> getAllCategories(){

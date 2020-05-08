@@ -1,11 +1,13 @@
 import 'dart:developer' as dev;
 
 import 'package:data/entity/Category.dart';
+import 'package:data/entity/Favorite.dart';
 import 'package:data/entity/Product.dart';
 import 'package:data/repository/CategoryRepository.dart';
+import 'package:data/repository/FavoritesRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
-import 'package:mopei_app/src/di/Injection.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:rxdart/rxdart.dart';
 
 class HomeBloc extends BaseBloc {
@@ -19,13 +21,9 @@ class HomeBloc extends BaseBloc {
   BehaviorSubject<List<Product>> _favorites = BehaviorSubject();
   Observable<List<Product>> get favorites => _favorites.stream;
 
-  final ProductsRepository productsRepository;
-  final CategoryRepository categoryRepository;
-
-  HomeBloc({
-    this.productsRepository,
-    this.categoryRepository
-  });
+  final ProductsRepository productsRepository = inject();
+  final CategoryRepository categoryRepository = inject();
+  final FavoritesRepository favoritesRepository = inject();
 
   void getFavorites() {
     launchData(() async {
@@ -39,8 +37,12 @@ class HomeBloc extends BaseBloc {
     });
   }
 
-  void addToFavorite(Product product) {
-    productsRepository.setFavorite(product);
+  void addToFavorite(Favorite favorite) {
+    favoritesRepository.addToFavorites(favorite);
+  }
+
+  void removeFromFavorite(Favorite favorite) {
+    favoritesRepository.removeFromFavorite(favorite);
   }
 
   void getHighlights() {

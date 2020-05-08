@@ -6,7 +6,6 @@ import 'package:infrastructure/flutter/utils/Mapper.dart';
 class CartMapper extends Mapper<Cart> {
   @override
   Cart fromDataMap(Map<String, Object> input) => Cart(
-    id: input["id"],
     amount: input["amount"],
     productId: input["productId"]
   );
@@ -18,7 +17,6 @@ class CartMapper extends Mapper<Cart> {
 
   @override
   Map<String, Object> toDataMap(Cart input) => {
-    "id": input.id,
     "productId": input.productId,
     "amount": input.amount
   };

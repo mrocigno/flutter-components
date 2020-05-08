@@ -1,8 +1,8 @@
 import 'dart:developer' as dev;
 import 'package:data/entity/Cart.dart';
+import 'package:data/entity/Favorite.dart';
 import 'package:flutter/services.dart';
 import 'package:infrastructure/flutter/components/backgrounds/BackgroundSliver.dart';
-import 'package:infrastructure/flutter/components/backgrounds/BackgroundThemes.dart';
 import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
 import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
 import 'package:infrastructure/flutter/components/containers/BottomScaffoldContainer.dart';
@@ -12,17 +12,16 @@ import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:data/entity/Product.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:mopei_app/src/di/Injection.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 
 class ProductDetails extends StatelessWidget {
 
   final Product model;
-  final ProductDetailsBloc bloc = Injection.inject();
-  final MainNavigationBloc navigationBloc = Injection.inject();
+  final ProductDetailsBloc bloc = inject();
+  final MainNavigationBloc navigationBloc = inject();
 
   ProductDetails({
     this.model,
@@ -101,18 +100,21 @@ class ProductDetails extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(model?.provider ?? "", style: TextStyles.poppinsMedium),
-                    Text(model?.name ?? "", style: TextStyles.productTitle),
-                  ],
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(model?.provider ?? "", style: TextStyles.poppinsMedium),
+                      Text(model?.name ?? "", style: TextStyles.productTitle),
+                    ],
+                  ),
                 ),
                 Hero(
-                  tag: "favoriteStar ${model?.localId}",
+                  tag: "favoriteStar ${model?.id}",
                   child: StreamBuilder<bool>(
                     stream: bloc.favorite,
-                    initialData: model.favorite,
+                    initialData: model.favorite != null,
                     builder: (context, snapshot) {
                       return Container(
                         child: Material(
@@ -121,8 +123,14 @@ class ProductDetails extends StatelessWidget {
                           child: FavoriteButton(
                             active: snapshot.data,
                             onPressed: (active) {
-                              model.favorite = active;
-                              bloc.updateFavorite(model);
+                              var favorite = Favorite(productId: model.id);
+                              if (active) {
+                                bloc.addToFavorite(favorite);
+                                model.favorite = favorite;
+                              } else {
+                                bloc.removeFromFavorite(favorite);
+                                model.favorite = null;
+                              }
                             },
                           ),
                         ),
@@ -149,9 +157,13 @@ class ProductDetails extends StatelessWidget {
                     child: StreamBuilder<Cart>(
                       stream: bloc.cart,
                       builder: (context, snapshot) {
+                        model.cart = snapshot.data;
                         return MopeiButton(
                           text: Strings.strings[snapshot.hasData? "added" : "buy"],
-                          onTap: snapshot.hasData? () => removeFromCart(snapshot.data) : addToCart,
+                          onTap: () {
+                            if(snapshot.hasData) removeFromCart(snapshot.data);
+                            else addToCart();
+                          },
                         );
                       },
                     ),

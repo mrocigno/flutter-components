@@ -1,8 +1,10 @@
+import 'package:data/dao/CartDao.dart';
+import 'package:data/dao/FavoritesDao.dart';
+import 'package:data/db/Config.dart';
 import 'package:data/db/DaoBase.dart';
 import 'package:data/entity/Product.dart';
 import 'package:data/mapper/ProductMapper.dart';
-import 'package:infrastructure/flutter/utils/Mapper.dart';
-import 'package:sqflite/sql.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 
 class ProductsDao extends DaoBase<Product> {
   
@@ -10,39 +12,48 @@ class ProductsDao extends DaoBase<Product> {
   String get sqlCreate =>
     "CREATE TABLE $tableName ("
           "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-          "remoteId INTEGER UNIQUE, "
           "provider TEXT, "
           "name TEXT, "
           "description TEXT, "
           "mainImageUrl TEXT, "
           "value REAL, "
-          "favorite NUMERIC"
+          "highlight INTEGER"
       ")";
 
   @override
   String get tableName => "products";
   
   @override
-  ProductMapper get mapper => ProductMapper();
+  ProductMapper get mapper => inject();
 
-  void setFavorite(Product product){
-    db.update(tableName, mapper.toDataMap(product),
-      where: "id == ?",
-      whereArgs: [product.localId]
-    );
-  }
+  // I know, this is a workaround, but flutter has no reflection
+  FavoritesDao get favoritesDao => Config.daoProvider();
+  CartDao get cartDao => Config.daoProvider();
 
   Future<List<Product>> getHighlights() async {
-    List<Product> result = (await db.query(tableName)).map((e) => mapper.fromDataMap(e)).toList();
+    var query = await db.query(tableName,
+      where: "highlight = 1"
+    );
     
-    return result;
+    return _transformMap(query);
   }
 
   Future<List<Product>> getFavorites() async {
-    List<Product> result = (await db.query(tableName, 
-      where: "favorite = 1"
-    )).map((e) => mapper.fromDataMap(e)).toList();
-    
+    var query = await db.rawQuery(
+      "SELECT pd.* FROM $tableName as pd INNER JOIN ${favoritesDao.tableName} as fv ON pd.id = fv.productId"
+    );
+
+    return _transformMap(query);
+  }
+
+  Future<List<Product>> _transformMap(List<Map<String, dynamic>> map) async {
+    List<Product> result = [];
+    for(int i = 0; i < map.length; i++) {
+      var product = mapper.fromDataMap(map[i]);
+      product.favorite = await favoritesDao.getById(product.id);
+      product.cart = await cartDao.getById(product.id);
+      result.add(product);
+    }
     return result;
   }
 

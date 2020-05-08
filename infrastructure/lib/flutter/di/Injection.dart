@@ -1,3 +1,6 @@
+
+T inject<T>({String named}) => Injection.inject(named: named);
+
 class Injection {
 
   static _ModuleConstructor _moduleConstructor = _ModuleConstructor();

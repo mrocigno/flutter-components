@@ -8,7 +8,7 @@ import 'package:infrastructure/flutter/components/containers/BackgroundContainer
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:mopei_app/src/di/Injection.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'dart:developer' as dev;
 
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
@@ -27,7 +27,7 @@ import 'package:path/path.dart';
 
 class MainScreen extends StatelessWidget {
 
-  final MainNavigationBloc navigationBloc = Injection.inject();
+  final MainNavigationBloc navigationBloc = inject();
 
   @override
   Widget build(BuildContext context) {

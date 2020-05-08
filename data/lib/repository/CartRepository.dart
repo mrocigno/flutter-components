@@ -12,11 +12,14 @@ class CartRepository {
 
   CartDao _dao = Config.daoProvider();
 
-  Future<Cart> getCart(int id) => _dao.getByProductId(id);
+  Future<Cart> getCart(int id) => _dao.getById(id);
 
-  Future<Cart> addToCart(Product product, int amount) => _dao.addToCart(product, amount);
+  Future<Cart> addToCart(Product product, int amount) => _dao.save(Cart(
+    productId: product.id,
+    amount: amount
+  ));
 
-  void removeFromCart(Cart cart) => _dao.removeFromCart(cart);
+  void removeFromCart(Cart cart) => _dao.remove(cart);
 
 }
 

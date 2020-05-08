@@ -7,23 +7,26 @@ import 'package:infrastructure/flutter/components/TabView.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/utils/Functions.dart';
-import 'package:mopei_app/src/di/Injection.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/cards/CardProduct.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 
 class PageFavorites extends TabChild {
 
-  final BuildContext context;
-
-  PageFavorites(this.context);
-
-  HomeBloc bloc = Injection.inject();
-
   @override
   String get title => Strings.strings["home_page_3"];
 
   @override
-  StatelessWidget get child {
+  StatelessWidget get child => _PageFavorites();
+
+}
+
+class _PageFavorites extends StatelessWidget {
+
+  final HomeBloc bloc = inject();
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       child: StreamBuilder<List<Product>>(
         stream: bloc.favorites,
@@ -78,11 +81,13 @@ class PageFavorites extends TabChild {
                     padding: EdgeInsets.only(left: 20),
                     itemCount: snapshot.data?.length ?? 0,
                     itemBuilder: (context, index) {
+                      var model = snapshot.data[index];
                       return CardProduct(
                         hideWhenDisfavor: true,
-                        model: snapshot.data[index],
-                        onFavoriteButtonPressed: () async {
-                          bloc.addToFavorite(snapshot.data[index]);
+                        model: model,
+                        onFavoriteButtonPressed: (favorite, active) async {
+                          bloc.removeFromFavorite(favorite);
+                          model.favorite = null;
                           await Future.delayed(Duration(milliseconds: 500));
                           bloc.getFavorites();
                         },
@@ -96,5 +101,6 @@ class PageFavorites extends TabChild {
       ),
     );
   }
+
 
 }

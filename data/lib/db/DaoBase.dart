@@ -9,12 +9,34 @@ abstract class DaoBase<Entity> {
   String get sqlCreate;
 
   Mapper<Entity> get mapper;
+
+  /// It may necessary override if the primary key column has no named "id"
+  String get identifier => "id";
   
   Database db;
 
-  void addOne(Entity entity){
-    db.insert(tableName, mapper.toDataMap(entity),
-        conflictAlgorithm: ConflictAlgorithm.ignore
+  Future<Entity> save(Entity entity, {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore}) async {
+    var i = await db.insert(tableName, mapper.toDataMap(entity),
+        conflictAlgorithm: conflictAlgorithm
+    );
+    return entity;
+  }
+
+  Future<void> saveMany(List<Entity> list, {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore}) async {
+    var batch = db.batch();
+    list.forEach((entity) {
+      batch.insert(tableName, mapper.toDataMap(entity),
+          conflictAlgorithm: conflictAlgorithm
+      );
+    });
+    await batch.commit(noResult: true);
+  }
+
+  void remove(Entity entity) {
+    var json = mapper.toDataMap(entity);
+    db.delete(tableName,
+      where: "$identifier = ?",
+      whereArgs: [json[identifier]]
     );
   }
 
@@ -24,7 +46,7 @@ abstract class DaoBase<Entity> {
 
   Future<Entity> getById(int id) async {
     var list = await db.query(tableName,
-        where: "id = ?",
+        where: "$identifier = ?",
         whereArgs: [id]
     );
     if(list.length > 0) return mapper.fromDataMap(list[0]);

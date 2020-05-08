@@ -1,18 +1,21 @@
 import 'dart:developer' as dev;
 
 import 'package:data/entity/Cart.dart';
+import 'package:data/entity/Favorite.dart';
 import 'package:data/entity/Product.dart';
 import 'package:data/repository/CartRepository.dart';
+import 'package:data/repository/FavoritesRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
-import 'package:mopei_app/src/di/Injection.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 
 class ProductDetailsBloc extends BaseBloc {
 
-  ProductsRepository productsRepository = Injection.inject();
-  CartRepository cartRepository = Injection.inject();
+  ProductsRepository productsRepository = inject();
+  CartRepository cartRepository = inject();
+  FavoritesRepository favoritesRepository = inject();
 
   BehaviorSubject<Cart> _cart = BehaviorSubject();
   Observable<Cart> get cart => _cart.stream;
@@ -20,16 +23,23 @@ class ProductDetailsBloc extends BaseBloc {
   BehaviorSubject<bool> _favorite = BehaviorSubject();
   Observable<bool> get favorite => _favorite.stream;
 
-  void updateFavorite(Product product) {
+  void addToFavorite(Favorite favorite) {
     launchData(() async {
-      productsRepository.setFavorite(product);
-      _favorite.add(product.favorite);
+      favoritesRepository.addToFavorites(favorite);
+      _favorite.add(true);
+    });
+  }
+
+  void removeFromFavorite(Favorite favorite) {
+    launchData(() async {
+      favoritesRepository.removeFromFavorite(favorite);
+      _favorite.add(false);
     });
   }
 
   void getCartData(Product product){
     launchData(() async {
-      _cart.add(await cartRepository.getCart(product.localId));
+      _cart.add(await cartRepository.getCart(product.id));
     });
   }
 

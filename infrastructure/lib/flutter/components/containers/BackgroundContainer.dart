@@ -20,7 +20,7 @@ class BackgroundContainer extends StatelessWidget {
           padding: EdgeInsets.only(left: 20),
           child: Container(
             decoration: BoxDecoration(
-              color: Constants.Colors.BACKGROUND_WHITE,
+              color: Colors.white,
               borderRadius: BorderRadius.only(topLeft: Radius.circular(20))
             ),
           ),

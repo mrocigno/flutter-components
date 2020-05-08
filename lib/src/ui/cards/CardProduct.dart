@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:data/entity/Favorite.dart';
 import 'package:data/entity/Product.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
@@ -9,14 +10,15 @@ import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'dart:developer' as dev;
 
 import 'package:infrastructure/flutter/utils/ScreenTransitions.dart';
-import 'package:mopei_app/src/di/Injection.dart';
 import 'package:mopei_app/src/ui/details/ProductDetails.dart';
+
+typedef OnFavoriteButtonPressed = Function(Favorite favorite, bool active);
 
 class CardProduct extends StatefulWidget {
 
   final Product model;
-  final Function onFavoriteButtonPressed;
   final bool hideWhenDisfavor;
+  final OnFavoriteButtonPressed onFavoriteButtonPressed;
 
   CardProduct({
     this.model,
@@ -51,7 +53,7 @@ class CardProductState extends State<CardProduct> with TickerProviderStateMixin 
       CurvedAnimation(parent: controller, curve: Interval(0.4, 1.0, curve: Curves.ease))
     );
 
-    if(!widget.model.favorite && widget.hideWhenDisfavor) controller.forward();
+    if((widget.model.favorite == null) && widget.hideWhenDisfavor) controller.forward();
 
     return AnimatedBuilder(
       animation: opacity,
@@ -59,7 +61,6 @@ class CardProductState extends State<CardProduct> with TickerProviderStateMixin 
         return Opacity(
           opacity: opacity.value,
           child: Material(
-            elevation: 2,
             color: Colors.white,
             clipBehavior: Clip.hardEdge,
             child: InkWell(
@@ -75,24 +76,29 @@ class CardProductState extends State<CardProduct> with TickerProviderStateMixin 
                       child: Stack(
                         alignment: Alignment.topRight,
                         children: [
-                          Hero(tag: "image ${widget.model.localId}",
-                            child: Image.network(widget.model.mainImageUrl,
-                              alignment: Alignment.center,
-                              height: double.infinity,
-                              width: double.infinity,
-                            ),
+                          Image.network(widget.model.mainImageUrl,
+                            alignment: Alignment.center,
+                            height: double.infinity,
+                            width: double.infinity,
                           ),
                           Hero(
-                            tag: "favoriteStar ${widget.model.localId}",
+                            tag: "favoriteStar ${widget.model.id}",
                             child: FavoriteButton(
-                              active: widget.model.favorite,
+                              active: widget.model.favorite != null,
                               onPressed: (active) {
                                 setState(() {
-                                  widget.model.favorite = active;
+                                  widget.onFavoriteButtonPressed?.call(Favorite(
+                                      productId: widget.model.id
+                                  ), active);
                                 });
-                                widget.onFavoriteButtonPressed?.call();
                               },
                             ),
+                          ),
+                          (widget.model.cart != null ?
+                            Padding(
+                              padding: const EdgeInsets.only(right: 45, top: 15),
+                              child: Image.asset('assets/img/icCartActive.png', height: 20, width: 20,),
+                            ) : Container()
                           )
                         ],
                       ),
@@ -106,14 +112,17 @@ class CardProductState extends State<CardProduct> with TickerProviderStateMixin 
                             color: Constants.Colors.BLACK_TRANSPARENT,
                             margin: EdgeInsets.symmetric(vertical: 20),
                           ),
-                          Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(widget.model.name, style: TextStyles.titleBlack),
-                                Amount(amount: widget.model.value)
-                              ],
+                          Expanded(
+                            flex: 1,
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(widget.model.name, style: TextStyles.titleBlack),
+                                  Amount(amount: widget.model.value)
+                                ],
+                              ),
                             ),
                           ),
                         ],

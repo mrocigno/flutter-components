@@ -4,38 +4,31 @@ import 'package:data/dao/ProductsDao.dart';
 import 'package:data/db/Config.dart';
 import 'package:data/entity/Product.dart';
 import 'package:data/mapper/ProductMapper.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:sqflite/sqflite.dart';
 
 class ProductsRepository {
-  final ProductsLocal local;
-  final ProductsRemote remote;
+  final ProductsLocal _local = inject();
+  final ProductsRemote _remote = inject();
 
-  ProductsRepository({
-      this.local,
-      this.remote
-  });
+  Future<List<Product>> getHighlights() => _local.getHighlights();
 
-  Future<List<Product>> getHighlights() => local.getHighlights();
+  Future<List<Product>> getFavorites() => _local.getFavorites();
 
-  Future<List<Product>> getFavorites() => local.getFavorites();
-
-  Future<Product> getById(int id) => local.getById(id);
-
-  void setFavorite(Product product) => local.setFavorite(product);
+  Future<Product> getById(int id) => _local.getById(id);
 
   Future<void> refreshProducts() async {
-    List<Product> products = await remote.getProducts();
-    products.forEach((element) {
-      local.addProduct(element);
-    });
+    List<Product> products = await _remote.getProducts();
+    _local.saveAll(products);
   }
 }
 
 class ProductsLocal {
   ProductsDao dao = Config.daoProvider();
 
-  void addProduct(Product product) => dao.addOne(product);
+  void addProduct(Product product) => dao.save(product, conflictAlgorithm: ConflictAlgorithm.replace);
 
-  void setFavorite(Product product) => dao.setFavorite(product);
+  void saveAll(List<Product> list) => dao.saveMany(list, conflictAlgorithm: ConflictAlgorithm.replace);
 
   Future<Product> getById(int id) => dao.getById(id);
 
@@ -47,8 +40,7 @@ class ProductsLocal {
 class ProductsRemote {
 
   Future<List<Product>> getProducts() async {
-    await Future.delayed(Duration(seconds: 2));
-    ProductMapper mapper = ProductMapper();
+    ProductMapper mapper = inject();
     return [
         {
           "id": 1,
@@ -56,7 +48,8 @@ class ProductsRemote {
           "value": 20.00,
           "provider": "Honda",
           "name": "Retrovisor",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore."
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+          "highlight": 1
         },
         {
           "id": 2,
@@ -64,7 +57,8 @@ class ProductsRemote {
           "value": 19.99,
           "provider": "Honda",
           "name": "Retrovisor de perfil",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore."
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+          "highlight": 1
         },
         {
           "id": 3,
@@ -72,7 +66,8 @@ class ProductsRemote {
           "value": 200.99,
           "provider": "Honda",
           "name": "Retrovisor de lado",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore."
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+          "highlight": 1
         },
         {
           "id": 4,
@@ -80,7 +75,8 @@ class ProductsRemote {
           "value": 10.00,
           "provider": "Honda",
           "name": "Retrovisor por baixo",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore."
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+          "highlight": 1
         },
         {
           "id": 5,
@@ -88,7 +84,8 @@ class ProductsRemote {
           "value": 44.50,
           "provider": "Honda",
           "name": "Lanterna de seta",
-          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore."
+          "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.",
+          "highlight": 1
         },
         {
           "id": 6,

@@ -1,11 +1,16 @@
 import 'dart:developer' as dev;
 
+import 'package:data/mapper/CartMapper.dart';
+import 'package:data/mapper/CategoryMapper.dart';
+import 'package:data/mapper/FavoriteMapper.dart';
+import 'package:data/mapper/ProductMapper.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/CategoryRepository.dart';
+import 'package:data/repository/FavoritesRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mopei_app/src/di/Injection.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/WhiteTable.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
 import 'package:mopei_app/src/ui/main/cart/CartBloc.dart';
@@ -72,28 +77,23 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
     module.singleton(() => CategoryLocal());
     module.singleton(() => CategoryRemote());
 
-    module.singleton(() => ProductsRepository(
-      local: Injection.inject(),
-      remote: Injection.inject()
-    ));
-    module.singleton(() => CategoryRepository(
-      local: Injection.inject(),
-      remote: Injection.inject()
-    ));
+    module.singleton(() => FavoritesLocal());
+    module.singleton(() => FavoritesRemote());
 
+    module.singleton(() => ProductsRepository());
+    module.singleton(() => CategoryRepository());
+    module.singleton(() => FavoritesRepository());
     module.singleton(() => CartRepository());
 
-    module.singleton(() => HomeBloc(
-      categoryRepository: Injection.inject(),
-      productsRepository: Injection.inject()
-    ));
-
-    module.singleton(() => CartBloc(
-      cartRepository: Injection.inject()
-    ));
-
+    module.singleton(() => HomeBloc());
+    module.singleton(() => CartBloc());
     module.singleton(() => MainNavigationBloc());
     module.factory(() => ProductDetailsBloc());
+
+    module.singleton(() => CartMapper());
+    module.singleton(() => FavoriteMapper());
+    module.singleton(() => CategoryMapper());
+    module.singleton(() => ProductMapper());
   };
 
 }

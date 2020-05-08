@@ -1,36 +1,38 @@
+import 'package:data/entity/Cart.dart';
+import 'package:data/entity/Favorite.dart';
+
 class Product {
 
-  int localId;
-  int remoteId;
+  int id;
   String mainImageUrl;
   String provider;
   String name;
   String description;
   double value;
-  bool favorite;
+  bool highlight;
+  Favorite favorite;
+  Cart cart;
 
   Product({
-    this.localId,
-    this.remoteId,
+    this.id,
     this.mainImageUrl = "",
     this.value = 0.0,
     this.provider = "",
     this.name = "",
     this.description = "",
-    this.favorite = false
+    this.highlight = false
   });
 
   @override
   String toString() {
     return [
-      localId,
-      remoteId,
+      id,
       mainImageUrl,
       value,
       provider,
       name,
       description,
-      favorite
+      highlight
     ].toString();
   }
   

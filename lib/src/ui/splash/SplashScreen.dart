@@ -5,7 +5,7 @@ import 'package:infrastructure/flutter/animations/ChainAnimations.dart';
 import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/utils/ScreenTransitions.dart';
-import 'package:mopei_app/src/di/Injection.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/main/MainScreen.dart';
 
 class SplashScreen extends StatelessWidget {

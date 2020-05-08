@@ -5,24 +5,25 @@ import 'dart:developer' as dev;
 import 'package:infrastructure/flutter/components/TabView.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:infrastructure/flutter/utils/Functions.dart';
-import 'package:mopei_app/src/di/Injection.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 
 class PageCategories extends TabChild {
-
-  final BuildContext context;
-
-  PageCategories(this.context);
-
-  HomeBloc bloc = Injection.inject();
 
   @override
   String get title => Strings.strings["home_page_2"];
 
   @override
-  StatelessWidget get child {
+  StatelessWidget get child => _PageCategories();
 
+}
+
+class _PageCategories extends StatelessWidget {
+
+  final HomeBloc bloc = inject();
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
       child: StreamBuilder<List<Category>>(
@@ -47,10 +48,10 @@ class PageCategories extends TabChild {
                       child: Column(
                         children: [
                           Expanded(
-                            child: Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Image.asset("assets/img/icCategoryHelm.png"),
-                            )
+                              child: Padding(
+                                padding: EdgeInsets.all(20),
+                                child: Image.asset("assets/img/icCategoryHelm.png"),
+                              )
                           ),
                           Text(category.name, style: TextStyles.poppinsMedium)
                         ],
@@ -65,5 +66,7 @@ class PageCategories extends TabChild {
       ),
     );
   }
+
+
 
 }

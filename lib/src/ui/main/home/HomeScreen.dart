@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/components/TabView.dart';
 import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
-import 'package:mopei_app/src/di/Injection.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/main/home/pagecategories/PageCategories.dart';
 import 'package:mopei_app/src/ui/main/home/pagefavorites/PageFavorites.dart';
@@ -12,7 +12,7 @@ import 'package:mopei_app/src/ui/main/home/pagehighlights/PageHighlights.dart';
 
 class HomeScreen extends StatelessWidget {
 
-  final HomeBloc bloc = Injection.inject();
+  final HomeBloc bloc = inject();
 
   @override
   Widget build(BuildContext context) {
@@ -41,9 +41,9 @@ class HomeScreen extends StatelessWidget {
                     }
                   },
                   children: [
-                    PageHighlights(context),
-                    PageCategories(context),
-                    PageFavorites(context)
+                    PageHighlights(),
+                    PageCategories(),
+                    PageFavorites()
                   ],
                 )
             )

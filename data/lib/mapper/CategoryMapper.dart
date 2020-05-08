@@ -7,23 +7,21 @@ class CategoryMapper extends Mapper<Category> {
 
   @override
   Category fromDataMap(Map<String, Object> input) => Category(
-    localId: input["id"],
-    remoteId: input["remoteId"],
+    id: input["id"],
     name: input["name"],
     imgPath: input["imgPath"]
   );
 
   @override
   Category fromResponse(Map<String, Object> input) => Category(
-      remoteId: input["id"],
+      id: input["id"],
       name: input["name"],
       imgPath: input["imgPath"]
   );
 
   @override
   Map<String, Object> toDataMap(Category input) => {
-    "id": input.localId,
-    "remoteId": input.remoteId,
+    "id": input.id,
     "name": input.name,
     "imgPath": input.imgPath
   };

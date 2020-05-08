@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:flutter/services.dart';
-import 'package:mopei_app/src/di/Injection.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 
 class MainNavigation extends StatelessWidget {
 
-  final MainNavigationBloc bloc = Injection.inject();
+  final MainNavigationBloc bloc = inject();
 
   @override
   Widget build(BuildContext context) {

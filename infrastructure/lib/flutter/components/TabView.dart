@@ -106,6 +106,6 @@ class TabChild {
   });
 
   final String title;
-  final StatelessWidget child;
+  final Widget child;
 
 }
