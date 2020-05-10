@@ -20,7 +20,8 @@ class Product {
     this.provider = "",
     this.name = "",
     this.description = "",
-    this.highlight = false
+    this.highlight = false,
+    this.cart
   });
 
   @override

@@ -39,14 +39,20 @@ class MainNavigation extends StatelessWidget {
                       alignment: Alignment.topRight,
                       children: [
                         Image.asset("assets/img/icCart.png", width: iconSize, height: iconSize,),
-                        Container(
-                          height: 10,
-                          width: 10,
-                          decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.all(Radius.circular(5))
-                          ),
-                          transform: Matrix4.translationValues(5, -5, 0),
+                        StreamBuilder(
+                          stream: bloc.hasItemCart,
+                          builder: (context, snapshot) {
+                            if(!snapshot.hasData || !snapshot.data) return Wrap();
+                            return Container(
+                              height: 10,
+                              width: 10,
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.all(Radius.circular(5))
+                              ),
+                              transform: Matrix4.translationValues(5, -5, 0),
+                            );
+                          },
                         )
                       ],
                     ),

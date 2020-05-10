@@ -45,7 +45,10 @@ class ProductDetailsBloc extends BaseBloc {
 
   void addToCart(Product product){
     launchData(() async {
-      _cart.add(await cartRepository.addToCart(product, 1));
+      _cart.add(await cartRepository.save(Cart(
+        productId: product.id,
+        amount: 1
+      )));
     });
   }
 

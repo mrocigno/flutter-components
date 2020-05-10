@@ -2,13 +2,17 @@ import 'dart:async';
 import 'package:data/db/Config.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/animations/ChainAnimations.dart';
+import 'package:infrastructure/flutter/base/BaseScreen.dart';
 import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:infrastructure/flutter/utils/ScreenTransitions.dart';
+import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/main/MainScreen.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends BaseScreen {
+
+  @override
+  String get name => "SplashScreen";
 
   // ignore: close_sinks
   final StreamController<bool> startAnimate = StreamController();

@@ -15,6 +15,8 @@ class ProductsRepository {
 
   Future<List<Product>> getFavorites() => _local.getFavorites();
 
+  Future<List<Product>> getInCart() => _local.getInCart();
+
   Future<Product> getById(int id) => _local.getById(id);
 
   Future<void> refreshProducts() async {
@@ -35,6 +37,8 @@ class ProductsLocal {
   Future<List<Product>> getHighlights() => dao.getHighlights();
 
   Future<List<Product>> getFavorites() => dao.getFavorites();
+
+  Future<List<Product>> getInCart() => dao.getInCart();
 }
 
 class ProductsRemote {

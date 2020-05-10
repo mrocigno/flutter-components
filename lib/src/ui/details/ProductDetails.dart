@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 import 'package:data/entity/Cart.dart';
 import 'package:data/entity/Favorite.dart';
 import 'package:flutter/services.dart';
+import 'package:infrastructure/flutter/base/BaseScreen.dart';
 import 'package:infrastructure/flutter/components/backgrounds/BackgroundSliver.dart';
 import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
 import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
@@ -14,10 +15,14 @@ import 'package:data/entity/Product.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:infrastructure/flutter/routing/AppRoute.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 
-class ProductDetails extends StatelessWidget {
+class ProductDetails extends BaseScreen {
+
+  @override
+  String get name => "ProductDetails";
 
   final Product model;
   final ProductDetailsBloc bloc = inject();
@@ -61,7 +66,7 @@ class ProductDetails extends StatelessWidget {
                     Expanded(
                       flex: 1,
                       child: Hyperlink(Strings.strings["keep_buying"],
-                        theme: HyperlinkTheme.poppinsMedium,
+                        style: TextStyles.poppinsMedium,
                         wrapAlignment: WrapAlignment.center,
                       ),
                     ),
@@ -106,7 +111,7 @@ class ProductDetails extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(model?.provider ?? "", style: TextStyles.poppinsMedium),
-                      Text(model?.name ?? "", style: TextStyles.productTitle),
+                      Text(model?.name ?? "", style: TextStyles.title),
                     ],
                   ),
                 ),
@@ -176,7 +181,4 @@ class ProductDetails extends StatelessWidget {
       ),
     );
   }
-
-
-
 }

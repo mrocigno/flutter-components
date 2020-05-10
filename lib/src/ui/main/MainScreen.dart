@@ -2,6 +2,7 @@ import 'package:data/db/Config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:infrastructure/flutter/base/BaseScreen.dart';
 import 'package:infrastructure/flutter/components/TabView.dart';
 import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
 import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
@@ -9,6 +10,7 @@ import 'package:infrastructure/flutter/components/inputs/InputText.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:infrastructure/flutter/routing/AppRoute.dart';
 import 'dart:developer' as dev;
 
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
@@ -25,7 +27,10 @@ import 'package:mopei_app/src/ui/main/user/UserScreen.dart';
 import 'package:path/path.dart';
 
 
-class MainScreen extends StatelessWidget {
+class MainScreen extends BaseScreen with RouteObserverMixin {
+
+  @override
+  String get name => "MainScreen";
 
   final MainNavigationBloc navigationBloc = inject();
 
@@ -66,6 +71,10 @@ class MainScreen extends StatelessWidget {
     );
   }
 
+  @override
+  void onComeback() {
+    navigationBloc.checkCart();
+  }
 
 }
 

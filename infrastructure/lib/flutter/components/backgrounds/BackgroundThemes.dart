@@ -6,6 +6,7 @@ import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 class BackgroundThemes {
 
   static BackgroundThemes main = BackgroundThemes(
+    statusBarBrightness: Brightness.dark,
     centralizeTitle: true,
     titleColor: Colors.white,
     decoration: BoxDecoration(
@@ -21,6 +22,7 @@ class BackgroundThemes {
   );
 
   static BackgroundThemes details = BackgroundThemes(
+    statusBarBrightness: Brightness.light,
     centralizeTitle: true,
     titleColor: Constants.Colors.COLOR_PRIMARY,
     decoration: BoxDecoration(
@@ -29,6 +31,7 @@ class BackgroundThemes {
   );
 
   static BackgroundThemes loginPage = BackgroundThemes(
+    statusBarBrightness: Brightness.light,
     centralizeTitle: false,
     titleColor: Colors.black,
     decoration: BoxDecoration(
@@ -40,9 +43,10 @@ class BackgroundThemes {
     )
   );
 
-  BackgroundThemes({this.decoration, this.centralizeTitle, this.titleColor});
+  BackgroundThemes({this.decoration, this.centralizeTitle, this.titleColor, this.statusBarBrightness});
 
   final BoxDecoration decoration;
   final bool centralizeTitle;
   final Color titleColor;
+  final Brightness statusBarBrightness;
 }

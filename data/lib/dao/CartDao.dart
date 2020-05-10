@@ -25,4 +25,8 @@ class CartDao extends DaoBase<Cart> {
   @override
   CartMapper get mapper => inject();
 
+  Future<List<Map<String, dynamic>>> getProducts() async => await db.rawQuery(
+      "SELECT pr.id, pr.value, ct.amount FROM $tableName as ct INNER JOIN products as pr ON pr.id = ct.productId"
+    );
+
 }

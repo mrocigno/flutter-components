@@ -4,6 +4,7 @@ import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
 import 'package:infrastructure/flutter/components/inputs/InputController.dart';
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
 import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
+import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:mopei_app/src/ui/login/pagelogin/PageLoginBloc.dart';
 
@@ -78,8 +79,8 @@ class PageLoginScreen extends StatelessWidget {
                 flex: 1,
                 child: Container(
                   child: Hyperlink("Esqueceu a senha?",
-                      theme: HyperlinkTheme.loginTheme,
-                      onPress: () => navigationPage.navigateTo(0)),
+                    style: TextStyles.subtitleBlack,
+                    onPress: () => navigationPage.navigateTo(0)),
                 ),
               ),
               Expanded(
@@ -88,7 +89,7 @@ class PageLoginScreen extends StatelessWidget {
                   alignment: Alignment.centerRight,
                   child: Hyperlink(
                     "Criar conta",
-                    theme: HyperlinkTheme.loginTheme,
+                    style: TextStyles.subtitleBlack,
                     onPress: () => navigationPage.navigateTo(2),
                   ),
                 ),

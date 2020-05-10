@@ -14,5 +14,11 @@
   "main_title_0": "Mopei",
   "main_title_1": "Carrinho",
   "main_title_2": "SOS",
-  "main_title_3": "Perfil"
+  "main_title_3": "Perfil",
+
+  "nothing_in_cart": "Nenhum item adicionado ao carrinho",
+  "go_to_shop": "Ir as compras",
+  "sub_total": "Sub-total",
+  "receive_in_home": "Receber em casa",
+  "schedule_exchange": "Agendar troca"
 }

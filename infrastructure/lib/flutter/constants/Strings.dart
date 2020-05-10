@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,5 +30,10 @@ class Strings {
     }
     String stringsJson = await rootBundle.loadString("assets/strings/$localeName.json");
     strings = json.decode(stringsJson);
+  }
+
+  static String toMonetary(double value) {
+    final formatter = NumberFormat("#,##0.00", "pt_BR");
+    return "R\$ ${formatter.format(value)}";
   }
 }

@@ -11,6 +11,7 @@ import 'package:data/repository/ProductsRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:infrastructure/flutter/routing/AppRoute.dart';
 import 'package:mopei_app/src/ui/WhiteTable.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
 import 'package:mopei_app/src/ui/main/cart/CartBloc.dart';
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
 
     return MaterialApp(
       title: 'Flutter Demo',
+      navigatorObservers: [AppRoute()],
       theme: ThemeData(
         primarySwatch: Constants.Colors.PRIMARY_SWATCH,
         fontFamily: 'Lato',
@@ -94,6 +96,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
     module.singleton(() => FavoriteMapper());
     module.singleton(() => CategoryMapper());
     module.singleton(() => ProductMapper());
+
   };
 
 }

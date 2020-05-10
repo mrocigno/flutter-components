@@ -5,9 +5,11 @@ import 'dart:developer' as dev;
 import 'package:infrastructure/flutter/components/TabView.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
+import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
 import 'package:infrastructure/flutter/utils/Functions.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/cards/CardProduct.dart';
+import 'package:mopei_app/src/ui/details/ProductDetails.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 
 class PageHighlights extends TabChild {
@@ -35,7 +37,7 @@ class _PageHighlights extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(Strings.strings["highlights_title"],
-                style: TextStyles.titleBlack,
+                style: TextStyles.subtitleBlack,
               ),
               StreamBuilder(
                   stream: bloc.isLoading,
@@ -71,6 +73,9 @@ class _PageHighlights extends StatelessWidget{
                     var model = snapshot.data[index];
                     return CardProduct(
                       model: model,
+                      onCardClick: (product) => ScreenTransitions.push(context, ProductDetails(
+                        model: product,
+                      )),
                       onFavoriteButtonPressed: (favorite, active) {
                         if(active){
                           bloc.addToFavorite(favorite);
