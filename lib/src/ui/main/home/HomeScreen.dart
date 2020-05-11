@@ -5,10 +5,12 @@ import 'package:infrastructure/flutter/components/TabView.dart';
 import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/main/home/pagecategories/PageCategories.dart';
 import 'package:mopei_app/src/ui/main/home/pagefavorites/PageFavorites.dart';
 import 'package:mopei_app/src/ui/main/home/pagehighlights/PageHighlights.dart';
+import 'package:mopei_app/src/ui/search/SearchScreen.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -23,12 +25,18 @@ class HomeScreen extends StatelessWidget {
 
     return Column(
       children: [
-        Input(InputThemes.searchTheme,
-          icon: "assets/img/icSearchWhite.png",
-          margin: EdgeInsets.all(20),
-          onTapIcon: (){
-            dev.log("masue");
-          },
+        Hero(
+          tag: "SearchField",
+          child: Material(
+            color: Colors.transparent,
+            child: Input(InputThemes.searchTheme,
+              icon: "assets/img/icSearchWhite.png",
+              margin: EdgeInsets.all(20),
+              onTapIcon: (){
+                ScreenTransitions.push(context, SearchScreen(), animation: Animations.FADE);
+              },
+            ),
+          ),
         ),
         Expanded(
             child: BackgroundContainer(

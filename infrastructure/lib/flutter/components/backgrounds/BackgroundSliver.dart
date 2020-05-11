@@ -21,7 +21,7 @@ class BackgroundSliver extends StatelessWidget{
   final double expandedHeight;
   final Widget bottomNavigation;
   final BackgroundThemes theme;
-  final FlexibleSpaceBar flexibleSpaceBar;
+  final Widget flexibleSpaceBar;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class BackgroundSliver extends StatelessWidget{
               SliverAppBar(
                 brightness: Services.Brightness.light,
                 floating: false,
-                pinned: false,
+                pinned: _theme.pinned,
                 snap: false,
                 expandedHeight: expandedHeight,
                 centerTitle: _theme.centralizeTitle,

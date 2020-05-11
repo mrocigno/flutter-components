@@ -19,7 +19,7 @@ import 'package:infrastructure/flutter/routing/AppRoute.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 
-class ProductDetails extends BaseScreen {
+class ProductDetails extends BaseScreen with RouteObserverMixin {
 
   @override
   String get name => "ProductDetails";
@@ -41,9 +41,8 @@ class ProductDetails extends BaseScreen {
   }
 
   @override
-  StatelessElement createElement() {
+  void onCalled() {
     bloc.getCartData(model);
-    return super.createElement();
   }
 
   @override

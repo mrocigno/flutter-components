@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:infrastructure/flutter/utils/Functions.dart';
 
 class BackgroundLogin extends StatelessWidget{
   BackgroundLogin({
@@ -13,13 +14,14 @@ class BackgroundLogin extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
 
-    double padding =
-      Platform.isAndroid? (MediaQuery.of(context).viewInsets.bottom)
-        : (MediaQuery.of(context).padding.bottom);
+    double padding = MediaQuery.of(context).viewInsets.bottom + MediaQuery.of(context).padding.bottom;
 
-    double height = (MediaQuery.of(context).size.height / 2) + padding;
+    double height = heightByPercent(context, 50) + padding;
 
     return Container(
+      constraints: BoxConstraints(
+        minHeight: 370
+      ),
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
           color: Constants.Colors.BACKGROUND_WHITE,

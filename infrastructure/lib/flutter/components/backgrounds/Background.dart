@@ -72,11 +72,11 @@ class Background extends StatelessWidget{
             ),
             body: child,
             drawer: (showDrawer?
-            Drawer(
-              child: Container(
-                color: Colors.red,
-              ),
-            ) : null
+              Drawer(
+                child: Container(
+                  color: Colors.red,
+                ),
+              ) : null
             ),
           ),
         ],

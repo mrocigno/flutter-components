@@ -1,30 +1,17 @@
-import 'package:data/db/Config.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:infrastructure/flutter/base/BaseScreen.dart';
-import 'package:infrastructure/flutter/components/TabView.dart';
 import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
-import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
-import 'package:infrastructure/flutter/components/inputs/InputText.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:infrastructure/flutter/routing/AppRoute.dart';
-import 'dart:developer' as dev;
-
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
-import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/main/cart/CartScreen.dart';
 import 'package:mopei_app/src/ui/main/home/HomeScreen.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigation.dart';
-import 'package:mopei_app/src/ui/main/home/pagecategories/PageCategories.dart';
-import 'package:mopei_app/src/ui/main/home/pagefavorites/PageFavorites.dart';
-import 'package:mopei_app/src/ui/main/home/pagehighlights/PageHighlights.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 import 'package:mopei_app/src/ui/main/sos/SosScreen.dart';
 import 'package:mopei_app/src/ui/main/user/UserScreen.dart';
-import 'package:path/path.dart';
 
 
 class MainScreen extends BaseScreen with RouteObserverMixin {
@@ -73,6 +60,11 @@ class MainScreen extends BaseScreen with RouteObserverMixin {
 
   @override
   void onComeback() {
+    navigationBloc.checkCart();
+  }
+
+  @override
+  void onCalled() {
     navigationBloc.checkCart();
   }
 

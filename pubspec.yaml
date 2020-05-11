@@ -28,7 +28,6 @@ dependencies:
 
   rxdart: ^0.18.0
 
-
   data:
     path: data
   infrastructure:

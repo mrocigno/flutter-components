@@ -65,7 +65,6 @@ class AppRoute extends RouteObserver<PageRoute<dynamic>> {
     if (previousRoute is PageRoute && route is PageRoute) {
       _sendScreenView(route, Type.CALLED);
       _sendScreenView(previousRoute, Type.PAUSING);
-
     }
   }
   

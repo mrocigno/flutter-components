@@ -35,20 +35,14 @@ class CartScreen extends StatelessWidget  {
       padding: EdgeInsets.only(top: 20),
       child: Column(
         children: <Widget>[
-          Stack(
-            alignment: Alignment.bottomCenter,
-            children: <Widget>[
-              Image.asset("assets/img/icSadFace.webp", width: 200, height: 200),
-              Container(
-                margin: const EdgeInsets.only(top: 50, left: 20, right: 20),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Constants.Colors.COLOR_PRIMARY.withOpacity(.8),
-                  borderRadius: BorderRadius.all(Radius.circular(10))
-                ),
-                child: Text(Strings.strings["nothing_in_cart"], style: TextStyles.subtitleWhite, textAlign: TextAlign.center),
-              )
-            ],
+          Image.asset("assets/img/icSadFace.webp", width: 200, height: 200),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: Constants.Colors.COLOR_PRIMARY.withOpacity(.8),
+                borderRadius: BorderRadius.all(Radius.circular(10))
+            ),
+            child: Text(Strings.strings["nothing_in_cart"], style: TextStyles.subtitleWhite, textAlign: TextAlign.center),
           ),
           Expanded(
             flex: 1,

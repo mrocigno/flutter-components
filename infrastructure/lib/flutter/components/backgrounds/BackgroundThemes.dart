@@ -30,6 +30,16 @@ class BackgroundThemes {
     )
   );
 
+  static BackgroundThemes search = BackgroundThemes(
+    statusBarBrightness: Brightness.light,
+    centralizeTitle: true,
+    pinned: true,
+    titleColor: Constants.Colors.COLOR_PRIMARY,
+    decoration: BoxDecoration(
+      color: Colors.white
+    )
+  );
+
   static BackgroundThemes loginPage = BackgroundThemes(
     statusBarBrightness: Brightness.light,
     centralizeTitle: false,
@@ -43,10 +53,12 @@ class BackgroundThemes {
     )
   );
 
-  BackgroundThemes({this.decoration, this.centralizeTitle, this.titleColor, this.statusBarBrightness});
+  BackgroundThemes({this.decoration, this.centralizeTitle, this.titleColor, this.statusBarBrightness, this.pinned = false});
 
   final BoxDecoration decoration;
   final bool centralizeTitle;
   final Color titleColor;
   final Brightness statusBarBrightness;
+  final bool pinned;
+
 }

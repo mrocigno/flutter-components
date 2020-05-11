@@ -4,6 +4,7 @@
 import "dart:developer" as dev;
 
 import 'package:flutter/cupertino.dart';
+import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
 
@@ -37,19 +38,24 @@ class CustomFlexibleState extends State<CustomFlexible> {
             child: Container(
               alignment: Alignment.center,
               height: 56,
-              child: Text("Mopei", style: TextStyle(fontSize: 20, color: Colors.white),),
+              child: Text("Mopei", style: TextStyle(fontSize: 20, color: Constants.Colors.PRIMARY_SWATCH),),
             )
           ),
           Container(
             alignment: Alignment.bottomCenter,
-            margin: EdgeInsets.all(10),
             padding: EdgeInsets.only(left: (50 * t), right: (50 * t)),
-            child: Input(InputThemes.searchTheme,
-              padding: EdgeInsets.all(0),
-              icon: "assets/img/icSearchWhite.png",
-              onTapIcon: (){
-                dev.log("masue");
-              },
+            child: Hero(
+              tag: "SearchField",
+              child: Material(
+                color: Colors.transparent,
+                child: Input(InputThemes.searchTheme,
+                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  icon: "assets/img/icSearchWhite.png",
+                  onTapIcon: (){
+                    dev.log("masue");
+                  },
+                ),
+              ),
             ),
           )
         ],

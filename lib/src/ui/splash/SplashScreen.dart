@@ -35,7 +35,6 @@ class SplashScreen extends BaseScreen {
 
   @override
   Widget build(BuildContext context) {
-
     Strings.initialize().then((value) {
       startAnimate.add(true);
     });

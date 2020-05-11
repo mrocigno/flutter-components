@@ -10,19 +10,24 @@ import 'package:data/repository/FavoritesRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:infrastructure/flutter/components/containers/TopSnackBar.dart';
+import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:infrastructure/flutter/observer/ConnectionObserver.dart';
 import 'package:infrastructure/flutter/routing/AppRoute.dart';
-import 'package:mopei_app/src/ui/WhiteTable.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
 import 'package:mopei_app/src/ui/main/cart/CartBloc.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:rxdart/rxdart.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget with WidgetsBindingObserver{
+class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindingObserver{
+
+  final BehaviorSubject<bool> _hasConnection = BehaviorSubject();
 
   static void configSystemStyleUI(){
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -34,7 +39,6 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
 
   @override
   StatelessElement createElement() {
-    //TODO if need context, create a method to initialize one time in build
     Injection.initialize(initializer);
     SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.top]);
     return super.createElement();
@@ -46,6 +50,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
 
     configSystemStyleUI();
     WidgetsBinding.instance.addObserver(this);
+    ConnectionBinding.instance.addObserver(this);
 
     return MaterialApp(
       title: 'Flutter Demo',
@@ -55,7 +60,32 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
         fontFamily: 'Lato',
       ),
       home: SplashScreen(),
-//      home: WhiteTable(),
+      builder: (context, child) {
+        return Stack(
+          children: <Widget>[
+            child,
+            StreamBuilder(
+              stream: _hasConnection.stream,
+              initialData: true,
+              builder: (context, snapshot) {
+                if(snapshot.data) return Wrap();
+                return TopSnackBar(
+                  autoClose: false,
+                  onClickCloseButton: () => _hasConnection.add(true),
+                  child: Wrap(
+                    direction: Axis.horizontal,
+                    spacing: 10,
+                    children: [
+                      Icon(Icons.wifi, color: Colors.white, size: 24),
+                      Text("Sem conexão", style: TextStyles.subtitleWhite)
+                    ],
+                  )
+                );
+              },
+            )
+          ],
+        );
+      },
     );
   }
 
@@ -69,6 +99,18 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver{
   // ignore: missing_return
   Future<bool> didPushRoute(String route) {
     configSystemStyleUI();
+  }
+
+  @override
+  void onLostConnection() {
+    dev.log("lost");
+    _hasConnection.add(false);
+  }
+
+  @override
+  void onGrantConnection() {
+    dev.log("grant");
+    _hasConnection.add(true);
   }
 
   final InjectionInitializer initializer = (module) {
