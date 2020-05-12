@@ -8,8 +8,9 @@ typedef InputValidateBuild = void Function(_ValidateWrapper wrapper);
 class InputController extends TextEditingController{
 
   InputController({
-    this.validateBuild
-  }) {
+    this.validateBuild,
+    String text
+  }) : super(text: text) {
     if(validateBuild != null){
       _validateWrapper = _ValidateWrapper(this);
       validateBuild(_validateWrapper);

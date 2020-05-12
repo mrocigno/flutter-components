@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
 typedef LaunchData = Future<void> Function();
@@ -6,9 +7,10 @@ typedef LaunchData = Future<void> Function();
 abstract class BaseBloc {
 
   // ignore: close_sinks
-  PublishSubject<bool> _isLoading = PublishSubject();
+  BehaviorSubject<bool> _isLoading = BehaviorSubject();
   Observable<bool> get isLoading => _isLoading.stream;
 
+  @protected
   void launchData(LaunchData function) async {
     _isLoading.sink.add(true);
     await function();

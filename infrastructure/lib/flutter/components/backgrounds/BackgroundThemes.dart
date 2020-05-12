@@ -24,6 +24,9 @@ class BackgroundThemes {
   static BackgroundThemes details = BackgroundThemes(
     statusBarBrightness: Brightness.light,
     centralizeTitle: true,
+    pinned: true,
+    elevation: 3,
+    appBarColor: Colors.white,
     titleColor: Constants.Colors.COLOR_PRIMARY,
     decoration: BoxDecoration(
       color: Constants.Colors.BACKGROUND_WHITE_GRAY
@@ -35,6 +38,8 @@ class BackgroundThemes {
     centralizeTitle: true,
     pinned: true,
     titleColor: Constants.Colors.COLOR_PRIMARY,
+    appBarColor: Constants.Colors.WHITE_TRANSPARENT_HIGH,
+    elevation: 0,
     decoration: BoxDecoration(
       color: Colors.white
     )
@@ -53,12 +58,14 @@ class BackgroundThemes {
     )
   );
 
-  BackgroundThemes({this.decoration, this.centralizeTitle, this.titleColor, this.statusBarBrightness, this.pinned = false});
+  BackgroundThemes({this.decoration, this.centralizeTitle, this.titleColor, this.statusBarBrightness, this.pinned = false, this.elevation = 1, this.appBarColor = Colors.transparent});
 
   final BoxDecoration decoration;
   final bool centralizeTitle;
   final Color titleColor;
   final Brightness statusBarBrightness;
   final bool pinned;
+  final double elevation;
+  final Color appBarColor;
 
 }

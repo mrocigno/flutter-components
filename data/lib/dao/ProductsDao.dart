@@ -54,6 +54,15 @@ class ProductsDao extends DaoBase<Product> {
     return _transformMap(query);
   }
 
+  Future<List<Product>> search(String search) async {
+    var query = await db.rawQuery(
+      "SELECT pd.* FROM $tableName as pd WHERE name like ?",
+      ["%$search%"]
+    );
+
+    return _transformMap(query);
+  }
+
   Future<List<Product>> _transformMap(List<Map<String, dynamic>> map) async {
     List<Product> result = [];
     for(int i = 0; i < map.length; i++) {

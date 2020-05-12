@@ -20,5 +20,6 @@
   "go_to_shop": "Ir as compras",
   "sub_total": "Sub-total",
   "receive_in_home": "Receber em casa",
-  "schedule_exchange": "Agendar troca"
+  "schedule_exchange": "Agendar troca",
+  "empty_search": "Não encontramos nada para essa pesquisa"
 }

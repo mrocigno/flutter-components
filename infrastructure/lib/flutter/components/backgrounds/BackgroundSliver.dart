@@ -36,10 +36,11 @@ class BackgroundSliver extends StatelessWidget{
           clipBehavior: Clip.hardEdge,
         ),
         Scaffold(
+          resizeToAvoidBottomInset: false,
           backgroundColor: Colors.transparent,
           bottomNavigationBar: bottomNavigation,
-          body: CustomScrollView(
-            slivers: <Widget>[
+          body: NestedScrollView(
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
               SliverAppBar(
                 brightness: Services.Brightness.light,
                 floating: false,
@@ -53,14 +54,12 @@ class BackgroundSliver extends StatelessWidget{
                       color: _theme.titleColor
                   ),
                 ),
-                backgroundColor: Colors.transparent,
-                elevation: 1,
+                backgroundColor: _theme.appBarColor,
+                elevation: _theme.elevation,
                 flexibleSpace: flexibleSpaceBar,
-              ),
-              SliverToBoxAdapter(
-                child: child,
               )
             ],
+            body: child
           ),
         )
       ],

@@ -19,6 +19,7 @@ import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
 import 'package:mopei_app/src/ui/main/cart/CartBloc.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
+import 'package:mopei_app/src/ui/search/SearchScreenBloc.dart';
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:rxdart/rxdart.dart';
@@ -132,7 +133,9 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
     module.singleton(() => HomeBloc());
     module.singleton(() => CartBloc());
     module.singleton(() => MainNavigationBloc());
+
     module.factory(() => ProductDetailsBloc());
+    module.factory(() => SearchScreenBloc());
 
     module.singleton(() => CartMapper());
     module.singleton(() => FavoriteMapper());

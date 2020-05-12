@@ -16,7 +16,8 @@ class Input extends StatelessWidget {
     this.margin,
     this.padding,
     this.controller,
-    this.obscureText = false
+    this.obscureText = false,
+    this.onFieldSubmitted
   });
 
   final InputThemes theme;
@@ -27,6 +28,7 @@ class Input extends StatelessWidget {
   final onTapIcon;
   final EdgeInsets margin;
   final EdgeInsets padding;
+  final ValueChanged<String> onFieldSubmitted;
   InputController controller;
 
   @override
@@ -61,6 +63,7 @@ class Input extends StatelessWidget {
                       cursorColor: theme.textColor,
                       keyboardType: keyboardType,
                       obscureText: obscureText,
+                      onFieldSubmitted: onFieldSubmitted,
                       validator: (value) {
                         controller.validate();
                         return ;
@@ -134,7 +137,7 @@ class InputThemes {
       iconFit: BoxFit.contain,
       background: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10)),
-        color: Constants.Colors.WHITE_TRANSPARENT
+        color: Constants.Colors.WHITE_TRANSPARENT_MEDIUM
       )
   );
 
@@ -144,7 +147,7 @@ class InputThemes {
     iconFit: BoxFit.contain,
     background: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(10)),
-      color: Constants.Colors.BLACK_TRANSPARENT
+      color: Constants.Colors.BLACK_TRANSPARENT_LOW
     )
   );
 
@@ -154,21 +157,36 @@ class InputThemes {
       iconFit: BoxFit.contain,
       background: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(10)),
-          color: Constants.Colors.BLACK_TRANSPARENT
+          color: Constants.Colors.BLACK_TRANSPARENT_LOW
       )
   );
 
-  static InputThemes searchTheme = InputThemes(
+  static InputThemes searchLightTheme = InputThemes(
     textColor: Colors.white,
     hintColor: Color.fromRGBO(255, 255, 255, .5),
     iconFit: BoxFit.scaleDown,
     background: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(10)),
-      color: Constants.Colors.BLACK_TRANSPARENT,
+      color: Constants.Colors.BLACK_TRANSPARENT_LOW,
       border: Border.all(
         width: 1,
         style: BorderStyle.solid,
-        color: Constants.Colors.WHITE_TRANSPARENT
+        color: Constants.Colors.WHITE_TRANSPARENT_MEDIUM
+      )
+    )
+  );
+
+  static InputThemes searchDarkTheme = InputThemes(
+    textColor: Colors.black,
+    hintColor: Color.fromRGBO(0, 0, 0, .5),
+    iconFit: BoxFit.scaleDown,
+    background: BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+      color: Constants.Colors.BLACK_TRANSPARENT_LOWER,
+      border: Border.all(
+        width: 1,
+        style: BorderStyle.solid,
+        color: Constants.Colors.BLACK_TRANSPARENT_LOW
       )
     )
   );

@@ -115,32 +115,32 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
                   ),
                 ),
                 Hero(
-                  tag: "favoriteStar ${model?.id}",
-                  child: StreamBuilder<bool>(
-                    stream: bloc.favorite,
-                    initialData: model.favorite != null,
-                    builder: (context, snapshot) {
-                      return Container(
-                        child: Material(
-                          borderRadius: BorderRadius.all(Radius.circular(25)),
-                          elevation: 3,
-                          child: FavoriteButton(
-                            active: snapshot.data,
-                            onPressed: (active) {
-                              var favorite = Favorite(productId: model.id);
-                              if (active) {
-                                bloc.addToFavorite(favorite);
-                                model.favorite = favorite;
-                              } else {
-                                bloc.removeFromFavorite(favorite);
-                                model.favorite = null;
-                              }
-                            },
+                    tag: "favoriteStar ${model?.id}",
+                    child: StreamBuilder<bool>(
+                      stream: bloc.favorite,
+                      initialData: model.favorite != null,
+                      builder: (context, snapshot) {
+                        return Container(
+                          child: Material(
+                            borderRadius: BorderRadius.all(Radius.circular(25)),
+                            elevation: 3,
+                            child: FavoriteButton(
+                              active: snapshot.data,
+                              onPressed: (active) {
+                                var favorite = Favorite(productId: model.id);
+                                if (active) {
+                                  bloc.addToFavorite(favorite);
+                                  model.favorite = favorite;
+                                } else {
+                                  bloc.removeFromFavorite(favorite);
+                                  model.favorite = null;
+                                }
+                              },
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  )
+                        );
+                      },
+                    )
                 )
               ],
             ),

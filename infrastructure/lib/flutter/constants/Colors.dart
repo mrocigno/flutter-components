@@ -22,8 +22,12 @@ class Colors {
   static const Color GRADIENT_BUTTON_INI = Color.fromRGBO(155, 111, 255, 1);
   static const Color GRADIENT_BUTTON_END = Color.fromRGBO(104, 91, 255, 1);
 
-  static const Color WHITE_TRANSPARENT = Color.fromRGBO(255, 255, 255, .5);
-  static const Color BLACK_TRANSPARENT = Color.fromRGBO(0, 0, 0, .2);
+  static const Color WHITE_TRANSPARENT_LOW = Color.fromRGBO(255, 255, 255, .3);
+  static const Color WHITE_TRANSPARENT_MEDIUM = Color.fromRGBO(255, 255, 255, .5);
+  static const Color WHITE_TRANSPARENT_HIGH = Color.fromRGBO(255, 255, 255, .9);
+
+  static const Color BLACK_TRANSPARENT_LOWER = Color.fromRGBO(0, 0, 0, .1);
+  static const Color BLACK_TRANSPARENT_LOW = Color.fromRGBO(0, 0, 0, .2);
 
   static const Color RED_ERROR = Color.fromRGBO(246, 75, 99, 1);
 

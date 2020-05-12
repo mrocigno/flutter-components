@@ -21,18 +21,21 @@ class TopSnackBar extends StatelessWidget {
           color: Colors.blueGrey,
           width: double.infinity,
           child: SafeArea(
-              child: Material(
-                color: Colors.transparent,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Row(
-                    children: [
-                      Expanded(flex: 1, child: child),
-                      IconButton(icon: Icon(Icons.close, color: Colors.white), onPressed: onClickCloseButton)
-                    ],
-                  ),
+            bottom: false,
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(10),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(flex: 1, child: child),
+                    IconButton(icon: Icon(Icons.close, color: Colors.white), onPressed: onClickCloseButton)
+                  ],
                 ),
-              )
+              ),
+            )
           ),
         )
       ],

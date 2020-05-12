@@ -90,7 +90,7 @@ class CardProductState extends State<CardProduct> {
                     children: [
                       Container(
                         width: 1,
-                        color: Constants.Colors.BLACK_TRANSPARENT,
+                        color: Constants.Colors.BLACK_TRANSPARENT_LOW,
                         margin: EdgeInsets.symmetric(vertical: 20),
                       ),
                       Expanded(
