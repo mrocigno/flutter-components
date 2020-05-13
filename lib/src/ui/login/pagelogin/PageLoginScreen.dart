@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/components/inputs/FormValidate.dart';
 import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
@@ -5,29 +7,41 @@ import 'package:infrastructure/flutter/components/inputs/InputController.dart';
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
 import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
+import 'package:infrastructure/flutter/constants/Strings.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:mopei_app/src/ui/login/pagelogin/PageLoginBloc.dart';
 
-// ignore: must_be_immutable
+
 class PageLoginScreen extends StatelessWidget {
-  PageLoginScreen({this.navigationPage});
+  PageLoginScreen(this.context, {this.navigationPage, this.onSuccess});
 
+  final BuildContext context;
+  final Function onSuccess;
   final CustomPageController navigationPage;
-  final PageLoginBloc pageLoginBloc = PageLoginBloc();
+  final PageLoginBloc pageLoginBloc = inject();
 
-  InputController emailController = InputController(
+  final InputController emailController = InputController(
     validateBuild: (wrapper) {
       wrapper.isEmail("Email inválido");
       wrapper.required("Informe o email");
     },
   );
-  InputController passController = InputController(
+  final InputController passController = InputController(
     validateBuild: (wrapper) => wrapper.required("Informe a senha")
   );
 
   @override
-  Widget build(BuildContext context) {
+  StatelessElement createElement() {
+    pageLoginBloc.user.observeSuccess((data) {
+      Navigator.pop(context);
+      onSuccess?.call();
+    });
+    return super.createElement();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     var formKey = GlobalKey<FormValidateState>();
 
     return FormValidate(
@@ -37,7 +51,7 @@ class PageLoginScreen extends StatelessWidget {
         children: <Widget>[
           Center(
             child: Text(
-              "Mopei",
+              Strings.strings["app_name"],
               style: TextStyle(fontSize: 40),
             ),
           ),
@@ -67,9 +81,14 @@ class PageLoginScreen extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 20),
             child: MopeiButton(
               text: "Entrar",
-              isLoading: pageLoginBloc.isLoading,
+              isLoading: pageLoginBloc.user.loading,
               onTap: () {
-                print("${formKey.currentState.validate()}");
+                if(formKey.currentState.validate()){
+                  pageLoginBloc.doLogin(
+                    email: emailController.value.text,
+                    password: passController.value.text
+                  );
+                }
               },
             ),
           ),

@@ -6,25 +6,34 @@ class BackgroundContainer extends StatelessWidget {
 
   final Widget child;
   final EdgeInsets padding;
+  final BackgroundContainerTheme theme;
 
   BackgroundContainer({
     this.child,
-    this.padding
+    this.padding,
+    this.theme = BackgroundContainerTheme.CURVED
   });
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        Padding(
-          padding: EdgeInsets.only(left: 20),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(20))
+        (theme == BackgroundContainerTheme.FLAT? (
+          Container(
+            color: Constants.Colors.BACKGROUND_WHITE_GRAY,
+            margin: EdgeInsets.only(top: 100),
+          )
+        ) : (
+          Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(20))
+              ),
             ),
-          ),
-        ),
+          )
+        )),
         Container(
           child: child,
           padding: padding,
@@ -32,4 +41,9 @@ class BackgroundContainer extends StatelessWidget {
       ],
     );
   }
+}
+
+enum BackgroundContainerTheme {
+  CURVED,
+  FLAT
 }

@@ -29,7 +29,7 @@ class SearchScreen extends BaseScreen with RouteObserverMixin {
   final String initialData;
   final GlobalKey<FlexibleSpaceSearchBarState> _searchHeaderKey = GlobalKey();
 
-  SearchScreen({this.initialData});
+  SearchScreen({this.initialData = ""});
 
   @override
   void onCalled() {
@@ -54,21 +54,20 @@ class SearchScreen extends BaseScreen with RouteObserverMixin {
       child: Text("Colocar um histórico de pesquisa aqui", style: TextStyles.subtitleBlack, textAlign: TextAlign.center)
     );
     Widget emptyList = Container(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 20),
-        child: Column(
-          children: <Widget>[
-            Image.asset("assets/img/icSadFace.webp", width: 200, height: 200),
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Constants.Colors.COLOR_PRIMARY.withOpacity(.8),
-                  borderRadius: BorderRadius.all(Radius.circular(10))
-              ),
-              child: Text(Strings.strings["empty_search"], style: TextStyles.subtitleWhite, textAlign: TextAlign.center),
+      padding: const EdgeInsets.all(10),
+      child: Column(
+        children: <Widget>[
+          Image.asset("assets/img/icSadFace.webp", width: 200, height: 200),
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: Constants.Colors.COLOR_PRIMARY.withOpacity(.8),
+                borderRadius: BorderRadius.all(Radius.circular(10))
             ),
-          ],
-        ),
+            child: Text(Strings.strings["empty_search"], style: TextStyles.subtitleWhite, textAlign: TextAlign.center),
+          ),
+        ],
       ),
     );
 

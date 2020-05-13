@@ -11,18 +11,22 @@ else
 import \"dart:developer\" as dev;
 import \"package:data/dao/$1Dao.dart\";
 import \"package:data/db/Config.dart\";
+import 'package:infrastructure/flutter/di/Injection.dart';
+
 class $1Repository {
-    final $1Local local;
-    final $1Remote remote;
-    $1Repository({
-        this.local,
-        this.remote
-    });
+
+    final $1Local _local = inject();
+    final $1Remote _remote = inject();
+
 }
+
 class $1Local {
-    $1Dao dao = Config.daoProvider();
+    $1Dao _dao = Config.daoProvider();
+
 }
+
 class $1Remote {
+
 }
 " \
 > $FILE

@@ -67,6 +67,7 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
                       child: Hyperlink(Strings.strings["keep_buying"],
                         style: TextStyles.poppinsMedium,
                         wrapAlignment: WrapAlignment.center,
+                        onPress: () => Navigator.pop(context),
                       ),
                     ),
                     Expanded(
@@ -110,7 +111,7 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(model?.provider ?? "", style: TextStyles.poppinsMedium),
-                      Text(model?.name ?? "", style: TextStyles.title),
+                      Text(model?.name ?? "", style: TextStyles.titleBlack),
                     ],
                   ),
                 ),

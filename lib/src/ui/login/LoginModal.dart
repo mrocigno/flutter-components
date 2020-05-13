@@ -34,7 +34,7 @@ class LoginModal {
               physics: NeverScrollableScrollPhysics(),
               children: <Widget>[
                 PageForgotPasswordScreen(navigationPage: navigationPage),
-                PageLoginScreen(navigationPage: navigationPage),
+                PageLoginScreen(context, navigationPage: navigationPage, onSuccess: onSuccess),
                 PageCreateAccountScreen(navigationPage: navigationPage)
               ],
             )

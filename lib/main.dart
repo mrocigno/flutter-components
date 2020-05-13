@@ -4,10 +4,12 @@ import 'package:data/mapper/CartMapper.dart';
 import 'package:data/mapper/CategoryMapper.dart';
 import 'package:data/mapper/FavoriteMapper.dart';
 import 'package:data/mapper/ProductMapper.dart';
+import 'package:data/mapper/UserMapper.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/CategoryRepository.dart';
 import 'package:data/repository/FavoritesRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
+import 'package:data/repository/UserRepository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infrastructure/flutter/components/containers/TopSnackBar.dart';
@@ -16,9 +18,11 @@ import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:infrastructure/flutter/observer/ConnectionObserver.dart';
 import 'package:infrastructure/flutter/routing/AppRoute.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
+import 'package:mopei_app/src/ui/login/pagelogin/PageLoginBloc.dart';
 import 'package:mopei_app/src/ui/main/cart/CartBloc.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
+import 'package:mopei_app/src/ui/main/user/UserScreenBloc.dart';
 import 'package:mopei_app/src/ui/search/SearchScreenBloc.dart';
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
@@ -69,6 +73,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
               stream: _hasConnection.stream,
               initialData: true,
               builder: (context, snapshot) {
+
                 if(snapshot.data) return Wrap();
                 return TopSnackBar(
                   autoClose: false,
@@ -125,22 +130,29 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
     module.singleton(() => FavoritesLocal());
     module.singleton(() => FavoritesRemote());
 
+    module.singleton(() => UserLocal());
+    module.singleton(() => UserRemote());
+
     module.singleton(() => ProductsRepository());
     module.singleton(() => CategoryRepository());
     module.singleton(() => FavoritesRepository());
     module.singleton(() => CartRepository());
+    module.singleton(() => UserRepository());
 
     module.singleton(() => HomeBloc());
     module.singleton(() => CartBloc());
     module.singleton(() => MainNavigationBloc());
+    module.singleton(() => UserScreenBloc());
 
     module.factory(() => ProductDetailsBloc());
     module.factory(() => SearchScreenBloc());
+    module.factory(() => PageLoginBloc());
 
     module.singleton(() => CartMapper());
     module.singleton(() => FavoriteMapper());
     module.singleton(() => CategoryMapper());
     module.singleton(() => ProductMapper());
+    module.singleton(() => UserMapper());
 
   };
 
