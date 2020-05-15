@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:developer' as dev;
-import 'package:infrastructure/flutter/components/backgrounds/BackgroundLogin.dart';
+import 'package:infrastructure/flutter/components/backgrounds/BackgroundActionSheet.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
+import 'package:infrastructure/flutter/utils/Functions.dart';
 import 'package:mopei_app/main.dart';
 import 'package:mopei_app/src/ui/login/pagecreateaccount/PageCreateAccountScreen.dart';
 import 'package:mopei_app/src/ui/login/pageforgotpassword/PageForgotPasswordScreen.dart';
@@ -19,26 +20,30 @@ class LoginModal {
     int page = 1;
     final navigationPage = CustomPageController(page);
 
-    BackgroundLogin modalView = BackgroundLogin(
-        child: WillPopScope(
-            onWillPop: () async {
-              await navigationPage.navigateTo(1);
-              return page == 1;
+    double height = heightByPercent(context, 50);
+
+    BackgroundActionSheet modalView = BackgroundActionSheet(
+      constraints: BoxConstraints(minHeight: 370),
+      height: height,
+      child: WillPopScope(
+          onWillPop: () async {
+            await navigationPage.navigateTo(1);
+            return page == 1;
+          },
+          child: PageView(
+            onPageChanged: (index) {
+              page = index;
+              MyApp.configSystemStyleUI();
             },
-            child: PageView(
-              onPageChanged: (index) {
-                page = index;
-                MyApp.configSystemStyleUI();
-              },
-              controller: navigationPage,
-              physics: NeverScrollableScrollPhysics(),
-              children: <Widget>[
-                PageForgotPasswordScreen(navigationPage: navigationPage),
-                PageLoginScreen(context, navigationPage: navigationPage, onSuccess: onSuccess),
-                PageCreateAccountScreen(navigationPage: navigationPage)
-              ],
-            )
-        )
+            controller: navigationPage,
+            physics: NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              PageForgotPasswordScreen(navigationPage: navigationPage),
+              PageLoginScreen(context, navigationPage: navigationPage, onSuccess: onSuccess),
+              PageCreateAccountScreen(navigationPage: navigationPage)
+            ],
+          )
+      )
     );
 
 

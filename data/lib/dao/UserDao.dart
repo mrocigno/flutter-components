@@ -16,11 +16,26 @@ class UserDao extends DaoBase<User> {
         "name TEXT, "
         "phone TEXT, "
         "gender INTEGER, "
-        "photoPath TEXT"
+        "photoPath TEXT, "
+        "logged INTEGER, "
+        "token TEXT"
       ")";
 
   @override
   UserMapper get mapper => inject();
 
+  Future<User> getSession() async {
+    var user = await db.query(tableName,
+      where: "logged = 1"
+    );
+    if(user.length > 0) return mapper.fromDataMap(user[0]);
+    return null;
+  }
+
+  void closeSession() {
+    db.delete(tableName,
+      where: "logged = 1"
+    );
+  }
 
 }

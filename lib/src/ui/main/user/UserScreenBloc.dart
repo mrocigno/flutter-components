@@ -3,16 +3,27 @@
 */
 import "dart:developer" as dev;
 
+import 'package:data/entity/User.dart';
+import 'package:data/repository/UserRepository.dart';
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:rxdart/rxdart.dart';
 
 class UserScreenBloc extends BaseBloc {
 
-  BehaviorSubject<bool> _isSigned = BehaviorSubject();
-  Observable<bool> get isSigned => _isSigned.stream;
+  UserRepository _userRepository = inject();
+  BehaviorSubject<User> _user = BehaviorSubject();
+  Observable<User> get user => _user.stream;
 
-  void setSigned() {
-    _isSigned.add(true);
+  void getSession() {
+    launchData(() async {
+      _user.add(await _userRepository.getSession());
+    });
+  }
+
+  void closeSession() {
+    _userRepository.closeSession();
+    _user.add(null);
   }
 
 }

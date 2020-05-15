@@ -14,7 +14,9 @@ class UserMapper extends Mapper<User> {
     email: input["email"],
     gender: input["gender"],
     phone: input["phone"],
-    photoPath: input["photoPath"]
+    photoPath: input["photoPath"],
+    logged: input["logged"] == 1,
+    token: input["token"]
   );
 
   @override
@@ -24,7 +26,8 @@ class UserMapper extends Mapper<User> {
       email: input["email"],
       gender: input["gender"],
       phone: input["phone"],
-      photoPath: input["photoPath"]
+      photoPath: input["photoPath"],
+      token: input["token"]
   );
 
   @override
@@ -34,7 +37,9 @@ class UserMapper extends Mapper<User> {
     "email": input.email,
     "gender": input.gender,
     "phone": input.phone,
-    "photoPath": input.photoPath
+    "photoPath": input.photoPath,
+    "logged": input.logged? 1 : 0,
+    "token": input.token
   };
 
 }

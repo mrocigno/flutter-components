@@ -11,6 +11,8 @@ class User {
   String phone;
   int gender;
   String photoPath;
+  bool logged;
+  String token;
 
   User({
     this.id,
@@ -18,7 +20,9 @@ class User {
     this.name,
     this.gender,
     this.phone,
-    this.photoPath
+    this.photoPath,
+    this.logged,
+    this.token
   });
 
 }

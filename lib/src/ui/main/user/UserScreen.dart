@@ -1,8 +1,12 @@
 import 'dart:developer' as dev;
 
+import 'package:data/entity/User.dart';
 import 'package:flutter/material.dart';
+import 'package:infrastructure/flutter/components/alert/Alert.dart';
+import 'package:infrastructure/flutter/components/alert/AlertBottomSheet.dart';
 import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
 import 'package:infrastructure/flutter/components/image/UserIcon.dart';
+import 'package:infrastructure/flutter/components/menu/ExpandableMenu.dart';
 import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
@@ -15,16 +19,22 @@ class UserScreen extends StatelessWidget {
   final UserScreenBloc bloc = inject();
 
   void onSuccessLogin() {
-    bloc.setSigned();
+    bloc.getSession();
+  }
+
+  @override
+  StatelessElement createElement() {
+    bloc.getSession();
+    return super.createElement();
   }
 
   @override
   Widget build(BuildContext context) {
 
-    return StreamBuilder<bool>(
-      stream: bloc.isSigned,
+    return StreamBuilder<User>(
+      stream: bloc.user,
       builder: (context, snapshot) {
-        if(!snapshot.hasData || !snapshot.data) return Center(
+        if(!snapshot.hasData || snapshot.data == null) return Center(
           child: Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             direction: Axis.vertical,
@@ -44,6 +54,8 @@ class UserScreen extends StatelessWidget {
           ),
         );
 
+        var user = snapshot.data;
+
         return Column(
           children: <Widget>[
             Container(
@@ -51,8 +63,8 @@ class UserScreen extends StatelessWidget {
               child: Row(
                 children: [
                   UserIcon(
-                    userName: "Matheus Rocigno",
-                    imagePath: "",
+                    userName: user.name,
+                    imagePath: user.photoPath,
                     onPressed: () => dev.log("Teste"),
                   ),
                   Expanded(
@@ -63,7 +75,7 @@ class UserScreen extends StatelessWidget {
                         spacing: 6,
                         direction: Axis.vertical,
                         children: [
-                          Text("Matheus rocigno", style: TextStyles.subtitleWhiteBold,),
+                          Text(user.name, style: TextStyles.subtitleWhiteBold,),
                           Hyperlink("Ver seu perfil", style: TextStyles.poppinsMedium,)
                         ],
                       ),
@@ -113,6 +125,41 @@ class UserScreen extends StatelessWidget {
                   ],
                 ),
               ),
+            ),
+            ExpandableMenu(
+              menus: [
+                ExpandableMenuItem(
+                  title: "Configurações",
+                  icon: Stack(
+                    alignment: Alignment.bottomLeft,
+                    children: <Widget>[
+                      Icon(Icons.brightness_5, size: 20, color: Constants.Colors.WHITE_TRANSPARENT_MEDIUM,),
+                      Icon(Icons.build, size: 30, color: Colors.white,),
+                    ],
+                  ),
+                  items: [
+                    ExpandableItem(
+                      icon: Icon(Icons.exit_to_app, size: 30, color: Colors.black,),
+                      title: "Sair",
+                      onPress: () {
+                        AlertBottomSheet(context,
+                          alertConfig: Alert(
+                            title: "Você tem certeza?",
+                            text: "Você está prestes a sair da sua conta, deseja realmente sair?",
+                            primaryButton: AlertButton(
+                              text: "Não",
+                            ),
+                            secondButton: AlertButton(
+                              text: "Sim",
+                              onPress: () => bloc.closeSession()
+                            )
+                          )
+                        ).show();
+                      }
+                    )
+                  ]
+                )
+              ],
             )
           ],
         );
