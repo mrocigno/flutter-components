@@ -14,6 +14,7 @@ class BackgroundSliver extends StatelessWidget{
     this.bottomNavigation,
     this.flexibleSpaceBar,
     this.expandedHeight,
+    this.actions
   }) : super(key: key);
 
   final Widget child;
@@ -21,6 +22,7 @@ class BackgroundSliver extends StatelessWidget{
   final double expandedHeight;
   final Widget bottomNavigation;
   final BackgroundThemes theme;
+  final List<AppBarAction> actions;
   final Widget flexibleSpaceBar;
 
   @override
@@ -42,6 +44,7 @@ class BackgroundSliver extends StatelessWidget{
           body: NestedScrollView(
             headerSliverBuilder: (context, innerBoxIsScrolled) => [
               SliverAppBar(
+                actions: actions,
                 brightness: Services.Brightness.light,
                 floating: false,
                 pinned: _theme.pinned,

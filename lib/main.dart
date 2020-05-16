@@ -3,11 +3,13 @@ import 'dart:developer' as dev;
 import 'package:data/mapper/CartMapper.dart';
 import 'package:data/mapper/CategoryMapper.dart';
 import 'package:data/mapper/FavoriteMapper.dart';
+import 'package:data/mapper/PhotoMapper.dart';
 import 'package:data/mapper/ProductMapper.dart';
 import 'package:data/mapper/UserMapper.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/CategoryRepository.dart';
 import 'package:data/repository/FavoritesRepository.dart';
+import 'package:data/repository/PhotoRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:data/repository/UserRepository.dart';
 import 'package:flutter/material.dart';
@@ -134,25 +136,26 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
     module.singleton(() => UserRemote());
 
     module.singleton(() => ProductsRepository());
+    module.singleton(() => PhotoRepository());
     module.singleton(() => CategoryRepository());
     module.singleton(() => FavoritesRepository());
     module.singleton(() => CartRepository());
     module.singleton(() => UserRepository());
 
-    module.singleton(() => HomeBloc());
-    module.singleton(() => CartBloc());
-    module.singleton(() => MainNavigationBloc());
-    module.singleton(() => UserScreenBloc());
-
-    module.factory(() => ProductDetailsBloc());
-    module.factory(() => SearchScreenBloc());
-    module.factory(() => PageLoginBloc());
+    module.bloc(() => HomeBloc());
+    module.bloc(() => CartBloc());
+    module.bloc(() => MainNavigationBloc());
+    module.bloc(() => UserScreenBloc());
+    module.bloc(() => ProductDetailsBloc());
+    module.bloc(() => SearchScreenBloc());
+    module.bloc(() => PageLoginBloc());
 
     module.singleton(() => CartMapper());
     module.singleton(() => FavoriteMapper());
     module.singleton(() => CategoryMapper());
     module.singleton(() => ProductMapper());
     module.singleton(() => UserMapper());
+    module.singleton(() => PhotoMapper());
 
   };
 

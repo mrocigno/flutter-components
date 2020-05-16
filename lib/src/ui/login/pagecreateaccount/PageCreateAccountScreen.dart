@@ -8,31 +8,37 @@ import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:mopei_app/src/ui/login/pagecreateaccount/PageCreateAccountBloc.dart';
 
-// ignore: must_be_immutable
-class PageCreateAccountScreen extends StatelessWidget {
+class PageCreateAccountScreen extends StatefulWidget {
 
   final CustomPageController navigationPage;
+  PageCreateAccountScreen({this.navigationPage});
+
+  @override
+  _PageCreateAccountScreen createState() => _PageCreateAccountScreen();
+
+}
+
+class _PageCreateAccountScreen extends State<PageCreateAccountScreen> {
+
   final pageCreateAccountBloc = PageCreateAccountBloc();
 
-  InputController emailController;
+  InputController emailController = InputController(
+    validateBuild: (wrapper) {
+      wrapper.isEmail("Email inválido");
+      wrapper.required("Informe o email");
+    },
+  );
+
+  InputController phoneController = InputController(
+    validateBuild: (wrapper) {
+      wrapper.required("Informe o telefone");
+    },
+  );
+
   InputController passwordController;
   InputController confirmPasswordController;
-  InputController phoneController;
 
-  PageCreateAccountScreen({this.navigationPage}) {
-    emailController = InputController(
-      validateBuild: (wrapper) {
-        wrapper.isEmail("Email inválido");
-        wrapper.required("Informe o email");
-      },
-    );
-
-    phoneController = InputController(
-      validateBuild: (wrapper) {
-        wrapper.required("Informe o telefone");
-      },
-    );
-
+  _PageCreateAccountScreen() {
     passwordController = InputController(
       validateBuild: (wrapper) {
         wrapper.customValidate("As senhas não coincidem", (){
@@ -52,11 +58,25 @@ class PageCreateAccountScreen extends StatelessWidget {
     );
   }
 
+
+  GlobalKey<FormValidateState> formKey;
+  @override
+  void initState() {
+    super.initState();
+    formKey = GlobalKey<FormValidateState>();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    phoneController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    var formKey = GlobalKey<FormValidateState>();
-
     return Column(
       children: <Widget>[
         AppBar(
@@ -71,36 +91,36 @@ class PageCreateAccountScreen extends StatelessWidget {
         ),
         Expanded(
           child: SingleChildScrollView(
-            child: FormValidate(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              key: formKey,
-              child: Column(
-                children: <Widget>[
-                  Input(InputThemes.loginTheme,
-                    hint: "E-mail",
-                    margin: EdgeInsets.only(top: 20),
-                    controller: emailController,
-                  ),
-                  Input(InputThemes.loginTheme,
-                    hint: "Telefone",
-                    margin: EdgeInsets.only(top: 20),
-                    controller: phoneController,
-                  ),
-                  Input(InputThemes.loginTheme,
-                    hint: "Senha",
-                    margin: EdgeInsets.only(top: 20),
-                    controller: passwordController,
-                    obscureText: true,
-                  ),
-                  Input(InputThemes.loginTheme,
-                    hint: "Confirme a senha",
-                    margin: EdgeInsets.only(top: 20),
-                    controller: confirmPasswordController,
-                    obscureText: true,
-                  )
-                ],
-              ),
-            )
+              child: FormValidate(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                key: formKey,
+                child: Column(
+                  children: <Widget>[
+                    Input(InputThemes.loginTheme,
+                      hint: "E-mail",
+                      margin: EdgeInsets.only(top: 20),
+                      controller: emailController,
+                    ),
+                    Input(InputThemes.loginTheme,
+                      hint: "Telefone",
+                      margin: EdgeInsets.only(top: 20),
+                      controller: phoneController,
+                    ),
+                    Input(InputThemes.loginTheme,
+                      hint: "Senha",
+                      margin: EdgeInsets.only(top: 20),
+                      controller: passwordController,
+                      obscureText: true,
+                    ),
+                    Input(InputThemes.loginTheme,
+                      hint: "Confirme a senha",
+                      margin: EdgeInsets.only(top: 20),
+                      controller: confirmPasswordController,
+                      obscureText: true,
+                    )
+                  ],
+                ),
+              )
           ),
         ),
         Container(

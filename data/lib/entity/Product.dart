@@ -1,5 +1,6 @@
 import 'package:data/entity/Cart.dart';
 import 'package:data/entity/Favorite.dart';
+import 'package:data/entity/Photo.dart';
 
 class Product {
 
@@ -12,6 +13,7 @@ class Product {
   bool highlight;
   Favorite favorite;
   Cart cart;
+  List<Photo> photos;
 
   Product({
     this.id,
@@ -21,7 +23,7 @@ class Product {
     this.name = "",
     this.description = "",
     this.highlight = false,
-    this.cart
+    this.photos
   });
 
   @override

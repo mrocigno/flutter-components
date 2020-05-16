@@ -15,7 +15,7 @@ import 'package:mopei_app/src/ui/search/SearchScreen.dart';
 
 class HomeScreen extends StatelessWidget {
 
-  final HomeBloc bloc = inject();
+  final HomeBloc homeBloc = bloc();
   final InputController searchController = InputController();
 
   void goToSearchScreen(BuildContext context){
@@ -28,8 +28,8 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      bloc.refreshHighlights();
-      bloc.refreshCategories();
+      homeBloc.refreshHighlights();
+      homeBloc.refreshCategories();
     });
 
     return Column(
@@ -52,9 +52,9 @@ class HomeScreen extends StatelessWidget {
                 child: TabView(
                   onPageChange: (page) {
                     switch(page){
-                      case 0: bloc.getHighlights(); break;
-                      case 1: bloc.getCategories(); break;
-                      case 2: bloc.getFavorites(); break;
+                      case 0: homeBloc.getHighlights(); break;
+                      case 1: homeBloc.getCategories(); break;
+                      case 2: homeBloc.getFavorites(); break;
                     }
                   },
                   children: [

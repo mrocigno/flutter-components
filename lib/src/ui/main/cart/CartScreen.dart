@@ -25,7 +25,7 @@ import 'package:mopei_app/src/ui/search/SearchScreen.dart';
 class CartScreen extends StatelessWidget  {
 
   final CartBloc bloc = inject();
-  final MainNavigationBloc navigationBloc = inject();
+  final MainNavigationBloc navigationBloc = sharedBloc();
 
   @override
   Widget build(BuildContext context) {

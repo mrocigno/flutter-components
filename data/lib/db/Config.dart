@@ -1,6 +1,7 @@
 import 'package:data/dao/CartDao.dart';
 import 'package:data/dao/CategoriesDao.dart';
 import 'package:data/dao/FavoritesDao.dart';
+import 'package:data/dao/PhotosDao.dart';
 import 'package:data/dao/ProductsDao.dart';
 import 'package:data/dao/UserDao.dart';
 import 'package:data/db/DaoBase.dart';
@@ -15,7 +16,8 @@ class Config {
     CategoriesDao(),
     CartDao(),
     FavoritesDao(),
-    UserDao()
+    UserDao(),
+    PhotosDao()
   ];
 
   static T daoProvider<T extends DaoBase>() {

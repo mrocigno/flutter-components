@@ -4,58 +4,35 @@ import 'dart:developer' as dev;
 import 'package:infrastructure/flutter/components/backgrounds/BackgroundActionSheet.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:infrastructure/flutter/utils/Functions.dart';
 import 'package:mopei_app/main.dart';
 import 'package:mopei_app/src/ui/login/pagecreateaccount/PageCreateAccountScreen.dart';
 import 'package:mopei_app/src/ui/login/pageforgotpassword/PageForgotPasswordScreen.dart';
+import 'package:mopei_app/src/ui/login/pagelogin/PageLoginBloc.dart';
 import 'package:mopei_app/src/ui/login/pagelogin/PageLoginScreen.dart';
 
-class LoginModal {
+class LoginModal extends StatefulWidget {
   LoginModal(this.context, {this.onSuccess});
 
   final BuildContext context;
   final Function onSuccess;
 
   void show(){
-    int page = 1;
-    final navigationPage = CustomPageController(page);
-
-    double height = heightByPercent(context, 50);
-
-    BackgroundActionSheet modalView = BackgroundActionSheet(
-      constraints: BoxConstraints(minHeight: 370),
-      height: height,
-      child: WillPopScope(
-          onWillPop: () async {
-            await navigationPage.navigateTo(1);
-            return page == 1;
-          },
-          child: PageView(
-            onPageChanged: (index) {
-              page = index;
-              MyApp.configSystemStyleUI();
-            },
-            controller: navigationPage,
-            physics: NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              PageForgotPasswordScreen(navigationPage: navigationPage),
-              PageLoginScreen(context, navigationPage: navigationPage, onSuccess: onSuccess),
-              PageCreateAccountScreen(navigationPage: navigationPage)
-            ],
-          )
-      )
-    );
-
-
     showModalBottomSheet(
       backgroundColor: Colors.transparent,
       context: context,
       isScrollControlled: true,
+      useRootNavigator: true,
       builder: (context) {
-        return modalView;
+        return this;
       }
     );
   }
+
+  @override
+  _LoginModalState createState() => _LoginModalState();
+
 }
 
 class CustomPageController extends PageController {
@@ -64,6 +41,60 @@ class CustomPageController extends PageController {
 
   Future<void> navigateTo(int page) async {
     this.animateToPage(page, duration: Duration(milliseconds: 700), curve: Curves.easeInQuart);
+  }
+
+}
+
+class _LoginModalState extends State<LoginModal> {
+
+  int page = 1;
+  CustomPageController navigationPage;
+  PageLoginBloc loginBloc = bloc();
+
+  @override
+  void initState() {
+    super.initState();
+    navigationPage = CustomPageController(page);
+    loginBloc.user.observeSuccess((data) {
+      widget.onSuccess?.call();
+      Navigator.pop(context);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    navigationPage.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    double height = heightByPercent(context, 50);
+
+    return BackgroundActionSheet(
+        constraints: BoxConstraints(minHeight: 370),
+        height: height,
+        child: WillPopScope(
+            onWillPop: () async {
+              await navigationPage.navigateTo(1);
+              return page == 1;
+            },
+            child: PageView(
+              onPageChanged: (index) {
+                page = index;
+                MyApp.configSystemStyleUI();
+              },
+              controller: navigationPage,
+              physics: NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                PageForgotPasswordScreen(navigationPage: navigationPage),
+                PageLoginScreen(navigationPage: navigationPage),
+                PageCreateAccountScreen(navigationPage: navigationPage)
+              ],
+            )
+        )
+    );
   }
 
 }

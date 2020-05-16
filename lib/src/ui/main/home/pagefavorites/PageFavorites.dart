@@ -25,7 +25,7 @@ class PageFavorites extends TabChild {
 
 class _PageFavorites extends StatelessWidget {
 
-  final HomeBloc bloc = inject();
+  final HomeBloc bloc = sharedBloc();
 
   @override
   Widget build(BuildContext context) {

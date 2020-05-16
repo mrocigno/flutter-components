@@ -29,7 +29,7 @@ class CartRepository {
   }
 
   Future<bool> hasItem() async {
-    var list = await _dao.getAll();
+    var list = await _dao.getList();
     return list.length > 0;
   }
 

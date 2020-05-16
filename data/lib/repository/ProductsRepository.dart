@@ -32,7 +32,7 @@ class ProductsLocal {
 
   void addProduct(Product product) => dao.save(product, conflictAlgorithm: ConflictAlgorithm.replace);
 
-  void saveAll(List<Product> list) => dao.saveMany(list, conflictAlgorithm: ConflictAlgorithm.replace);
+  void saveAll(List<Product> list) => dao.saveAll(list);
 
   Future<Product> getById(int id) => dao.getById(id);
 
@@ -65,6 +65,11 @@ class ProductsRemote {
         {
           "id": 1,
           "mainImageUrl": "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094414550HDR.JPG",
+          "photos": [
+            "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094414550HDR.JPG",
+            "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094426318.jpg",
+            "https://crestana.com.br/img/imagens_produto/20191016_132440_1____IMG20191016094443068.jpg",
+          ],
           "value": 20.00,
           "provider": "Honda",
           "name": "Retrovisor",

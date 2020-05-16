@@ -1,10 +1,12 @@
 import 'package:data/dao/CartDao.dart';
 import 'package:data/dao/FavoritesDao.dart';
+import 'package:data/dao/PhotosDao.dart';
 import 'package:data/db/Config.dart';
 import 'package:data/db/DaoBase.dart';
 import 'package:data/entity/Product.dart';
 import 'package:data/mapper/ProductMapper.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:sqflite/sqflite.dart';
 
 class ProductsDao extends DaoBase<Product> {
   
@@ -28,7 +30,15 @@ class ProductsDao extends DaoBase<Product> {
 
   // I know, this is a workaround, but flutter has no reflection
   FavoritesDao get favoritesDao => Config.daoProvider();
+  PhotosDao get photoDao => Config.daoProvider();
   CartDao get cartDao => Config.daoProvider();
+
+  void saveAll(List<Product> list) {
+    this.saveMany(list, conflictAlgorithm: ConflictAlgorithm.replace);
+    list.forEach((product) {
+      photoDao.saveMany(product.photos, conflictAlgorithm: ConflictAlgorithm.replace);
+    });
+  }
 
   Future<List<Product>> getHighlights() async {
     var query = await db.query(tableName,
@@ -69,6 +79,7 @@ class ProductsDao extends DaoBase<Product> {
       var product = mapper.fromDataMap(map[i]);
       product.favorite = await favoritesDao.getById(product.id);
       product.cart = await cartDao.getById(product.id);
+      product.photos = await photoDao.getList(where: "productId = ?", whereArgs: [product.id]);
       result.add(product);
     }
     return result;

@@ -32,7 +32,7 @@ class CategoryLocal {
   }
 
   Future<List<Category>> getAllCategories(){
-    return _dao.getAll();
+    return _dao.getList();
   }
 
 }

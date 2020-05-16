@@ -25,24 +25,24 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
   String get name => "ProductDetails";
 
   final Product model;
-  final ProductDetailsBloc bloc = inject();
-  final MainNavigationBloc navigationBloc = inject();
+  final ProductDetailsBloc detailsBloc = bloc();
+  final MainNavigationBloc navigationBloc = sharedBloc();
 
   ProductDetails({
     this.model,
   });
 
   void addToCart(){
-    bloc.addToCart(model);
+    detailsBloc.addToCart(model);
   }
 
   void removeFromCart(Cart cart){
-    bloc.removeFromCart(cart);
+    detailsBloc.removeFromCart(cart);
   }
 
   @override
   void onCalled() {
-    bloc.getCartData(model);
+    detailsBloc.getCartData(model);
   }
 
   @override
@@ -50,7 +50,7 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
     return BackgroundSliver(
       expandedHeight: 300,
       bottomNavigation: StreamBuilder<Cart>(
-        stream: bloc.cart,
+        stream: detailsBloc.cart,
         builder: (context, snapshot) {
           return AnimatedContainer(
             duration: Duration(milliseconds: 300),
@@ -118,7 +118,7 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
                 Hero(
                     tag: "favoriteStar ${model?.id}",
                     child: StreamBuilder<bool>(
-                      stream: bloc.favorite,
+                      stream: detailsBloc.favorite,
                       initialData: model.favorite != null,
                       builder: (context, snapshot) {
                         return Container(
@@ -130,10 +130,10 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
                               onPressed: (active) {
                                 var favorite = Favorite(productId: model.id);
                                 if (active) {
-                                  bloc.addToFavorite(favorite);
+                                  detailsBloc.addToFavorite(favorite);
                                   model.favorite = favorite;
                                 } else {
-                                  bloc.removeFromFavorite(favorite);
+                                  detailsBloc.removeFromFavorite(favorite);
                                   model.favorite = null;
                                 }
                               },
@@ -160,7 +160,7 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
                   Expanded(
                     flex: 1,
                     child: StreamBuilder<Cart>(
-                      stream: bloc.cart,
+                      stream: detailsBloc.cart,
                       builder: (context, snapshot) {
                         model.cart = snapshot.data;
                         return MopeiButton(

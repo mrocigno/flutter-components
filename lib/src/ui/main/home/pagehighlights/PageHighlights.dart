@@ -24,7 +24,7 @@ class PageHighlights extends TabChild {
 
 class _PageHighlights extends StatelessWidget{
 
-  final HomeBloc bloc = inject();
+  final HomeBloc bloc = sharedBloc();
 
   @override
   Widget build(BuildContext context) {

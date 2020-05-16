@@ -13,40 +13,51 @@ import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:mopei_app/src/ui/login/pagelogin/PageLoginBloc.dart';
 
 
-class PageLoginScreen extends StatelessWidget {
-  PageLoginScreen(this.context, {this.navigationPage, this.onSuccess});
+class PageLoginScreen extends StatefulWidget {
 
-  final BuildContext context;
-  final Function onSuccess;
+  PageLoginScreen({this.navigationPage});
+
   final CustomPageController navigationPage;
-  final PageLoginBloc pageLoginBloc = inject();
+
+  @override
+  _PageLoginScreenState createState() => _PageLoginScreenState();
+
+}
+
+class _PageLoginScreenState extends State<PageLoginScreen> {
+
+  final PageLoginBloc pageLoginBloc = sharedBloc();
 
   final InputController emailController = InputController(
     validateBuild: (wrapper) {
-      wrapper.isEmail("Email inválido");
-      wrapper.required("Informe o email");
+      wrapper.isEmail(Strings.strings["error_invalid_email"]);
+      wrapper.required(Strings.strings["error_invalid_empty_email"]);
     },
   );
+
   final InputController passController = InputController(
-    validateBuild: (wrapper) => wrapper.required("Informe a senha")
+      validateBuild: (wrapper) => wrapper.required(Strings.strings["error_invalid_empty_password"])
   );
 
+  GlobalKey<FormValidateState> formKey;
   @override
-  StatelessElement createElement() {
-    pageLoginBloc.user.observeSuccess((data) {
-      Navigator.pop(context);
-      onSuccess?.call();
-    });
-    return super.createElement();
+  void initState() {
+    super.initState();
+    formKey = GlobalKey<FormValidateState>();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    var formKey = GlobalKey<FormValidateState>();
-
     return FormValidate(
-      padding: EdgeInsets.all(20),
       key: formKey,
+      padding: EdgeInsets.all(20),
       child: Column(
         children: <Widget>[
           Center(
@@ -61,7 +72,7 @@ class PageLoginScreen extends StatelessWidget {
                 children: <Widget>[
                   Input(
                     InputThemes.loginTheme,
-                    hint: "E-mail",
+                    hint: Strings.strings["hint_email"],
                     margin: EdgeInsets.only(top: 20),
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
@@ -69,7 +80,7 @@ class PageLoginScreen extends StatelessWidget {
                   Input(
                     InputThemes.loginTheme,
                     obscureText: true,
-                    hint: "Senha",
+                    hint: Strings.strings["hint_password"],
                     margin: EdgeInsets.only(top: 20),
                     controller: passController,
                   ),
@@ -80,13 +91,13 @@ class PageLoginScreen extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(bottom: 20),
             child: MopeiButton(
-              text: "Entrar",
+              text: Strings.strings["button_login"],
               isLoading: pageLoginBloc.user.loading,
               onTap: () {
                 if(formKey.currentState.validate()){
                   pageLoginBloc.doLogin(
-                    email: emailController.value.text,
-                    password: passController.value.text
+                      email: emailController.value.text,
+                      password: passController.value.text
                   );
                 }
               },
@@ -97,9 +108,9 @@ class PageLoginScreen extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Container(
-                  child: Hyperlink("Esqueceu a senha?",
-                    style: TextStyles.subtitleBlack,
-                    onPress: () => navigationPage.navigateTo(0)),
+                  child: Hyperlink(Strings.strings["button_forgot_password"],
+                      style: TextStyles.subtitleBlack,
+                      onPress: () => widget.navigationPage.navigateTo(0)),
                 ),
               ),
               Expanded(
@@ -107,9 +118,9 @@ class PageLoginScreen extends StatelessWidget {
                 child: Container(
                   alignment: Alignment.centerRight,
                   child: Hyperlink(
-                    "Criar conta",
+                    Strings.strings["button_sign_up"],
                     style: TextStyles.subtitleBlack,
-                    onPress: () => navigationPage.navigateTo(2),
+                    onPress: () => widget.navigationPage.navigateTo(2),
                   ),
                 ),
               )
@@ -119,4 +130,6 @@ class PageLoginScreen extends StatelessWidget {
       ),
     );
   }
+
 }
+

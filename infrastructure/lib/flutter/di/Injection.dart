@@ -1,5 +1,11 @@
 
+import 'package:infrastructure/flutter/base/BaseScreen.dart';
+
 T inject<T>({String named}) => Injection.inject(named: named);
+
+T bloc<T>({String named}) => Injection.inject(named: named);
+
+T sharedBloc<T>({String named}) => Injection.inject(named: named, shared: true);
 
 class Injection {
 
@@ -9,7 +15,7 @@ class Injection {
     initializer(_moduleConstructor);
   }
 
-  static T inject<T>({String named}) {
+  static T inject<T>({String named, bool shared = false}) {
     _Module module = _getModule<T>(named: named);
     switch(module.type){
       case 1: {
@@ -17,6 +23,9 @@ class Injection {
       }
       case 2: {
         return module.build();
+      }
+      case 3: {
+        return _getBloc(module, shared);
       }
       default: {
         throw Exception("Type not definied");
@@ -42,6 +51,13 @@ class Injection {
 
   static T _getSingleton<T>(_Module module){
     if(module.singleton == null) {
+      module.singleton = module.build();
+    }
+    return module.singleton;
+  }
+
+  static T _getBloc<T>(_Module module, bool shared){
+    if(!shared || module.singleton == null){
       module.singleton = module.build();
     }
     return module.singleton;
@@ -73,6 +89,12 @@ class _ModuleConstructor {
 
   void factory<T>(Build<T> build, {String named}){
     _modules.add(_Module(2, build, T,
+        named: named
+    ));
+  }
+
+  void bloc<T>(Build<T> build, {String named}){
+    _modules.add(_Module(3, build, T,
         named: named
     ));
   }

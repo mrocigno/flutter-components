@@ -8,6 +8,7 @@ import 'package:data/entity/Product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/base/BaseScreen.dart';
+import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
 import 'package:infrastructure/flutter/components/backgrounds/BackgroundSliver.dart';
 import 'package:infrastructure/flutter/components/backgrounds/BackgroundThemes.dart';
 import 'package:infrastructure/flutter/components/backgrounds/FlexibleSpaceSearchBar.dart';
@@ -62,8 +63,8 @@ class SearchScreen extends BaseScreen with RouteObserverMixin {
             margin: const EdgeInsets.only(top: 20),
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-                color: Constants.Colors.COLOR_PRIMARY.withOpacity(.8),
-                borderRadius: BorderRadius.all(Radius.circular(10))
+              color: Constants.Colors.COLOR_PRIMARY.withOpacity(.8),
+              borderRadius: BorderRadius.all(Radius.circular(10))
             ),
             child: Text(Strings.strings["empty_search"], style: TextStyles.subtitleWhite, textAlign: TextAlign.center),
           ),
@@ -74,6 +75,11 @@ class SearchScreen extends BaseScreen with RouteObserverMixin {
     return BackgroundSliver(
       theme: BackgroundThemes.search,
       expandedHeight: 130,
+      actions: [
+        AppBarAction(
+          icon: Icon(Icons.filter_list, color: Constants.Colors.PRIMARY_SWATCH),
+        )
+      ],
       flexibleSpaceBar: FlexibleSpaceSearchBar(
         key: _searchHeaderKey,
         initialData: initialData,

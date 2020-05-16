@@ -1,4 +1,6 @@
+import 'package:data/entity/Photo.dart';
 import 'package:data/entity/Product.dart';
+import 'package:data/mapper/PhotoMapper.dart';
 import 'package:infrastructure/flutter/utils/Mapper.dart';
 
 class ProductMapper extends Mapper<Product> {
@@ -26,14 +28,22 @@ class ProductMapper extends Mapper<Product> {
   );
 
   @override
-  Product fromResponse(Map<String, Object> input) => Product(
-    highlight: input["highlight"] == 1,
-    mainImageUrl: input["mainImageUrl"],
-    provider: input["provider"],
-    name: input["name"],
-    description: input["description"],
-    id: input["id"],
-    value: input["value"]
-  );
+  Product fromResponse(Map<String, Object> input) {
+    int photoNum = 1;
+    return Product(
+        highlight: input["highlight"] == 1,
+        mainImageUrl: input["mainImageUrl"],
+        provider: input["provider"],
+        name: input["name"],
+        description: input["description"],
+        id: input["id"],
+        value: input["value"],
+        photos: (input["photos"] as List)?.map((e) => Photo(
+            productId: input["id"],
+            num: photoNum++,
+            path: e
+        ))?.toList()
+    );
+  }
 
 }

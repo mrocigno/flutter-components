@@ -20,7 +20,7 @@ class PageCategories extends TabChild {
 
 class _PageCategories extends StatelessWidget {
 
-  final HomeBloc bloc = inject();
+  final HomeBloc bloc = sharedBloc();
 
   @override
   Widget build(BuildContext context) {

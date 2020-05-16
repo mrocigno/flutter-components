@@ -24,7 +24,7 @@ abstract class DaoBase<Entity> {
 
   Future<void> saveMany(List<Entity> list, {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore}) async {
     var batch = db.batch();
-    list.forEach((entity) {
+    list?.forEach((entity) {
       batch.insert(tableName, mapper.toDataMap(entity),
           conflictAlgorithm: conflictAlgorithm
       );
@@ -40,9 +40,14 @@ abstract class DaoBase<Entity> {
     );
   }
 
-  Future<List<Entity>> getAll() async => (await db.query(tableName)).map((e) {
-    return mapper.fromDataMap(e);
-  }).toList();
+  Future<List<Entity>> getList({String where, List<dynamic> whereArgs}) async {
+    var list = await db.query(tableName,
+        where: where,
+        whereArgs: whereArgs
+    );
+
+    return list.map((e) => mapper.fromDataMap(e)).toList(); 
+  }
 
   Future<Entity> getById(int id) async {
     var list = await db.query(tableName,

@@ -1,5 +1,8 @@
 {
   "app_name": "Mopei",
+
+  "forgot_password": "Esqueci a senha",
+
   "home_page_1": "Destaques",
   "home_page_2": "Categorias",
   "home_page_3": "Favoritos",
@@ -21,5 +24,19 @@
   "sub_total": "Sub-total",
   "receive_in_home": "Receber em casa",
   "schedule_exchange": "Agendar troca",
-  "empty_search": "Não encontramos nada para essa pesquisa"
+  "empty_search": "Não encontramos nada para essa pesquisa",
+
+  "empty_notification": "Nenhuma notificação recebida",
+
+  "button_login": "Entrar",
+  "button_send": "Enviar",
+  "button_forgot_password": "Esqueceu a senha?",
+  "button_sign_up": "Criar conta",
+
+  "hint_email": "E-mail",
+  "hint_password": "Senha",
+
+  "error_invalid_email": "Email inválido",
+  "error_invalid_empty_email": "Informe o email",
+  "error_invalid_empty_password": "Informe a senha"
 }

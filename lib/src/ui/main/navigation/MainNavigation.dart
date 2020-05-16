@@ -7,7 +7,7 @@ import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 
 class MainNavigation extends StatelessWidget {
 
-  final MainNavigationBloc bloc = inject();
+  final MainNavigationBloc bloc = sharedBloc();
 
   @override
   Widget build(BuildContext context) {
