@@ -7,11 +7,13 @@ class FormValidate extends StatefulWidget {
   FormValidate({
     Key key,
     this.child,
-    this.padding
+    this.padding,
+    this.decoration
   }) : super(key: key);
 
   final Widget child;
   final EdgeInsetsGeometry padding;
+  final Decoration decoration;
 
   @override
   FormValidateState createState() => FormValidateState();
@@ -35,6 +37,7 @@ class FormValidateState extends State<FormValidate> {
     return _FormValidateScope(
       state: this,
       child: Container(
+        decoration: widget.decoration,
         padding: widget.padding,
         child: widget.child,
       ),

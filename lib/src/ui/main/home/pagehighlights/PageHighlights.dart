@@ -2,7 +2,7 @@ import 'package:data/entity/Product.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
-import 'package:infrastructure/flutter/components/TabView.dart';
+import 'package:infrastructure/flutter/components/carousel/TabView.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';

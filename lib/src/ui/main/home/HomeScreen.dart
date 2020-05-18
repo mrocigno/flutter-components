@@ -1,7 +1,7 @@
 import 'dart:developer' as dev;
 
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/TabView.dart';
+import 'package:infrastructure/flutter/components/carousel/TabView.dart';
 import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
 import 'package:infrastructure/flutter/components/inputs/InputController.dart';
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';

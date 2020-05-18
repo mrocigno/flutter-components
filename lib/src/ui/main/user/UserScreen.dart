@@ -11,8 +11,10 @@ import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:mopei_app/src/ui/main/user/UserScreenBloc.dart';
+import 'package:mopei_app/src/ui/payment/AddCreditCardModal.dart';
 
 class UserScreen extends StatelessWidget {
 
@@ -102,6 +104,9 @@ class UserScreen extends StatelessWidget {
                           UserMenuCard(
                             icon: Image.asset("assets/img/icMcCard.webp", height: 30, width: 30,),
                             text: "Cartões cadastrados",
+                            onPress: () {
+                              ScreenTransitions.push(context, AddCreditCardScreen(), animation: Animations.SLIDE_DOWN);
+                            }
                           ),
                         ],
                       ),
@@ -172,10 +177,12 @@ class UserMenuCard extends StatelessWidget {
 
   final Widget icon;
   final String text;
+  final Function onPress;
 
   UserMenuCard({
     this.icon,
-    this.text
+    this.text,
+    this.onPress
   });
 
   @override
@@ -186,18 +193,21 @@ class UserMenuCard extends StatelessWidget {
         elevation: 2,
         clipBehavior: Clip.hardEdge,
         borderRadius: BorderRadius.all(Radius.circular(10)),
-        child: Container(
-          width: double.infinity,
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 5),
-                child: icon,
-              ),
-              Text(text, style: TextStyles.body)
-            ],
+        child: InkWell(
+          onTap: onPress,
+          child: Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: icon,
+                ),
+                Text(text, style: TextStyles.body)
+              ],
+            ),
           ),
         )
       ),

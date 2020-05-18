@@ -9,5 +9,6 @@ double widthByPercent(BuildContext context, double percent){
 }
 
 double insetBottom(BuildContext context) {
-  return MediaQuery.of(context).viewInsets.bottom;
+  var query = MediaQuery.of(context);
+  return query.viewInsets.bottom + query.padding.bottom;
 }

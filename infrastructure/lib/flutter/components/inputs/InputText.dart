@@ -8,17 +8,6 @@ import 'dart:developer' as dev;
 import 'InputController.dart';
 
 class Input extends StatelessWidget {
-  Input(this.theme, {
-    this.icon,
-    this.keyboardType = TextInputType.text,
-    this.hint,
-    this.onTapIcon,
-    this.margin,
-    this.padding,
-    this.controller,
-    this.obscureText = false,
-    this.onFieldSubmitted
-  });
 
   final InputThemes theme;
   final bool obscureText;
@@ -29,14 +18,28 @@ class Input extends StatelessWidget {
   final EdgeInsets margin;
   final EdgeInsets padding;
   final ValueChanged<String> onFieldSubmitted;
-  InputController controller;
+  final FocusNode focusNode;
+  final InputController controller;
+
+  Input(this.theme, {
+    this.icon,
+    this.keyboardType = TextInputType.text,
+    this.hint,
+    this.onTapIcon,
+    this.margin,
+    this.padding,
+    this.controller,
+    this.obscureText = false,
+    this.onFieldSubmitted,
+    this.focusNode
+  });
 
   @override
   Widget build(BuildContext context) {
 
-    controller ??= InputController();
+    var _controller = controller ?? InputController();
     if(icon != null){
-      controller.setIcon(icon);
+      _controller.setIcon(icon);
     }
 
     FormValidateState.registerForValidate(context, this);
@@ -59,13 +62,14 @@ class Input extends StatelessWidget {
                 child: Wrap(
                   children: [
                     TextFormField(
-                      controller: controller,
+                      controller: _controller,
                       cursorColor: theme.textColor,
                       keyboardType: keyboardType,
                       obscureText: obscureText,
+                      focusNode: focusNode,
                       onFieldSubmitted: onFieldSubmitted,
                       validator: (value) {
-                        controller.validate();
+                        _controller.validate();
                         return ;
                       },
                       style: TextStyle(
@@ -79,18 +83,18 @@ class Input extends StatelessWidget {
                           )
                       ),
                       onChanged: (value) {
-                        controller.setError(null);
+                        _controller.setError(null);
                       },
                     ),
                     StreamBuilder<String>(
-                      stream: controller.getErrorStream(),
+                      stream: _controller.getErrorStream(),
                       builder: (ctx, snapshot) {
                         String errorMsg = snapshot.data;
                         return AnimatedContainer(
                           duration: Duration(milliseconds: 500),
-                          height: controller.hasError? 20 : 0,
+                          height: _controller.hasError? 20 : 0,
                           curve: Curves.ease,
-                          transform: Matrix4.translationValues(0, (controller.hasError? -10 : 10), 0),
+                          transform: Matrix4.translationValues(0, (_controller.hasError? -10 : 10), 0),
                           child: Text(errorMsg ?? "",
                               style: TextStyle(color: Constants.Colors.RED_ERROR)
                           ),
@@ -101,9 +105,9 @@ class Input extends StatelessWidget {
                 )
             ),
             StreamBuilder<String>(
-              stream: controller.getIconStream(),
+              stream: _controller.getIconStream(),
               builder: (ctx, snapshot) {
-                if(!controller.hasIcon) return Container();
+                if(!_controller.hasIcon) return Container();
                 String path = snapshot.data;
                 return Material(
                   borderRadius: BorderRadius.all(Radius.circular(30)),

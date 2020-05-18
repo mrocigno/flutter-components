@@ -20,6 +20,15 @@ class _BumpAnimateState extends State<BumpAnimate> with TickerProviderStateMixin
   AnimationController _controller;
 
   @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 200),
+    );
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _controller?.stop();
@@ -28,11 +37,6 @@ class _BumpAnimateState extends State<BumpAnimate> with TickerProviderStateMixin
 
   @override
   Widget build(BuildContext context) {
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 200),
-    );
-
     Animation<double> animation = TweenSequence([
       TweenSequenceItem(tween: Tween(begin: 1.0, end: .4), weight: 1.0),
       TweenSequenceItem(tween: Tween(begin: .4, end: 1.5), weight: 1.0),

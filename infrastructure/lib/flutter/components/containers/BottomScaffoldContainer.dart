@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'package:infrastructure/flutter/utils/Functions.dart';
 
 class BottomScaffoldContainer extends StatelessWidget{
 
@@ -14,9 +15,7 @@ class BottomScaffoldContainer extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    var bottom =
-      Platform.isIOS? (MediaQuery.of(context).padding.bottom)
-          : (MediaQuery.of(context).viewInsets.bottom);
+    var bottom = insetBottom(context);
 
     return Material(
       color: color,

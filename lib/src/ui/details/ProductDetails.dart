@@ -1,11 +1,14 @@
 import 'dart:developer' as dev;
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:data/entity/Cart.dart';
 import 'package:data/entity/Favorite.dart';
+import 'package:data/entity/Photo.dart';
 import 'package:flutter/services.dart';
 import 'package:infrastructure/flutter/base/BaseScreen.dart';
 import 'package:infrastructure/flutter/components/backgrounds/BackgroundSliver.dart';
 import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
 import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
+import 'package:infrastructure/flutter/components/carousel/CarouselWithIndicator.dart';
 import 'package:infrastructure/flutter/components/containers/BottomScaffoldContainer.dart';
 import 'package:infrastructure/flutter/components/textviews/Amount.dart';
 import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
@@ -47,6 +50,9 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
 
   @override
   Widget build(BuildContext context) {
+    if(model.photos.length <= 0) {
+      model.photos.add(Photo(path: model.mainImageUrl ?? ""));
+    }
     return BackgroundSliver(
       expandedHeight: 300,
       bottomNavigation: StreamBuilder<Cart>(
@@ -90,11 +96,19 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
       ),
       flexibleSpaceBar: FlexibleSpaceBar(
           collapseMode: CollapseMode.parallax,
-          background: Image.network(model?.mainImageUrl ?? "",
-            alignment: Alignment.center,
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
+          background: Stack(
+            children: <Widget>[
+              CarouselWithIndicator(
+                itemCount: model.photos.length,
+                enableInfiniteScroll: model.photos.length > 1,
+                itemBuilder: (context, index) => Image.network(model.photos[index].path,
+                  alignment: Alignment.center,
+                  fit: BoxFit.cover,
+                  height: double.infinity,
+                  width: double.infinity,
+                ),
+              )
+            ],
           )
       ),
       child: Container(

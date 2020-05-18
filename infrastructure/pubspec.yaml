@@ -17,6 +17,8 @@ dependencies:
   flutter_svg: 0.17.1
   rxdart: ^0.18.0
   connectivity: '>=0.4.8+5 <2.0.0'
+  carousel_slider: 2.0.0
+  flutter_credit_card: 0.1.1
 
 dev_dependencies:
   flutter_test:

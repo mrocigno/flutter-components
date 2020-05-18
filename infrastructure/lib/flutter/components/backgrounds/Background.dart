@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
@@ -60,6 +62,7 @@ class Background extends StatelessWidget{
             key: _scaffoldKey,
             backgroundColor: Colors.transparent,
             bottomNavigationBar: bottomNavigation,
+            resizeToAvoidBottomInset: false,
             appBar: AppBar(
               centerTitle: _theme.centralizeTitle,
               iconTheme: IconThemeData(color: _theme.titleColor),
