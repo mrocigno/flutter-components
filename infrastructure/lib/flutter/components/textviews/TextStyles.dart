@@ -46,6 +46,11 @@ class TextStyles {
     fontSize: 16,
   );
 
+  static const TextStyle bodyWhite = TextStyle(
+    color: Colors.white,
+    fontSize: 16,
+  );
+
   static const TextStyle poppinsMedium = TextStyle(
     color: Constants.Colors.GRAY,
     fontSize: 17

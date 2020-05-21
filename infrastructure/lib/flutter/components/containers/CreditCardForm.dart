@@ -11,14 +11,14 @@ import 'package:infrastructure/flutter/components/inputs/InputText.dart';
 import 'package:infrastructure/flutter/utils/Functions.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
-class CreditCard extends StatefulWidget {
+class CreditCardForm extends StatefulWidget {
 
   @override
-  _CreditCardState createState() => _CreditCardState();
+  _CreditCardFormState createState() => _CreditCardFormState();
 
 }
 
-class _CreditCardState extends State<CreditCard> with SingleTickerProviderStateMixin {
+class _CreditCardFormState extends State<CreditCardForm> with SingleTickerProviderStateMixin {
 
   FocusNode cvvFocus = FocusNode();
   var cvvHasFocus = false;
@@ -107,8 +107,8 @@ class _CreditCardState extends State<CreditCard> with SingleTickerProviderStateM
         ),
         FormValidate(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              color: Constants.Colors.BACKGROUND_WHITE_GRAY
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            color: Constants.Colors.BACKGROUND_WHITE_GRAY
           ),
           padding: const EdgeInsets.all(20),
           child: Column(

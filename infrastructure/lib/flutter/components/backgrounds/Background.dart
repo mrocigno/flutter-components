@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:infrastructure/flutter/utils/Functions.dart';
 
 class Background extends StatelessWidget{
   Background({
@@ -13,17 +14,21 @@ class Background extends StatelessWidget{
     this.onNavigationClick,
     this.actions,
     this.bottomNavigation,
-    this.onWillPop
+    this.onWillPop,
+    this.bottomSheet,
+    this.floatingActionButton
   }) : super(key: key);
 
   final Widget child;
   final Widget title;
+  final Widget bottomSheet;
   final bool showDrawer;
   final Function onNavigationClick;
   final List<AppBarAction> actions;
   final Widget bottomNavigation;
   final BackgroundTheme theme;
   final WillPopCallback onWillPop;
+  final FloatingActionButton floatingActionButton;
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
   GlobalKey<ScaffoldState> get scaffoldKey => _scaffoldKey;
@@ -63,6 +68,7 @@ class Background extends StatelessWidget{
             backgroundColor: Colors.transparent,
             bottomNavigationBar: bottomNavigation,
             resizeToAvoidBottomInset: false,
+            floatingActionButton: floatingActionButton,
             appBar: AppBar(
               centerTitle: _theme.centralizeTitle,
               iconTheme: IconThemeData(color: _theme.titleColor),
@@ -113,6 +119,14 @@ class BackgroundTheme {
     )
   );
 
+  static BackgroundTheme test = BackgroundTheme(
+    centralizeTitle: true,
+    titleColor: Constants.Colors.COLOR_PRIMARY,
+    decoration: BoxDecoration(
+      color: Colors.transparent
+    )
+  );
+
   static BackgroundTheme loginPage = BackgroundTheme(
     centralizeTitle: false,
     titleColor: Colors.black,
@@ -148,4 +162,26 @@ class AppBarAction extends StatelessWidget{
     )),
     onPressed: onTap,
   );
+}
+
+class teste extends FloatingActionButtonAnimator {
+
+  @override
+  Offset getOffset({Offset begin, Offset end, double progress}) {
+//    log("\n\n begin -> $begin \n end -> $end \n progress -> $progress");
+    return Offset(begin.dx, begin.dy - 50);
+  }
+
+  @override
+  Animation<double> getRotationAnimation({Animation<double> parent}) {
+
+    return Tween<double>(begin: 0.0, end: 3.1415).animate(parent);
+  }
+
+  @override
+  Animation<double> getScaleAnimation({Animation<double> parent}) {
+    log("${parent.value}");
+    return Tween<double>(begin: 0.0, end: 3.1415).animate(parent);
+  }
+
 }

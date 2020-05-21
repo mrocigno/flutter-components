@@ -98,7 +98,7 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
           collapseMode: CollapseMode.parallax,
           background: Stack(
             children: <Widget>[
-              CarouselWithIndicator(
+              Carousel(
                 itemCount: model.photos.length,
                 enableInfiniteScroll: model.photos.length > 1,
                 itemBuilder: (context, index) => Image.network(model.photos[index].path,

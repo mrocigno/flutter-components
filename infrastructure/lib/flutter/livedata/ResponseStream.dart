@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer' as dev;
 import 'package:rxdart/rxdart.dart';
 
@@ -5,9 +6,11 @@ class ResponseStream<T> {
 
   final BehaviorSubject<T> _data;
   final BehaviorSubject<bool> _loading = BehaviorSubject(seedValue: false);
-  final BehaviorSubject<ErrorResponse<T>> _error = BehaviorSubject();
+  final BehaviorSubject<ErrorResponse> _error = BehaviorSubject();
 
+  Observable<T> get success => _data.stream;
   Observable<bool> get loading => _loading.stream;
+  Observable<ErrorResponse> get error => _error.stream;
 
   final T seedValue;
 
@@ -18,7 +21,7 @@ class ResponseStream<T> {
     {
       void onSuccess(T data),
       void onLoading(bool loading),
-      void onError(ErrorResponse<T> data)
+      void onError(ErrorResponse data)
     }
   ) async {
     observe(onSuccess: onSuccess, onError: onError, onLoading: onLoading);
@@ -36,12 +39,12 @@ class ResponseStream<T> {
 
   void observeLoading(void onLoading(bool loading)) => _loading.listen(onLoading);
   void observeSuccess(void onSuccess(T data)) => _data.listen(onSuccess);
-  void observeError(void onError(ErrorResponse<T> error)) => _error.listen(onError);
+  void observeError(void onError(ErrorResponse error)) => _error.listen(onError);
 
   void observe({
     void onSuccess(T data),
     void onLoading(bool loading),
-    void onError(ErrorResponse<T> error)
+    void onError(ErrorResponse error)
   }) {
     if(onSuccess != null) observeSuccess(onSuccess);
     if(onLoading != null) observeLoading(onLoading);
@@ -56,17 +59,16 @@ class ResponseStream<T> {
 
 }
 
-class ErrorResponse<T> implements Exception {
+class ErrorResponse implements Exception {
 
   int code;
   String message;
-  T data;
 
-  ErrorResponse({this.code, this.message, this.data});
+  ErrorResponse({this.code, this.message});
 
   @override
   String toString() {
-    return "code = $code, message = $message, data = $data";
+    return "code = $code, message = $message";
   }
 
 }

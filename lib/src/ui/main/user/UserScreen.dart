@@ -14,7 +14,8 @@ import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:mopei_app/src/ui/main/user/UserScreenBloc.dart';
-import 'package:mopei_app/src/ui/payment/AddCreditCardModal.dart';
+import 'package:mopei_app/src/ui/payment/CardListScreen.dart';
+import 'package:mopei_app/src/ui/payment/addCard/AddCreditCardScreen.dart';
 
 class UserScreen extends StatelessWidget {
 
@@ -105,7 +106,7 @@ class UserScreen extends StatelessWidget {
                             icon: Image.asset("assets/img/icMcCard.webp", height: 30, width: 30,),
                             text: "Cartões cadastrados",
                             onPress: () {
-                              ScreenTransitions.push(context, AddCreditCardScreen(), animation: Animations.SLIDE_DOWN);
+                              ScreenTransitions.push(context, CardListScreen(), animation: Animations.SLIDE_DOWN);
                             }
                           ),
                         ],

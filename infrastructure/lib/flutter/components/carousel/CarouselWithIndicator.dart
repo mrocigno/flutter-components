@@ -7,24 +7,30 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
-class CarouselWithIndicator extends StatefulWidget {
+class Carousel extends StatefulWidget {
 
   final int itemCount;
   final IndexedWidgetBuilder itemBuilder;
   final bool enableInfiniteScroll;
+  final bool showIndicator;
+  final Axis direction;
+  final double viewPort;
 
-  CarouselWithIndicator({
+  Carousel({
     @required this.itemCount,
     @required this.itemBuilder,
-    this.enableInfiniteScroll = true
+    this.enableInfiniteScroll = true,
+    this.showIndicator = true,
+    this.direction = Axis.horizontal,
+    this.viewPort = 1.0
   });
 
   @override
-  _CarouselWithIndicatorState createState() => _CarouselWithIndicatorState();
+  _CarouselState createState() => _CarouselState();
 
 }
 
-class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
+class _CarouselState extends State<Carousel> {
 
   int _page = 0;
 
@@ -39,13 +45,14 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicator> {
             height: double.infinity,
             initialPage: _page,
             enableInfiniteScroll: widget.enableInfiniteScroll,
-            viewportFraction: 1.0,
-            enlargeCenterPage: false,
+            viewportFraction: widget.viewPort,
+            scrollDirection: widget.direction,
+            enlargeCenterPage: true,
             onPageChanged: (index, reason) => setState(() => _page = index),
           ),
           itemBuilder: widget.itemBuilder
         ),
-        (widget.itemCount > 1? (
+        (widget.showIndicator && widget.itemCount > 1? (
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: Wrap(

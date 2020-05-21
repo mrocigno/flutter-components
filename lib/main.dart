@@ -2,16 +2,19 @@ import 'dart:developer' as dev;
 
 import 'package:data/mapper/CartMapper.dart';
 import 'package:data/mapper/CategoryMapper.dart';
+import 'package:data/mapper/CreditCardMapper.dart';
 import 'package:data/mapper/FavoriteMapper.dart';
 import 'package:data/mapper/PhotoMapper.dart';
 import 'package:data/mapper/ProductMapper.dart';
 import 'package:data/mapper/UserMapper.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/CategoryRepository.dart';
+import 'package:data/repository/CreditCardRepository.dart';
 import 'package:data/repository/FavoritesRepository.dart';
 import 'package:data/repository/PhotoRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:data/repository/UserRepository.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:infrastructure/flutter/components/containers/TopSnackBar.dart';
@@ -25,10 +28,12 @@ import 'package:mopei_app/src/ui/main/cart/CartBloc.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 import 'package:mopei_app/src/ui/main/user/UserScreenBloc.dart';
+import 'package:mopei_app/src/ui/payment/CardListBloc.dart';
 import 'package:mopei_app/src/ui/search/SearchScreenBloc.dart';
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter_stetho/flutter_stetho.dart';
 
 void main() => runApp(MyApp());
 
@@ -54,6 +59,8 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
+    if(kDebugMode) Stetho.initialize();
 
     configSystemStyleUI();
     WidgetsBinding.instance.addObserver(this);
@@ -135,12 +142,16 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
     module.singleton(() => UserLocal());
     module.singleton(() => UserRemote());
 
+    module.singleton(() => CreditCardLocal());
+    module.singleton(() => CreditCardRemote());
+
     module.singleton(() => ProductsRepository());
     module.singleton(() => PhotoRepository());
     module.singleton(() => CategoryRepository());
     module.singleton(() => FavoritesRepository());
     module.singleton(() => CartRepository());
     module.singleton(() => UserRepository());
+    module.singleton(() => CreditCardRepository());
 
     module.bloc(() => HomeBloc());
     module.bloc(() => CartBloc());
@@ -149,6 +160,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
     module.bloc(() => ProductDetailsBloc());
     module.bloc(() => SearchScreenBloc());
     module.bloc(() => PageLoginBloc());
+    module.bloc(() => CardListBloc());
 
     module.singleton(() => CartMapper());
     module.singleton(() => FavoriteMapper());
@@ -156,7 +168,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
     module.singleton(() => ProductMapper());
     module.singleton(() => UserMapper());
     module.singleton(() => PhotoMapper());
-
+    module.singleton(() => CreditCardMapper());
   };
 
 }

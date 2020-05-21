@@ -9,14 +9,14 @@ import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
 import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
 import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
 import 'package:infrastructure/flutter/components/containers/BottomScaffoldContainer.dart';
-import 'package:infrastructure/flutter/components/containers/CreditCard.dart';
+import 'package:infrastructure/flutter/components/containers/CreditCardForm.dart';
 import 'package:infrastructure/flutter/components/inputs/FormValidate.dart';
 import 'package:infrastructure/flutter/components/inputs/InputController.dart';
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
 import 'package:infrastructure/flutter/routing/AppRoute.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
-class AddCreditCardScreen extends BaseScreen with RouteObserverMixin {
+class AddCreditCardScreen extends BaseScreen {
 
   @override
   String get name => "AddCreditCard";
@@ -60,7 +60,7 @@ class AddCreditCardScreen extends BaseScreen with RouteObserverMixin {
                 child: Column(
                   children: <Widget>[
                     Center(
-                      child: CreditCard(),
+                      child: CreditCardForm(),
                     ),
                   ],
                 ),

@@ -5,16 +5,16 @@ import "dart:developer" as dev;
 
 class CreditCard {
 
-  String number;
-  String expireData;
-  String cvv;
+  int id;
+  String placeHolder;
   String cardHolderName;
+  String entityFlag;
 
   CreditCard({
+    this.id,
+    this.placeHolder,
     this.cardHolderName,
-    this.cvv,
-    this.expireData,
-    this.number
+    this.entityFlag
   });
 
 }
