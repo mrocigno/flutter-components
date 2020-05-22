@@ -32,13 +32,10 @@ class ResponseStream<T> {
       onLoading?.call(true);
 
       var response = await execute();
-      if(response == null || (response is List && response.length <= 0)){
-        _empty.add(true);
-      } else {
-        _data.add(response);
-        onSuccess?.call(response);
-        _empty.add(false);
-      }
+      _data.add(response);
+      _empty.add(response == null || (response is List && response.length <= 0));
+      onSuccess?.call(response);
+
     } catch (exception, stacktrace) {
       dev.log("Error inside postLoad $T");
       dev.log("$exception \n $stacktrace");
@@ -48,6 +45,10 @@ class ResponseStream<T> {
       _loading.add(false);
       onLoading?.call(false);
     }
+  }
+
+  void addData(T data){
+    _data.add(data);
   }
 
   void observeLoading(void onLoading(bool loading)) => _loading.listen(onLoading);
@@ -69,6 +70,10 @@ class ResponseStream<T> {
     _loading.close();
     _error.close();
     _empty.close();
+  }
+
+  T getSyncValue() {
+    return _data.value;
   }
 
 }

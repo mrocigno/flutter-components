@@ -5,19 +5,19 @@ import "dart:developer" as dev;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/alert/Alert.dart';
+import 'package:infrastructure/flutter/components/alert/AlertConfig.dart';
 import 'package:infrastructure/flutter/components/backgrounds/BackgroundActionSheet.dart';
 import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
 import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/utils/Functions.dart';
 
-class AlertBottomSheet {
+class AlertActionSheet {
 
   final BuildContext context;
-  final Alert alertConfig;
+  final AlertConfig alertConfig;
 
-  AlertBottomSheet(this.context, {@required this.alertConfig});
+  AlertActionSheet(this.context, {@required this.alertConfig});
 
   void show(){
     showModalBottomSheet(
@@ -28,8 +28,7 @@ class AlertBottomSheet {
       builder: (context) {
         return BackgroundActionSheet(
           padding: const EdgeInsets.all(20),
-          constraints: BoxConstraints(minHeight: 250),
-          height: heightByPercent(context, 25),
+          height: 250,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

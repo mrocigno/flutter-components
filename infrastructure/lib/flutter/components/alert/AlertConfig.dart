@@ -3,7 +3,7 @@
 */
 import "dart:developer" as dev;
 
-class Alert {
+class AlertConfig {
 
   final String title;
   final String text;
@@ -13,7 +13,7 @@ class Alert {
   final AlertButton secondButton;
   final AlertButton thirdButton;
 
-  Alert({
+  AlertConfig({
     this.title,
     this.text,
     this.dismissible = true,

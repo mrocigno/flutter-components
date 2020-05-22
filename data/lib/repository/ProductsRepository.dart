@@ -34,7 +34,7 @@ class ProductsLocal {
 
   void saveAll(List<Product> list) => dao.saveAll(list);
 
-  Future<Product> getById(int id) => dao.getById(id);
+  Future<Product> getById(int id) => dao.findById(id);
 
   Future<List<Product>> getHighlights() => dao.getHighlights();
 

@@ -32,9 +32,9 @@ abstract class DaoBase<Entity> {
     await batch.commit(noResult: true);
   }
 
-  void delete(Entity entity) {
+  Future<void> delete(Entity entity) async {
     var json = mapper.toDataMap(entity);
-    db.delete(tableName,
+    await db.delete(tableName,
       where: "$identifier = ?",
       whereArgs: [json[identifier]]
     );
@@ -53,10 +53,19 @@ abstract class DaoBase<Entity> {
     return list.map((e) => mapper.fromDataMap(e)).toList(); 
   }
 
-  Future<Entity> getById(int id) async {
+  Future<Entity> findById(int id) async {
     var list = await db.query(tableName,
         where: "$identifier = ?",
         whereArgs: [id]
+    );
+    if(list.length > 0) return mapper.fromDataMap(list[0]);
+    return null;
+  }
+
+  Future<Entity> findOne({@required String where, List whereArgs}) async {
+    var list = await db.query(tableName,
+        where: where,
+        whereArgs: whereArgs
     );
     if(list.length > 0) return mapper.fromDataMap(list[0]);
     return null;

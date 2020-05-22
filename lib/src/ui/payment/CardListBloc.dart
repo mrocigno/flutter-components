@@ -15,7 +15,10 @@ class CardListBloc extends BaseBloc {
 
   CreditCardRepository creditCardRepository = inject();
   ResponseStream<List<CreditCard>> cards = ResponseStream();
-  
+
+  BehaviorSubject<CreditCard> _selectedCard = BehaviorSubject();
+  Observable<CreditCard> get selectedCard => _selectedCard.stream;
+
   void refreshCards() {
     cards.postLoad(() => creditCardRepository.refreshCards(),
       onError: (data) {
@@ -23,7 +26,23 @@ class CardListBloc extends BaseBloc {
       },
     );
   }
-  
 
+  void selectCardByPosition(int index) {
+    _selectedCard.add(cards.getSyncValue()[index]);
+  }
+
+  void removeCard() async {
+    await creditCardRepository.removeCard(_selectedCard.value..isRemoved = true);
+    cards.postLoad(() => creditCardRepository.getCards());
+  }
+
+  CreditCard getSelectedCard() {
+    return _selectedCard.value;
+  }
+
+  void setDefault() async {
+    await creditCardRepository.setDefault(getSelectedCard());
+    cards.postLoad(() => creditCardRepository.getCards());
+  }
 
 }

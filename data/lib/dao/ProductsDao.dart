@@ -77,8 +77,8 @@ class ProductsDao extends DaoBase<Product> {
     List<Product> result = [];
     for(int i = 0; i < map.length; i++) {
       var product = mapper.fromDataMap(map[i]);
-      product.favorite = await favoritesDao.getById(product.id);
-      product.cart = await cartDao.getById(product.id);
+      product.favorite = await favoritesDao.findById(product.id);
+      product.cart = await cartDao.findById(product.id);
       product.photos = await photoDao.getList(where: "productId = ?", whereArgs: [product.id]);
       result.add(product);
     }

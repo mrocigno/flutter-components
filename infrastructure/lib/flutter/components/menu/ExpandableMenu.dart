@@ -49,6 +49,7 @@ class ExpandableItem {
 
   final Widget icon;
   final String title;
+  final bool show;
   final bool closeOnPress;
   final Function onPress;
 
@@ -56,7 +57,8 @@ class ExpandableItem {
     @required this.icon,
     @required this.title,
     @required this.onPress,
-    this.closeOnPress = true
+    this.closeOnPress = true,
+    this.show = true
   });
 
 }
@@ -135,9 +137,8 @@ class ExpandableMenuState extends State<ExpandableMenu> with TickerProviderState
                 animation: size,
                 builder: (context, child) => Column(
                   children: List.generate(menu.items.length, (index) {
-
                     var item = menu.items[index];
-
+                    if(!item.show) return Wrap();
                     return Container(
                       height: size.value,
                       padding: const EdgeInsets.all(10),

@@ -2,8 +2,8 @@ import 'dart:developer' as dev;
 
 import 'package:data/entity/User.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/alert/Alert.dart';
-import 'package:infrastructure/flutter/components/alert/AlertBottomSheet.dart';
+import 'package:infrastructure/flutter/components/alert/AlertConfig.dart';
+import 'package:infrastructure/flutter/components/alert/AlertActionSheet.dart';
 import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
 import 'package:infrastructure/flutter/components/image/UserIcon.dart';
 import 'package:infrastructure/flutter/components/menu/ExpandableMenu.dart';
@@ -140,8 +140,8 @@ class UserScreen extends StatelessWidget {
                       icon: Icon(Icons.exit_to_app, size: 30, color: Colors.black,),
                       title: "Sair",
                       onPress: () {
-                        AlertBottomSheet(context,
-                          alertConfig: Alert(
+                        AlertActionSheet(context,
+                          alertConfig: AlertConfig(
                             title: "Você tem certeza?",
                             text: "Você está prestes a sair da sua conta, deseja realmente sair?",
                             primaryButton: AlertButton(

@@ -11,6 +11,7 @@ class CreditCardMapper extends Mapper<CreditCard> {
     entityFlag: input["entityFlag"],
     placeHolder: input["placeHolder"],
     isDefault: input["isDefault"] == 1,
+    isRemoved: input["isRemoved"] == 1,
   );
 
   @override
@@ -19,7 +20,8 @@ class CreditCardMapper extends Mapper<CreditCard> {
     cardHolderName: input["cardHolderName"],
     entityFlag: input["entityFlag"],
     placeHolder: input["placeHolder"],
-    isDefault: input["isDefault"] == 1
+    isDefault: input["isDefault"] == 1,
+    isRemoved: input["isRemoved"] == 1
   );
 
   @override
@@ -28,6 +30,7 @@ class CreditCardMapper extends Mapper<CreditCard> {
     "cardHolderName": input.cardHolderName,
     "entityFlag": input.entityFlag,
     "placeHolder": input.placeHolder,
-    "isDefault": input.isDefault? 1 : 0
+    "isDefault": input.isDefault? 1 : 0,
+    "isRemoved": input.isRemoved? 1 : 0
   };
 }

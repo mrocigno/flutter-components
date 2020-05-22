@@ -13,7 +13,7 @@ class CartRepository {
 
   CartDao _dao = Config.daoProvider();
 
-  Future<Cart> getCart(int id) => _dao.getById(id);
+  Future<Cart> getCart(int id) => _dao.findById(id);
 
   Future<Cart> save(Cart cart) => _dao.save(cart, conflictAlgorithm: ConflictAlgorithm.replace);
 

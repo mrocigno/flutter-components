@@ -8,6 +8,8 @@ import 'dart:ui';
 import 'package:data/entity/CreditCard.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/base/BaseScreen.dart';
+import 'package:infrastructure/flutter/components/alert/AlertActionSheet.dart';
+import 'package:infrastructure/flutter/components/alert/AlertConfig.dart';
 import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
 import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
 import 'package:infrastructure/flutter/components/carousel/Carousel.dart';
@@ -49,7 +51,25 @@ class CardListScreen extends BaseScreen with RouteObserverMixin {
     ScreenTransitions.push(context, AddCreditCardScreen(), animation: Animations.FADE);
   }
 
-  final GlobalKey<CarouselState> _carouselKey = GlobalKey();
+  void setDefault() {
+    cardBloc.setDefault();
+  }
+
+  void removeCard(BuildContext context) {
+    AlertActionSheet(context,
+      alertConfig: AlertConfig(
+        title: "Você tem certeza?",
+        text: "Você está prestes a excluir um cartão, deseja continuar?",
+        secondButton: AlertButton(
+          text: "Sim",
+          onPress: () => cardBloc.removeCard()
+        ),
+        primaryButton: AlertButton(
+          text: "Não"
+        )
+      )
+    ).show();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,11 +80,22 @@ class CardListScreen extends BaseScreen with RouteObserverMixin {
       bottomNavigation: BottomScaffoldContainer(
         child: Padding(
           padding: const EdgeInsets.all(10),
-          child: MopeiButton(
-              isLoading: cardBloc.cards.loading,
-              text: "Adicionar cartão",
-              onTap: () => goToAddCard(context)
-          ),
+          child: StreamBuilder<bool>(
+            stream: cardBloc.cards.loading,
+            builder: (context, snapshot) {
+              if(snapshot.data ?? false) {
+                return Container(
+                  height: 50,
+                  alignment: Alignment.center,
+                  child: RefreshProgressIndicator(),
+                );
+              }
+              return MopeiButton(
+                text: "Adicionar cartão",
+                onTap: () => goToAddCard(context)
+              );
+            },
+          )
         ),
       ),
       theme: BackgroundTheme.main,
@@ -93,6 +124,10 @@ class CardListScreen extends BaseScreen with RouteObserverMixin {
               var show = (snapshot.data?.length ?? 0) > 0;
               var list = snapshot.data;
 
+              if(show && cardBloc.getSelectedCard() == null){
+                cardBloc.selectCardByPosition(0);
+              }
+
               return AnimatedOpacity(
                 duration: Duration(milliseconds: 300),
                 opacity: show? 1 : 0,
@@ -102,101 +137,140 @@ class CardListScreen extends BaseScreen with RouteObserverMixin {
                     child: Column(
                       children: <Widget>[
                         Container(
-                            height: 340,
-                            child: Carousel(
-                              key: _carouselKey,
-                              viewPort: .7,
-                              itemCount: list?.length ?? 0,
-                              enableInfiniteScroll: (list?.length ?? 0) > 1,
-                              direction: Axis.vertical,
-                              itemBuilder: (context, index) {
-                                var model = list[index];
-                                return Container(
-                                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-                                    child: CreditCardView(
-                                      bgGradient: getGradient(index),
-                                      cardHolderName: model.placeHolder,
-                                      cardNumber: model.cardHolderName,
-                                      entityFlag: Image.asset("assets/img/icMcCard.webp", height: 50, width: 50),
-                                    )
-                                );
-                              },
-                            )
+                          height: 340,
+                          child: Carousel(
+                            viewPort: .7,
+                            itemCount: list?.length ?? 0,
+                            enableInfiniteScroll: (list?.length ?? 0) > 1,
+                            direction: Axis.vertical,
+                            onPageChanged: (index, reason) => cardBloc.selectCardByPosition(index),
+                            itemBuilder: (context, index) {
+                              var model = list[index];
+                              return Container(
+                                padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                                child: CreditCardView(
+                                  bgGradient: getGradient(model.id),
+                                  cardHolderName: model.placeHolder,
+                                  cardNumber: model.cardHolderName,
+                                  removed: model.isRemoved,
+                                  isDefault: model.isDefault,
+                                  entityFlag: Image.asset("assets/img/icMcCard.webp", height: 50, width: 50),
+                                )
+                              );
+                            },
+                          )
                         ),
-                        Expanded(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: Material(
-                                color: Colors.white,
-                                elevation: 2,
-                                clipBehavior: Clip.hardEdge,
-                                borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(10),
-                                    topRight: Radius.circular(10)
-                                ),
-                                child: Container(
-                                  width: double.infinity,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        ExpandableMenu(
-                                          backgroundColor: Constants.Colors.BACKGROUND_MARBLE,
-                                          menus: [
-                                            ExpandableMenuItem(
-                                                initExpanded: true,
-                                                arrowIcon: Icon(Icons.keyboard_arrow_down, size: 30),
-                                                titleColor: Colors.black,
-                                                title: "Ações",
-                                                icon: Icon(Icons.build),
-                                                items: [
-                                                  ExpandableItem(
-                                                      closeOnPress: false,
-                                                      icon: Stack(
-                                                        alignment: Alignment.topLeft,
-                                                        children: <Widget>[
-                                                          Icon(Icons.credit_card, size: 25),
-                                                          Icon(Icons.flag, size: 15, color: Colors.green),
-                                                        ],
-                                                      ),
-                                                      title: "Definir como padrão",
-                                                      onPress: () => dev.log("${list[_carouselKey.currentState.page].id}")
-                                                  ),
-                                                  ExpandableItem(
-                                                      closeOnPress: false,
-                                                      icon: Stack(
-                                                        alignment: Alignment.topRight,
-                                                        children: <Widget>[
-                                                          Icon(Icons.credit_card, size: 25),
-                                                          Icon(Icons.edit, size: 15, color: Colors.amber),
-                                                        ],
-                                                      ),
-                                                      title: "Editar dados",
-                                                      onPress: () => dev.log("asdsd")
-                                                  ),
-                                                  ExpandableItem(
-                                                      closeOnPress: false,
-                                                      icon: Stack(
-                                                        alignment: Alignment.center,
-                                                        children: <Widget>[
-                                                          Icon(Icons.credit_card, size: 25),
-                                                          Icon(Icons.close, size: 30, color: Colors.red),
-                                                        ],
-                                                      ),
-                                                      title: "Remover cartão",
-                                                      onPress: () => dev.log("asdsd")
-                                                  ),
-                                                ]
+                        StreamBuilder<CreditCard>(
+                          stream: cardBloc.selectedCard,
+                          builder: (context, snapshot) {
+                            var creditCard = snapshot.data;
+                            if(creditCard == null) return Wrap();
+                            return Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  child: Material(
+                                    color: Constants.Colors.BACKGROUND_MARBLE,
+                                    elevation: 2,
+                                    clipBehavior: Clip.hardEdge,
+                                    borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        topRight: Radius.circular(10)
+                                    ),
+                                    child: Container(
+                                      width: double.infinity,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              padding: const EdgeInsets.all(10),
+                                              child: (creditCard.isRemoved? (
+                                                Wrap(
+                                                  spacing: 10,
+                                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                                  children: <Widget>[
+                                                    removedIcon(),
+                                                    Text("Cartão removido", style: TextStyles.subtitleBlack)
+                                                  ],
+                                                )
+                                              ) : (
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Wrap(
+                                                      spacing: 10,
+                                                      crossAxisAlignment: WrapCrossAlignment.center,
+                                                      children: <Widget>[
+                                                        Icon(Icons.info_outline, size: 30),
+                                                        Text("Informações", style: TextStyles.subtitleBlack)
+                                                      ],
+                                                    ),
+                                                    (creditCard.isDefault? (
+                                                      infoLine(
+                                                        icon: defaultCardIcon(),
+                                                        text: "Este é o cartão principal"
+                                                      )
+                                                    ) : Wrap()),
+                                                    infoLine(
+                                                        icon: Image.asset("assets/img/icMcCard.webp", height: 30, width: 30),
+                                                        text: creditCard.placeHolder
+                                                    ),
+                                                    infoLine(
+                                                        icon: Icon(Icons.today, size: 30),
+                                                        text: "Ainda não usado"
+                                                    ),
+                                                  ],
+                                                )
+                                              ))
                                             ),
+                                            (!creditCard.isRemoved? (
+                                              ExpandableMenu(
+                                                backgroundColor: Colors.transparent,
+                                                menus: [
+                                                  ExpandableMenuItem(
+                                                    initExpanded: true,
+                                                    arrowIcon: Icon(Icons.keyboard_arrow_down, size: 30),
+                                                    titleColor: Colors.black,
+                                                    title: "Ações",
+                                                    icon: Icon(Icons.build),
+                                                    items: [
+                                                      ExpandableItem(
+                                                        closeOnPress: false,
+                                                        icon: defaultCardIcon(),
+                                                        title: "Definir como principal",
+                                                        onPress: () => cardBloc.setDefault()
+                                                      ),
+                                                      ExpandableItem(
+                                                        closeOnPress: false,
+                                                        icon: Stack(
+                                                          alignment: Alignment.topRight,
+                                                          children: <Widget>[
+                                                            Icon(Icons.credit_card, size: 25),
+                                                            Icon(Icons.edit, size: 15, color: Colors.amber),
+                                                          ],
+                                                        ),
+                                                        title: "Editar dados",
+                                                        onPress: () => dev.log("asdsd")
+                                                      ),
+                                                      ExpandableItem(
+                                                        closeOnPress: false,
+                                                        icon: removedIcon(),
+                                                        title: "Remover cartão",
+                                                        onPress: () => removeCard(context)
+                                                      ),
+                                                    ]
+                                                  ),
+                                                ],
+                                              )
+                                            ) : Wrap())
                                           ],
-                                        )
-
-                                      ],
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              ),
-                            )
+                                )
+                            );
+                          },
                         )
                       ],
                     )
@@ -204,20 +278,26 @@ class CardListScreen extends BaseScreen with RouteObserverMixin {
               );
             },
           ),
-          StreamBuilder<bool>(
-            stream: cardBloc.cards.loading,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData || !snapshot.data) return Wrap();
-              return Container(
-                alignment: Alignment.topCenter,
-                child: RefreshProgressIndicator(),
-              );
-            },
-          )
         ],
       ),
     );
   }
+
+  Widget infoLine({
+    Widget icon,
+    String text,
+    TextStyle textStyle = TextStyles.body
+  }) => Padding(
+    padding: const EdgeInsets.only(left: 20, top: 10),
+    child: Wrap(
+      spacing: 10,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: <Widget>[
+        icon,
+        Text(text, style: textStyle)
+      ],
+    ),
+  );
 
   Gradient getGradient(int index) {
     var rand = math.Random(index + 255);
@@ -234,5 +314,21 @@ class CardListScreen extends BaseScreen with RouteObserverMixin {
         end: Alignment.topCenter
     );
   }
+
+  Widget removedIcon() => Stack(
+    alignment: Alignment.center,
+    children: <Widget>[
+      Icon(Icons.credit_card, size: 25),
+      Icon(Icons.close, size: 30, color: Colors.red),
+    ],
+  );
+
+  Widget defaultCardIcon() => Stack(
+    alignment: Alignment.topLeft,
+    children: <Widget>[
+      Icon(Icons.credit_card, size: 30),
+      Icon(Icons.flag, size: 15, color: Colors.green),
+    ],
+  );
 
 }

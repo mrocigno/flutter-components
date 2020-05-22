@@ -35,8 +35,14 @@ class Carousel extends StatefulWidget {
 
 class CarouselState extends State<Carousel> {
 
-  int _page = 0;
+  int _page;
   int get page => _page;
+
+  @override
+  void initState() {
+    super.initState();
+    _page = 0;
+  }
 
   @override
   Widget build(BuildContext context) {

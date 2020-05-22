@@ -10,13 +10,15 @@ class CreditCard {
   String cardHolderName;
   String entityFlag;
   bool isDefault;
+  bool isRemoved;
 
   CreditCard({
     this.id,
     this.placeHolder,
     this.cardHolderName,
     this.entityFlag,
-    this.isDefault = false
+    this.isDefault = false,
+    this.isRemoved = false
   });
 
 }

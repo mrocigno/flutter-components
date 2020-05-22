@@ -6,6 +6,7 @@ import 'package:data/entity/CreditCard.dart';
 import 'package:data/mapper/CreditCardMapper.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:infrastructure/flutter/livedata/ResponseStream.dart';
+import 'package:sqflite/sqflite.dart';
 
 class CreditCardRepository {
 
@@ -21,9 +22,11 @@ class CreditCardRepository {
     return list;
   }
 
-  Future<List<CreditCard>> getCards() async {
-    return await _local.getAll();
-  }
+  Future<List<CreditCard>> getCards() => _local.getAll();
+
+  Future<void> removeCard(CreditCard creditCard) => _local.remove(creditCard);
+
+  Future<void> setDefault(CreditCard selectedCard) => _local.setDefault(selectedCard);
 
 }
 
@@ -34,6 +37,10 @@ class CreditCardLocal {
     _dao.deleteAll();
     _dao.saveMany(list);
   }
+
+  Future<void> remove(CreditCard creditCard) async => await _dao.save(creditCard, conflictAlgorithm: ConflictAlgorithm.replace);
+
+  Future<void> setDefault(CreditCard creditCard) => _dao.setDefault(creditCard);
 
   Future<List<CreditCard>> getAll() => _dao.getList();
 
@@ -51,7 +58,8 @@ class CreditCardRemote {
         "id": 1,
         "cardHolderName": "Matheus Rocigno",
         "entityFlag": "MASTER",
-        "placeHolder": "xxxx xxxx xxxx 1234"
+        "placeHolder": "xxxx xxxx xxxx 1234",
+        "isDefault": 1
       },
       {
         "id": 2,
