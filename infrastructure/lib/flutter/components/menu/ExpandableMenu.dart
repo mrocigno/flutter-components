@@ -13,9 +13,11 @@ import 'package:infrastructure/flutter/utils/Matrix4Utils.dart';
 class ExpandableMenu extends StatefulWidget {
 
   final List<ExpandableMenuItem> menus;
+  final Color backgroundColor;
 
   ExpandableMenu({
-    this.menus = const <ExpandableMenuItem>[]
+    this.menus = const <ExpandableMenuItem>[],
+    this.backgroundColor = Constants.Colors.BLACK_TRANSPARENT_LOW
   });
 
   @override
@@ -26,15 +28,19 @@ class ExpandableMenu extends StatefulWidget {
 class ExpandableMenuItem {
 
   final Widget icon;
+  final bool initExpanded;
   final String title;
   final Widget arrowIcon;
+  final Color titleColor;
   final List<ExpandableItem> items;
 
   ExpandableMenuItem({
     @required this.icon,
     @required this.title,
+    this.titleColor = Colors.white,
     this.items = const <ExpandableItem>[],
-    this.arrowIcon = const Icon(Icons.keyboard_arrow_up, color: Colors.white, size: 30)
+    this.arrowIcon = const Icon(Icons.keyboard_arrow_up, color: Colors.white, size: 30),
+    this.initExpanded = false
   });
 
 }
@@ -77,10 +83,13 @@ class ExpandableMenuState extends State<ExpandableMenu> with TickerProviderState
         Animation<double> size = Tween(begin: 0.0, end: 70.0).animate(controller);
         Animation<double> rotation = Tween(begin: 0.0, end: math.pi).animate(controller);
 
-        var expanded = false;
+        var expanded = menu.initExpanded;
+        if(menu.initExpanded){
+          controller.value = 70;
+        }
 
         return Container(
-          color: Constants.Colors.BLACK_TRANSPARENT_LOW,
+          color: widget.backgroundColor,
           child: Column(
             children: <Widget>[
               Material(
@@ -104,7 +113,10 @@ class ExpandableMenuState extends State<ExpandableMenu> with TickerProviderState
                           children: <Widget>[
                             menu.icon,
                             Container(width: 10),
-                            Expanded(child: Text(menu.title, style: TextStyles.subtitleWhite)),
+                            Expanded(child: Text(menu.title, style: TextStyle(
+                              color: menu.titleColor,
+                              fontSize: 20,
+                            ))),
                             AnimatedBuilder(
                               animation: rotation,
                               builder: (context, child) => Container(
@@ -134,7 +146,10 @@ class ExpandableMenuState extends State<ExpandableMenu> with TickerProviderState
                         borderRadius: const BorderRadius.all(Radius.circular(10)),
                         child: InkWell(
                           onTap: () {
-                            if(item.closeOnPress) controller.reverse(); expanded = false;
+                            if(item.closeOnPress) {
+                              controller.reverse();
+                              expanded = false;
+                            }
                             item.onPress?.call();
                           },
                           child: Container(

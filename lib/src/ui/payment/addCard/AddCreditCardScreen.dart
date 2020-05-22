@@ -21,54 +21,53 @@ class AddCreditCardScreen extends BaseScreen {
   @override
   String get name => "AddCreditCard";
 
-
   @override
   Widget build(BuildContext context) {
 
     return Background(
-      bottomNavigation: BottomScaffoldContainer(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Row(
+        bottomNavigation: BottomScaffoldContainer(
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 1,
+                  child: MopeiButton(
+                    theme: MopeiButtonTheme.outlined,
+                    text: "Cancelar",
+                  ),
+                ),
+                Container(width: 10, height: 1,),
+                Expanded(
+                  flex: 1,
+                  child: MopeiButton(
+                    theme: MopeiButtonTheme.mainTheme,
+                    text: "Adicionar",
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+        child: BackgroundContainer(
+          theme: BackgroundContainerTheme.FLAT,
+          child: Column(
             children: <Widget>[
               Expanded(
                 flex: 1,
-                child: MopeiButton(
-                  theme: MopeiButtonTheme.outlined,
-                  text: "Cancelar",
-                ),
-              ),
-              Container(width: 10, height: 1,),
-              Expanded(
-                flex: 1,
-                child: MopeiButton(
-                  theme: MopeiButtonTheme.mainTheme,
-                  text: "Adicionar",
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      Center(
+                        child: CreditCardForm(),
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],
           ),
-        ),
-      ),
-      child: BackgroundContainer(
-        theme: BackgroundContainerTheme.FLAT,
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              flex: 1,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    Center(
-                      child: CreditCardForm(),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      )
+        )
     );
   }
 

@@ -20,7 +20,7 @@ class BackgroundContainer extends StatelessWidget {
       children: <Widget>[
         (theme == BackgroundContainerTheme.FLAT? (
           Container(
-            color: Constants.Colors.BACKGROUND_WHITE_GRAY,
+            color: Constants.Colors.BACKGROUND_MARBLE_MEDIUM,
             margin: EdgeInsets.only(top: 100),
           )
         ) : (

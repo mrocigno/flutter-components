@@ -108,7 +108,7 @@ class _CreditCardFormState extends State<CreditCardForm> with SingleTickerProvid
         FormValidate(
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
-            color: Constants.Colors.BACKGROUND_WHITE_GRAY
+            color: Constants.Colors.BACKGROUND_MARBLE_MEDIUM
           ),
           padding: const EdgeInsets.all(20),
           child: Column(

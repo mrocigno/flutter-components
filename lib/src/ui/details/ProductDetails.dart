@@ -8,7 +8,7 @@ import 'package:infrastructure/flutter/base/BaseScreen.dart';
 import 'package:infrastructure/flutter/components/backgrounds/BackgroundSliver.dart';
 import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
 import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
-import 'package:infrastructure/flutter/components/carousel/CarouselWithIndicator.dart';
+import 'package:infrastructure/flutter/components/carousel/Carousel.dart';
 import 'package:infrastructure/flutter/components/containers/BottomScaffoldContainer.dart';
 import 'package:infrastructure/flutter/components/textviews/Amount.dart';
 import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
@@ -22,10 +22,7 @@ import 'package:infrastructure/flutter/routing/AppRoute.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 
-class ProductDetails extends BaseScreen with RouteObserverMixin {
-
-  @override
-  String get name => "ProductDetails";
+class ProductDetails extends BaseScreen {
 
   final Product model;
   final ProductDetailsBloc detailsBloc = bloc();
@@ -34,6 +31,9 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
   ProductDetails({
     this.model,
   });
+
+  @override
+  String get name => "ProductDetails";
 
   void addToCart(){
     detailsBloc.addToCart(model);
@@ -195,4 +195,5 @@ class ProductDetails extends BaseScreen with RouteObserverMixin {
       ),
     );
   }
+
 }

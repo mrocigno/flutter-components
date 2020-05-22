@@ -31,7 +31,7 @@ class FavoritesLocal {
 
     void add(Favorite favorite) => dao.save(favorite);
 
-    void remove(Favorite favorite) => dao.remove(favorite);
+    void remove(Favorite favorite) => dao.delete(favorite);
 
 }
 

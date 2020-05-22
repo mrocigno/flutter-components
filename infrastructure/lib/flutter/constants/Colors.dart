@@ -31,7 +31,8 @@ class Colors {
 
   static const Color RED_ERROR = Color.fromRGBO(246, 75, 99, 1);
 
-  static const Color BACKGROUND_WHITE_GRAY = Color(0xFFEEEEEE);
+  static const Color BACKGROUND_MARBLE = Color.fromARGB(255, 250, 250, 250);
+  static const Color BACKGROUND_MARBLE_MEDIUM = Color(0xFFEEEEEE);
   static const Color BACKGROUND_WHITE = Color(0xFFF9F9F9);
 
   static const Color GRAY = Color.fromRGBO(158, 158, 158, 1);

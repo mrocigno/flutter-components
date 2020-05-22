@@ -29,7 +29,7 @@ class BackgroundThemes {
     appBarColor: Colors.white,
     titleColor: Constants.Colors.COLOR_PRIMARY,
     decoration: BoxDecoration(
-      color: Constants.Colors.BACKGROUND_WHITE_GRAY
+      color: Constants.Colors.BACKGROUND_MARBLE_MEDIUM
     )
   );
 

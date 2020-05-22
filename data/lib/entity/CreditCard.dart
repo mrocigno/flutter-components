@@ -9,12 +9,14 @@ class CreditCard {
   String placeHolder;
   String cardHolderName;
   String entityFlag;
+  bool isDefault;
 
   CreditCard({
     this.id,
     this.placeHolder,
     this.cardHolderName,
-    this.entityFlag
+    this.entityFlag,
+    this.isDefault = false
   });
 
 }

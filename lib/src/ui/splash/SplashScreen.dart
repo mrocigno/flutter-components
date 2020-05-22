@@ -9,10 +9,10 @@ import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/main/MainScreen.dart';
 
-class SplashScreen extends BaseScreen {
+class SplashScreen extends StatelessWidget {
 
-  @override
-  String get name => "SplashScreen";
+//  @override
+//  String get name => "SplashScreen";
 
   // ignore: close_sinks
   final StreamController<bool> startAnimate = StreamController();

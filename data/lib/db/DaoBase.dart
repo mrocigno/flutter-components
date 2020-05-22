@@ -32,12 +32,16 @@ abstract class DaoBase<Entity> {
     await batch.commit(noResult: true);
   }
 
-  void remove(Entity entity) {
+  void delete(Entity entity) {
     var json = mapper.toDataMap(entity);
     db.delete(tableName,
       where: "$identifier = ?",
       whereArgs: [json[identifier]]
     );
+  }
+
+  void deleteAll() {
+    db.delete(tableName);
   }
 
   Future<List<Entity>> getList({String where, List<dynamic> whereArgs}) async {

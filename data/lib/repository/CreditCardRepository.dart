@@ -17,12 +17,12 @@ class CreditCardRepository {
     if(list.length > 0){
       _local.saveAll(list);
     }
+//    return [];
     return list;
   }
 
   Future<List<CreditCard>> getCards() async {
-    return [];
-//    return await _local.getAll();
+    return await _local.getAll();
   }
 
 }
@@ -30,7 +30,10 @@ class CreditCardRepository {
 class CreditCardLocal {
   CreditCardDao _dao = Config.daoProvider();
 
-  void saveAll(List<CreditCard> list) => _dao.saveMany(list);
+  void saveAll(List<CreditCard> list) {
+    _dao.deleteAll();
+    _dao.saveMany(list);
+  }
 
   Future<List<CreditCard>> getAll() => _dao.getList();
 
@@ -42,7 +45,7 @@ class CreditCardRemote {
 
   Future<List<CreditCard>> getCards() async {
     await Future.delayed(Duration(seconds: 1));
-    throw ErrorResponse(message: "erro mesmo");
+//    throw ErrorResponse(message: "erro mesmo");
     return [
       {
         "id": 1,
@@ -55,6 +58,12 @@ class CreditCardRemote {
         "cardHolderName": "Matheus R medeiros",
         "entityFlag": "VISA",
         "placeHolder": "xxxx xxxx xxxx 4321"
+      },
+      {
+        "id": 3,
+        "cardHolderName": "Matheus R medeiros",
+        "entityFlag": "VISA",
+        "placeHolder": "xxxx xxxx xxxx 5678"
       },
     ].map((e) => mapper.fromResponse(e)).toList();
   }

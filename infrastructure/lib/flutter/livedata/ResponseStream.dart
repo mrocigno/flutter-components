@@ -5,10 +5,12 @@ import 'package:rxdart/rxdart.dart';
 class ResponseStream<T> {
 
   final BehaviorSubject<T> _data;
+  final BehaviorSubject<bool> _empty = BehaviorSubject(seedValue: false);
   final BehaviorSubject<bool> _loading = BehaviorSubject(seedValue: false);
   final BehaviorSubject<ErrorResponse> _error = BehaviorSubject();
 
   Observable<T> get success => _data.stream;
+  Observable<bool> get empty => _empty.stream;
   Observable<bool> get loading => _loading.stream;
   Observable<ErrorResponse> get error => _error.stream;
 
@@ -24,16 +26,27 @@ class ResponseStream<T> {
       void onError(ErrorResponse data)
     }
   ) async {
-    observe(onSuccess: onSuccess, onError: onError, onLoading: onLoading);
+    dev.log("caleed");
     try {
       _loading.add(true);
-      _data.add(await execute());
+      onLoading?.call(true);
+
+      var response = await execute();
+      if(response == null || (response is List && response.length <= 0)){
+        _empty.add(true);
+      } else {
+        _data.add(response);
+        onSuccess?.call(response);
+        _empty.add(false);
+      }
     } catch (exception, stacktrace) {
       dev.log("Error inside postLoad $T");
       dev.log("$exception \n $stacktrace");
       _error.add(exception);
+      onError?.call(exception);
     } finally {
       _loading.add(false);
+      onLoading?.call(false);
     }
   }
 
@@ -55,6 +68,7 @@ class ResponseStream<T> {
     _data.close();
     _loading.close();
     _error.close();
+    _empty.close();
   }
 
 }

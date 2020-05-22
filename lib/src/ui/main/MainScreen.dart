@@ -18,10 +18,21 @@ import 'package:mopei_app/src/ui/notification/NotificationModal.dart';
 
 class MainScreen extends BaseScreen with RouteObserverMixin {
 
+  final MainNavigationBloc navigationBloc = sharedBloc();
+
   @override
   String get name => "MainScreen";
 
-  final MainNavigationBloc navigationBloc = sharedBloc();
+  @override
+  void onComeback() {
+    navigationBloc.checkCart();
+    MyApp.configSystemStyleUI();
+  }
+
+  @override
+  void onCalled() {
+    navigationBloc.checkCart();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,17 +71,4 @@ class MainScreen extends BaseScreen with RouteObserverMixin {
     );
   }
 
-  @override
-  void onComeback() {
-    navigationBloc.checkCart();
-    MyApp.configSystemStyleUI();
-  }
-
-  @override
-  void onCalled() {
-    navigationBloc.checkCart();
-  }
-
 }
-
-

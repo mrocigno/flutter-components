@@ -7,6 +7,7 @@ import 'package:infrastructure/flutter/components/alert/AlertBottomSheet.dart';
 import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
 import 'package:infrastructure/flutter/components/image/UserIcon.dart';
 import 'package:infrastructure/flutter/components/menu/ExpandableMenu.dart';
+import 'package:infrastructure/flutter/components/textviews/EmptyState.dart';
 import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
@@ -38,22 +39,13 @@ class UserScreen extends StatelessWidget {
       stream: bloc.user,
       builder: (context, snapshot) {
         if(!snapshot.hasData || snapshot.data == null) return Center(
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            direction: Axis.vertical,
-            children: <Widget>[
-              Icon(Icons.account_circle, color: Colors.white, size: 150),
-              Text("Você não está logado", style: TextStyles.title2White),
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Hyperlink("Clique aqui para logar",
-                  style: TextStyles.subtitleWhite,
-                  onPress: () {
-                    LoginModal(context, onSuccess: onSuccessLogin).show();
-                  },
-                ),
-              )
-            ],
+          child: EmptyState(
+            icon: Icons.account_circle,
+            title: "Você não está logado",
+            hyperlink: "Clique aqui para logar",
+            onHyperlinkPressed: () {
+              LoginModal(context, onSuccess: onSuccessLogin).show();
+            },
           ),
         );
 

@@ -19,7 +19,7 @@ class BumpButton extends StatefulWidget {
   BumpButton({
     this.icon,
     this.activeColor,
-    this.defBackgroundColor = Constants.Colors.BACKGROUND_WHITE_GRAY,
+    this.defBackgroundColor = Constants.Colors.BACKGROUND_MARBLE_MEDIUM,
     this.defIconColor = Colors.black,
     this.scale = 2.0,
     this.onPress

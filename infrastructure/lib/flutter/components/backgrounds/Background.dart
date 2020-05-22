@@ -16,9 +16,11 @@ class Background extends StatelessWidget{
     this.bottomNavigation,
     this.onWillPop,
     this.bottomSheet,
-    this.floatingActionButton
+    this.floatingActionButton,
+    this.centerTitle = true
   }) : super(key: key);
 
+  final bool centerTitle;
   final Widget child;
   final Widget title;
   final Widget bottomSheet;
@@ -70,7 +72,7 @@ class Background extends StatelessWidget{
             resizeToAvoidBottomInset: false,
             floatingActionButton: floatingActionButton,
             appBar: AppBar(
-              centerTitle: _theme.centralizeTitle,
+              centerTitle: centerTitle,
               iconTheme: IconThemeData(color: _theme.titleColor),
               textTheme: TextTheme(headline6: TextStyle(color: _theme.titleColor, fontSize: 20, fontFamily: "lato")),
               title: title,
@@ -97,7 +99,6 @@ class Background extends StatelessWidget{
 class BackgroundTheme {
 
   static BackgroundTheme main = BackgroundTheme(
-    centralizeTitle: true,
     titleColor: Colors.white,
     decoration: BoxDecoration(
       gradient: LinearGradient(
@@ -112,7 +113,6 @@ class BackgroundTheme {
   );
 
   static BackgroundTheme details = BackgroundTheme(
-    centralizeTitle: true,
     titleColor: Constants.Colors.COLOR_PRIMARY,
     decoration: BoxDecoration(
       color: Constants.Colors.BACKGROUND_WHITE
@@ -120,7 +120,6 @@ class BackgroundTheme {
   );
 
   static BackgroundTheme test = BackgroundTheme(
-    centralizeTitle: true,
     titleColor: Constants.Colors.COLOR_PRIMARY,
     decoration: BoxDecoration(
       color: Colors.transparent
@@ -128,7 +127,6 @@ class BackgroundTheme {
   );
 
   static BackgroundTheme loginPage = BackgroundTheme(
-    centralizeTitle: false,
     titleColor: Colors.black,
     decoration: BoxDecoration(
 //      color: Constants.Colors.BLACK_TRANSPARENT,
@@ -139,10 +137,9 @@ class BackgroundTheme {
     )
   );
 
-  BackgroundTheme({this.decoration, this.centralizeTitle, this.titleColor});
+  BackgroundTheme({this.decoration, this.titleColor});
 
   final BoxDecoration decoration;
-  final bool centralizeTitle;
   final Color titleColor;
 }
 

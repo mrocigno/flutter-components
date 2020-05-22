@@ -15,43 +15,52 @@ class Carousel extends StatefulWidget {
   final bool showIndicator;
   final Axis direction;
   final double viewPort;
+  final Function(int index, CarouselPageChangedReason reason) onPageChanged;
 
   Carousel({
+    Key key,
     @required this.itemCount,
     @required this.itemBuilder,
     this.enableInfiniteScroll = true,
     this.showIndicator = true,
     this.direction = Axis.horizontal,
-    this.viewPort = 1.0
-  });
+    this.viewPort = 1.0,
+    this.onPageChanged
+  }) : super(key: key);
 
   @override
-  _CarouselState createState() => _CarouselState();
+  CarouselState createState() => CarouselState();
 
 }
 
-class _CarouselState extends State<Carousel> {
+class CarouselState extends State<Carousel> {
 
   int _page = 0;
+  int get page => _page;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: <Widget>[
-        CarouselSlider.builder(
-          itemCount: widget.itemCount,
-          options: CarouselOptions(
-            height: double.infinity,
-            initialPage: _page,
-            enableInfiniteScroll: widget.enableInfiniteScroll,
-            viewportFraction: widget.viewPort,
-            scrollDirection: widget.direction,
-            enlargeCenterPage: true,
-            onPageChanged: (index, reason) => setState(() => _page = index),
-          ),
-          itemBuilder: widget.itemBuilder
-        ),
+        (widget.itemCount > 0? (
+          CarouselSlider.builder(
+            itemCount: widget.itemCount,
+            options: CarouselOptions(
+              height: double.infinity,
+              initialPage: _page,
+              enableInfiniteScroll: widget.enableInfiniteScroll,
+              viewportFraction: widget.viewPort,
+              scrollDirection: widget.direction,
+              enlargeCenterPage: true,
+              onPageChanged: (index, reason) {
+                setState(() => _page = index);
+                widget.onPageChanged?.call(index, reason);
+              },
+            ),
+            itemBuilder: widget.itemBuilder
+          )
+        ) : Wrap()),
         (widget.showIndicator && widget.itemCount > 1? (
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
