@@ -16,7 +16,7 @@ class ScreenTransitions {
     _registerObservers(screen);
     Navigator.pushReplacement(context, PageRouteBuilder(
       settings: RouteSettings(name: screen.name),
-      pageBuilder: (context, animation, secondaryAnimation) => screen,
+      pageBuilder: (context, animation, secondaryAnimation) => BaseScreenStateful(screen),
       transitionDuration: Duration(milliseconds: 800),
       transitionsBuilder: _getAnimation(animation),
     ));
@@ -26,7 +26,7 @@ class ScreenTransitions {
     _registerObservers(screen);
     return Navigator.push(context, PageRouteBuilder(
       settings: RouteSettings(name: screen.name),
-      pageBuilder: (context, animation, secondaryAnimation) => screen,
+      pageBuilder: (context, animation, secondaryAnimation) => BaseScreenStateful(screen),
       transitionDuration: Duration(milliseconds: 300),
       transitionsBuilder: _getAnimation(animation),
     ));

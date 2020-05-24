@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:infrastructure/flutter/components/inputs/FormValidate.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:rxdart/rxdart.dart';
@@ -7,7 +8,7 @@ import 'dart:developer' as dev;
 
 import 'InputController.dart';
 
-class Input extends StatelessWidget {
+class Input extends StatefulWidget {
 
   final InputThemes theme;
   final bool obscureText;
@@ -35,18 +36,25 @@ class Input extends StatelessWidget {
   });
 
   @override
+  InputState createState() => InputState();
+
+}
+
+class InputState extends State<Input> {
+
+  @override
   Widget build(BuildContext context) {
 
-    var _controller = controller ?? InputController();
-    if(icon != null){
-      _controller.setIcon(icon);
+    var _controller = widget.controller ?? InputController();
+    if(widget.icon != null){
+      _controller.setIcon(widget.icon);
     }
 
     FormValidateState.registerForValidate(context, this);
 
     return Container(
-        padding: padding,
-        margin: margin,
+        padding: widget.padding,
+        margin: widget.margin,
         child: Stack(
           alignment: Alignment.centerRight,
           overflow: Overflow.visible,
@@ -55,35 +63,36 @@ class Input extends StatelessWidget {
                 height: 60,
                 padding: EdgeInsets.only(
                     left: 20,
-                    right: (icon != null? 50 : 20)
+                    right: (widget.icon != null? 50 : 20)
                 ),
                 alignment: Alignment.center,
-                decoration: theme.background,
+                decoration: widget.theme.background,
                 child: Wrap(
                   children: [
                     TextFormField(
                       controller: _controller,
-                      cursorColor: theme.textColor,
-                      keyboardType: keyboardType,
-                      obscureText: obscureText,
-                      focusNode: focusNode,
-                      onFieldSubmitted: onFieldSubmitted,
+                      cursorColor: widget.theme.textColor,
+                      keyboardType: widget.keyboardType,
+                      obscureText: widget.obscureText,
+                      focusNode: widget.focusNode,
+                      onFieldSubmitted: widget.onFieldSubmitted,
                       validator: (value) {
                         _controller.validate();
-                        return ;
+                        return;
                       },
                       style: TextStyle(
-                        color: theme.textColor,
+                        color: widget.theme.textColor,
                       ),
                       decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: hint,
+                          hintText: widget.hint,
                           hintStyle: TextStyle(
-                              color: theme.hintColor
+                              color: widget.theme.hintColor
                           )
                       ),
                       onChanged: (value) {
                         _controller.setError(null);
+                        _controller.handleMask(value);
                       },
                     ),
                     StreamBuilder<String>(
@@ -114,12 +123,12 @@ class Input extends StatelessWidget {
                   clipBehavior: Clip.hardEdge,
                   color: Colors.transparent,
                   child: IconButton(
-                    icon: Image.asset(path ?? icon,
-                      width: 30,
-                      height: 30,
-                      fit: theme.iconFit,
-                    ),
-                    onPressed: onTapIcon
+                      icon: Image.asset(path ?? widget.icon,
+                        width: 30,
+                        height: 30,
+                        fit: widget.theme.iconFit,
+                      ),
+                      onPressed: widget.onTapIcon
                   ),
                 );
               },
@@ -128,6 +137,7 @@ class Input extends StatelessWidget {
         )
     );
   }
+
 }
 
 class InputThemes {

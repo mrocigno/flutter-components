@@ -22,13 +22,13 @@ class FormValidate extends StatefulWidget {
 
 class FormValidateState extends State<FormValidate> {
 
-  List<Input> _inputs = List();
-  static void registerForValidate(BuildContext context, Input input) {
+  Set<InputState> _inputs = Set();
+  static void registerForValidate(BuildContext context, InputState input) {
     _FormValidateScope state = context.dependOnInheritedWidgetOfExactType<_FormValidateScope>();
     state?.state?._register(input);
   }
 
-  void _register(Input input){
+  void _register(InputState input){
     _inputs.add(input);
   }
 
@@ -44,10 +44,10 @@ class FormValidateState extends State<FormValidate> {
     );
   }
 
-  bool validate(){
+  bool validate() {
     bool error = false;
-    for (Input child in _inputs){
-      if(!child.controller.validate()){
+    for (InputState child in _inputs){
+      if(!child.widget.controller.validate()){
         error = true;
       }
     }

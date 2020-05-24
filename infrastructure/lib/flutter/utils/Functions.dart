@@ -12,3 +12,5 @@ double insetBottom(BuildContext context) {
   var query = MediaQuery.of(context);
   return query.viewInsets.bottom + query.padding.bottom;
 }
+
+void hideKeyboard(BuildContext context) => FocusScope.of(context).requestFocus(FocusNode());

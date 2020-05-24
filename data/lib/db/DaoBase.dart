@@ -15,14 +15,14 @@ abstract class DaoBase<Entity> {
   
   Database db;
 
-  Future<Entity> save(Entity entity, {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore}) async {
+  Future<Entity> save(Entity entity, {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.replace}) async {
     var i = await db.insert(tableName, mapper.toDataMap(entity),
         conflictAlgorithm: conflictAlgorithm
     );
     return entity;
   }
 
-  Future<void> saveMany(List<Entity> list, {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.ignore}) async {
+  Future<void> saveMany(List<Entity> list, {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.replace}) async {
     var batch = db.batch();
     list?.forEach((entity) {
       batch.insert(tableName, mapper.toDataMap(entity),
@@ -40,8 +40,11 @@ abstract class DaoBase<Entity> {
     );
   }
 
-  void deleteAll() {
-    db.delete(tableName);
+  void deleteAll({String where, List<dynamic> whereArgs}) {
+    db.delete(tableName,
+      where: where,
+      whereArgs: whereArgs
+    );
   }
 
   Future<List<Entity>> getList({String where, List<dynamic> whereArgs}) async {

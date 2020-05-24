@@ -47,6 +47,11 @@ class CardListScreen extends BaseScreen with RouteObserverMixin {
     cardBloc.refreshCards();
   }
 
+  @override
+  void onExit() {
+    cardBloc.deleteRemoved();
+  }
+
   void goToAddCard(BuildContext context) {
     ScreenTransitions.push(context, AddCreditCardScreen(), animation: Animations.FADE);
   }
@@ -228,7 +233,6 @@ class CardListScreen extends BaseScreen with RouteObserverMixin {
                                                 backgroundColor: Colors.transparent,
                                                 menus: [
                                                   ExpandableMenuItem(
-                                                    initExpanded: true,
                                                     arrowIcon: Icon(Icons.keyboard_arrow_down, size: 30),
                                                     titleColor: Colors.black,
                                                     title: "Ações",

@@ -143,6 +143,8 @@ class ExpandableMenuState extends State<ExpandableMenu> with TickerProviderState
                       height: size.value,
                       padding: const EdgeInsets.all(10),
                       child: Material(
+                        elevation: 1,
+                        clipBehavior: Clip.hardEdge,
                         color: Colors.white,
                         borderRadius: const BorderRadius.all(Radius.circular(10)),
                         child: InkWell(

@@ -41,8 +41,8 @@ class _PageCreateAccountScreen extends State<PageCreateAccountScreen> {
   _PageCreateAccountScreen() {
     passwordController = InputController(
       validateBuild: (wrapper) {
-        wrapper.customValidate("As senhas não coincidem", (){
-          return confirmPasswordController.text == passwordController.text;
+        wrapper.customValidate("As senhas não coincidem", (text){
+          return confirmPasswordController.text == text;
         });
         wrapper.required("Informe a senha");
       },
@@ -50,8 +50,8 @@ class _PageCreateAccountScreen extends State<PageCreateAccountScreen> {
 
     confirmPasswordController = InputController(
       validateBuild: (wrapper) {
-        wrapper.customValidate("As senhas não coincidem", (){
-          return confirmPasswordController.text == passwordController.text;
+        wrapper.customValidate("As senhas não coincidem", (text){
+          return text == passwordController.text;
         });
         wrapper.required("Confirme a senha");
       },

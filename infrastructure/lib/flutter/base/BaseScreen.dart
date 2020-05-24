@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
 
-abstract class BaseScreen extends StatelessWidget {
+class BaseScreenStateful extends StatefulWidget {
+
+  final State state;
+
+  BaseScreenStateful(this.state);
+
+  @override
+  BaseScreen createState() => state;
+
+}
+
+abstract class BaseScreen extends State<BaseScreenStateful> {
 
   String get name;
 

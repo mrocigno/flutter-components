@@ -96,8 +96,8 @@ class _PageLoginScreenState extends State<PageLoginScreen> {
               onTap: () {
                 if(formKey.currentState.validate()){
                   pageLoginBloc.doLogin(
-                      email: emailController.value.text,
-                      password: passController.value.text
+                    email: emailController.value.text.trim(),
+                    password: passController.value.text.trim()
                   );
                 }
               },

@@ -29,6 +29,7 @@ import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 import 'package:mopei_app/src/ui/main/user/UserScreenBloc.dart';
 import 'package:mopei_app/src/ui/payment/CardListBloc.dart';
+import 'package:mopei_app/src/ui/payment/addCard/AddCreditCardBloc.dart';
 import 'package:mopei_app/src/ui/search/SearchScreenBloc.dart';
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
@@ -161,6 +162,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
     module.bloc(() => SearchScreenBloc());
     module.bloc(() => PageLoginBloc());
     module.bloc(() => CardListBloc());
+    module.bloc(() => AddCreditCardBloc());
 
     module.singleton(() => CartMapper());
     module.singleton(() => FavoriteMapper());

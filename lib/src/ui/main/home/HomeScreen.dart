@@ -16,7 +16,7 @@ import 'package:mopei_app/src/ui/search/SearchScreen.dart';
 class HomeScreen extends StatelessWidget {
 
   final HomeBloc homeBloc = bloc();
-  final InputController searchController = InputController();
+  final InputController searchController = InputController(mask: "###");
 
   void goToSearchScreen(BuildContext context){
     var screen = SearchScreen(
@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
               icon: "assets/img/icSearchWhite.png",
               margin: EdgeInsets.all(20),
               onFieldSubmitted: (value) => goToSearchScreen(context),
-              onTapIcon: () => goToSearchScreen(context),
+              onTapIcon: () => goToSearchScreen(context)
             ),
           ),
         ),

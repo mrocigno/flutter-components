@@ -5,6 +5,8 @@ import "dart:developer" as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
+import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
+import 'package:infrastructure/flutter/components/buttons/BumpButton.dart';
 import 'package:infrastructure/flutter/components/inputs/FormValidate.dart';
 import 'package:infrastructure/flutter/components/inputs/InputController.dart';
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
@@ -13,45 +15,93 @@ import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
 class CreditCardForm extends StatefulWidget {
 
+  CreditCardForm({Key key}) : super(key: key);
+  
   @override
-  _CreditCardFormState createState() => _CreditCardFormState();
+  CreditCardFormState createState() => CreditCardFormState();
 
 }
 
-class _CreditCardFormState extends State<CreditCardForm> with SingleTickerProviderStateMixin {
+class CreditCardFormState extends State<CreditCardForm> with SingleTickerProviderStateMixin {
 
-  FocusNode cvvFocus = FocusNode();
-  var cvvHasFocus = false;
-  var oldCvvStatus = false;
+  FocusNode _cvvFocus = FocusNode();
+  var _cvvHasFocus = false;
+  var _oldCvvStatus = false;
   AnimationController _controller;
+  GlobalKey<FormValidateState> _formValidateKey;
 
-  InputController numCardController = InputController();
-  InputController expireDateController = InputController();
-  InputController cvvController = InputController();
-  InputController nameController = InputController();
+  InputController _numCardController = InputController(
+    mask: "#### #### #### ####",
+    validateBuild: (wrapper) {
+      wrapper.minLength(19, "Número inválido");
+      wrapper.isCreditCard("Número inválido");
+      wrapper.required("Informe o número do cartão");
+    },
+  );
+  InputController _expireDateController = InputController(
+    mask: "##/##",
+    validateBuild: (wrapper) {
+      wrapper.customValidate("Data invalida", (text) {
+        var list = text.split("/");
+        if(list.length > 1){
+          var now = DateTime.now();
+          var expireDate = DateTime.parse("20${list[1]}-${list[0]}-28");
+          return expireDate.isAfter(now);
+        }
+        return false;
+      });
+      wrapper.required("Informe a data");
+    },
+  );
+  InputController _cvvController = InputController(
+    mask: "###",
+    validateBuild: (wrapper) {
+      wrapper.minLength(3, "Cvv inválido");
+      wrapper.required("Inform o cvv");
+    },
+  );
+  InputController _nameController = InputController(
+    validateBuild: (wrapper) {
+      wrapper.twoOrMore("Informe nome e sobrenome");
+      wrapper.required("Informe o nome do proprietário");
+    },
+  );
 
   @override
   void initState() {
     super.initState();
+    _formValidateKey = GlobalKey();
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 1000),
     );
 
-    cvvFocus.addListener(() => setState(() {
-      cvvHasFocus = !cvvHasFocus;
+    _cvvFocus.addListener(() => setState(() {
+      _cvvHasFocus = !_cvvHasFocus;
     }));
+
+    _numCardController.addListener(() => setState((){}));
+    _expireDateController.addListener(() => setState((){}));
+    _cvvController.addListener(() => setState((){}));
+    _nameController.addListener(() => setState((){}));
   }
 
   @override
   void dispose() {
     super.dispose();
     _controller.dispose();
-    numCardController.dispose();
-    expireDateController.dispose();
-    cvvController.dispose();
-    nameController.dispose();
+    _numCardController.dispose();
+    _expireDateController.dispose();
+    _cvvController.dispose();
+    _nameController.dispose();
   }
+  
+  bool validate() => _formValidateKey.currentState.validate();
+  
+  String getNumCard() => _numCardController.text.trim();
+  String getExpireDate() => _expireDateController.text.trim();
+  String getCvv() => _cvvController.text.trim();
+  String getName() => _nameController.text.trim();
 
   @override
   Widget build(BuildContext context) {
@@ -61,10 +111,13 @@ class _CreditCardFormState extends State<CreditCardForm> with SingleTickerProvid
       TweenSequenceItem(tween: Tween(begin: .7, end: 1.0), weight: 1.0),
     ]).animate(_controller);
 
-    if(oldCvvStatus != cvvHasFocus){
+    if(_oldCvvStatus != _cvvHasFocus){
       _controller.forward().then((value) => _controller.reset());
-      oldCvvStatus = cvvHasFocus;
+      _oldCvvStatus = _cvvHasFocus;
     }
+
+    var dateValue = _expireDateController.isEmpty()? "mm/aa" : _expireDateController.text;
+    var nameValue = _nameController.isEmpty()? "Nome" : _nameController.text;
 
     return Column(
       children: <Widget>[
@@ -75,8 +128,8 @@ class _CreditCardFormState extends State<CreditCardForm> with SingleTickerProvid
             borderRadius: BorderRadius.all(Radius.circular(10)),
             elevation: 2,
             child: Container(
-              width: widthByPercent(context, 80),
-              height: widthByPercent(context, 45),
+              width: 300,
+              height: 170,
               child: Stack(
                 children: <Widget>[
                   Positioned(
@@ -90,12 +143,12 @@ class _CreditCardFormState extends State<CreditCardForm> with SingleTickerProvid
                         scale: animation,
                         child: CreditCardWidget(
                           animationDuration: Duration(milliseconds: 1000),
-                          cardNumber: "5346123412341234",
-                          expiryDate: "02/25",
-                          cardHolderName: "Matheus",
-                          cvvCode: "222",
+                          cardNumber: _numCardController.text,
+                          expiryDate: dateValue,
+                          cardHolderName: nameValue,
+                          cvvCode: _cvvController.text,
                           cardbgColor: Constants.Colors.PRIMARY_SWATCH,
-                          showBackView: cvvHasFocus,
+                          showBackView: _cvvHasFocus,
                         ),
                       ),
                     )
@@ -106,6 +159,7 @@ class _CreditCardFormState extends State<CreditCardForm> with SingleTickerProvid
           ),
         ),
         FormValidate(
+          key: _formValidateKey,
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
             color: Constants.Colors.BACKGROUND_MARBLE_MEDIUM
@@ -114,29 +168,36 @@ class _CreditCardFormState extends State<CreditCardForm> with SingleTickerProvid
           child: Column(
             children: <Widget>[
               Input(InputThemes.loginTheme,
+                controller: _numCardController,
                 margin: const EdgeInsets.symmetric(vertical: 20),
                 hint: "Número do cartão",
+                keyboardType: TextInputType.number,
               ),
               Row(
                 children: <Widget>[
                   Expanded(
                       flex: 1,
                       child: Input(InputThemes.loginTheme,
+                        controller: _expireDateController,
                         margin: const EdgeInsets.only(bottom: 20, right: 10),
                         hint: "Data de validade",
+                        keyboardType: TextInputType.number,
                       )
                   ),
                   Expanded(
                     flex: 1,
                     child: Input(InputThemes.loginTheme,
+                      controller: _cvvController,
                       margin: const EdgeInsets.only(bottom: 20, left: 10),
                       hint: "CVV",
-                      focusNode: cvvFocus,
+                      focusNode: _cvvFocus,
+                      keyboardType: TextInputType.number,
                     ),
                   )
                 ],
               ),
               Input(InputThemes.loginTheme,
+                controller: _nameController,
                 margin: const EdgeInsets.only(bottom: 20),
                 hint: "Nome do proprietario",
               )

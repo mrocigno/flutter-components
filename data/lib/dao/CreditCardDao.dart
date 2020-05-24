@@ -26,8 +26,8 @@ class CreditCardDao extends DaoBase<CreditCard> {
 
   Future<void> setDefault(CreditCard card) async {
     var actualDefault = await findOne(where: "isDefault = 1");
-    await save(actualDefault..isDefault = false, conflictAlgorithm: ConflictAlgorithm.replace);
-    await save(card..isDefault = true, conflictAlgorithm: ConflictAlgorithm.replace);
+    if(actualDefault != null) await save(actualDefault..isDefault = false);
+    await save(card..isDefault = true);
   }
 
 }

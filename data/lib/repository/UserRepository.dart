@@ -4,7 +4,7 @@ import "package:data/dao/UserDao.dart";
 import "package:data/db/Config.dart";
 import 'package:data/entity/User.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/livedata/ResponseStream.dart';
+import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
 
 class UserRepository {
 

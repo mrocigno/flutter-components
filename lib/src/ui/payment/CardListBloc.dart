@@ -7,6 +7,7 @@ import 'package:data/entity/CreditCard.dart';
 import 'package:data/repository/CreditCardRepository.dart';
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
 import 'package:infrastructure/flutter/livedata/ResponseStream.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
@@ -14,26 +15,28 @@ import 'package:rxdart/subjects.dart';
 class CardListBloc extends BaseBloc {
 
   CreditCardRepository creditCardRepository = inject();
-  ResponseStream<List<CreditCard>> cards = ResponseStream();
+  MutableResponseStream<List<CreditCard>> _cards = MutableResponseStream();
+  ResponseStream<List<CreditCard>> get cards => _cards.observable;
+
 
   BehaviorSubject<CreditCard> _selectedCard = BehaviorSubject();
   Observable<CreditCard> get selectedCard => _selectedCard.stream;
 
   void refreshCards() {
-    cards.postLoad(() => creditCardRepository.refreshCards(),
+    _cards.postLoad(() => creditCardRepository.refreshCards(),
       onError: (data) {
-        cards.postLoad(() => creditCardRepository.getCards());
+        _cards.postLoad(() => creditCardRepository.getCards());
       },
     );
   }
 
   void selectCardByPosition(int index) {
-    _selectedCard.add(cards.getSyncValue()[index]);
+    _selectedCard.add(_cards.getSyncValue()[index]);
   }
 
   void removeCard() async {
     await creditCardRepository.removeCard(_selectedCard.value..isRemoved = true);
-    cards.postLoad(() => creditCardRepository.getCards());
+    _cards.postLoad(() => creditCardRepository.getCards());
   }
 
   CreditCard getSelectedCard() {
@@ -42,7 +45,11 @@ class CardListBloc extends BaseBloc {
 
   void setDefault() async {
     await creditCardRepository.setDefault(getSelectedCard());
-    cards.postLoad(() => creditCardRepository.getCards());
+    _cards.postLoad(() => creditCardRepository.getCards());
+  }
+
+  void deleteRemoved() async {
+    creditCardRepository.deleteRemoved();
   }
 
 }
