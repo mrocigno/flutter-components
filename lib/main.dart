@@ -7,13 +7,14 @@ import 'package:data/mapper/FavoriteMapper.dart';
 import 'package:data/mapper/PhotoMapper.dart';
 import 'package:data/mapper/ProductMapper.dart';
 import 'package:data/mapper/UserMapper.dart';
+import 'package:data/remote/service/ProductService.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/CategoryRepository.dart';
 import 'package:data/repository/CreditCardRepository.dart';
 import 'package:data/repository/FavoritesRepository.dart';
-import 'package:data/repository/PhotoRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:data/repository/UserRepository.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,6 +36,7 @@ import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_stetho/flutter_stetho.dart';
+import 'package:mock/MockInterceptor.dart';
 
 void main() => runApp(MyApp());
 
@@ -130,24 +132,9 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
   }
 
   final InjectionInitializer initializer = (module) {
-
-    module.singleton(() => ProductsLocal());
-    module.singleton(() => ProductsRemote());
-
-    module.singleton(() => CategoryLocal());
-    module.singleton(() => CategoryRemote());
-
-    module.singleton(() => FavoritesLocal());
-    module.singleton(() => FavoritesRemote());
-
-    module.singleton(() => UserLocal());
-    module.singleton(() => UserRemote());
-
-    module.singleton(() => CreditCardLocal());
-    module.singleton(() => CreditCardRemote());
+    module.singleton(() => ProductService());
 
     module.singleton(() => ProductsRepository());
-    module.singleton(() => PhotoRepository());
     module.singleton(() => CategoryRepository());
     module.singleton(() => FavoritesRepository());
     module.singleton(() => CartRepository());
@@ -171,6 +158,15 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
     module.singleton(() => UserMapper());
     module.singleton(() => PhotoMapper());
     module.singleton(() => CreditCardMapper());
+
+    module.singleton(() {
+      var dio = Dio(BaseOptions(
+        baseUrl: "https://api.mopei.com/"
+      ));
+      if(kDebugMode) dio.interceptors.add(MockInterceptor(dio));
+      dio.interceptors.add(LogInterceptor());
+      return dio;
+    });
   };
 
 }

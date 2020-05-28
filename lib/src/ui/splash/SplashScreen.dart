@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:data/db/Config.dart';
+import 'package:data/local/db/Config.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/animations/ChainAnimations.dart';
 import 'package:infrastructure/flutter/base/BaseScreen.dart';

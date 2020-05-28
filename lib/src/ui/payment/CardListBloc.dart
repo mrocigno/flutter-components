@@ -3,7 +3,7 @@
 */
 import "dart:developer" as dev;
 
-import 'package:data/entity/CreditCard.dart';
+import 'package:data/local/entity/CreditCard.dart';
 import 'package:data/repository/CreditCardRepository.dart';
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
@@ -20,7 +20,7 @@ class CardListBloc extends BaseBloc {
 
 
   BehaviorSubject<CreditCard> _selectedCard = BehaviorSubject();
-  Observable<CreditCard> get selectedCard => _selectedCard.stream;
+  ValueStream<CreditCard> get selectedCard => _selectedCard.stream;
 
   void refreshCards() {
     _cards.postLoad(() => creditCardRepository.refreshCards(),

@@ -1,8 +1,10 @@
-import 'package:data/entity/Cart.dart';
-import 'package:data/entity/Product.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:data/local/entity/Cart.dart';
+import 'package:data/local/entity/Product.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/animations/FadeAnimation.dart';
 import 'package:infrastructure/flutter/components/buttons/BumpButton.dart';
+import 'package:infrastructure/flutter/components/image/ImagePlaceholder.dart';
 import 'package:infrastructure/flutter/components/textviews/Amount.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
@@ -79,10 +81,12 @@ class _CardCartProductState extends State<CardCartProduct> {
                       children: [
                         Expanded(
                             flex: 1,
-                            child: Image.network(widget.model.mainImageUrl,
+                            child: CachedNetworkImage(
+                              imageUrl: widget.model.mainImageUrl,
                               alignment: Alignment.center,
                               height: double.infinity,
                               width: double.infinity,
+                              placeholder: (context, url) => ImagePlaceholder(),
                             )
                         ),
                         Expanded(

@@ -1,9 +1,16 @@
 import 'dart:developer' as dev;
 
-import 'package:data/entity/Photo.dart';
+import 'package:data/local/entity/Photo.dart';
 import 'package:infrastructure/flutter/utils/Mapper.dart';
 
 class PhotoMapper extends Mapper<Photo> {
+
+  @override
+  Photo fromRemoteMap(Map<String, Object> input) {
+    // TODO: implement fromRemoteMap
+    throw UnimplementedError();
+  }
+
   @override
   Photo fromDataMap(Map<String, Object> input) => Photo(
     path: input["path"],
@@ -12,14 +19,10 @@ class PhotoMapper extends Mapper<Photo> {
   );
 
   @override
-  Photo fromResponse(Map<String, Object> input) {
-    throw UnimplementedError();
-  }
-
-  @override
   Map<String, Object> toDataMap(Photo input) => {
     "productId": input.productId,
     "num": input.num,
     "path": input.path
   };
+  
 }

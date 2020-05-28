@@ -8,7 +8,7 @@ abstract class BaseBloc {
 
   // ignore: close_sinks
   BehaviorSubject<bool> _isLoading = BehaviorSubject();
-  Observable<bool> get isLoading => _isLoading.stream;
+  Stream<bool> get isLoading => _isLoading.stream;
 
   @protected
   void launchData(LaunchData function) async {

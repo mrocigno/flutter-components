@@ -1,10 +1,12 @@
 import 'dart:async';
 
-import 'package:data/entity/Favorite.dart';
-import 'package:data/entity/Product.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:data/local/entity/Favorite.dart';
+import 'package:data/local/entity/Product.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/animations/FadeAnimation.dart';
 import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
+import 'package:infrastructure/flutter/components/image/ImagePlaceholder.dart';
 import 'package:infrastructure/flutter/components/textviews/Amount.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
@@ -57,10 +59,14 @@ class CardProductState extends State<CardProduct> {
                   child: Stack(
                     alignment: Alignment.topRight,
                     children: [
-                      Image.network(widget.model.mainImageUrl,
-                        alignment: Alignment.center,
+                      Container(
                         height: double.infinity,
                         width: double.infinity,
+                        child: CachedNetworkImage(
+                          imageUrl: widget.model.mainImageUrl,
+                          alignment: Alignment.center,
+                          placeholder: (context, url) => ImagePlaceholder(),
+                        ),
                       ),
                       Hero(
                         tag: "favoriteStar ${widget.model.id}",

@@ -53,7 +53,7 @@ abstract class DaoBase<Entity> {
         whereArgs: whereArgs
     );
 
-    return list.map((e) => mapper.fromDataMap(e)).toList(); 
+    return list.map((e) => mapper.fromDataMap(e)).toList();
   }
 
   Future<Entity> findById(int id) async {

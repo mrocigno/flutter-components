@@ -3,7 +3,7 @@
 */
 import "dart:developer" as dev;
 
-import 'package:data/entity/User.dart';
+import 'package:data/local/entity/User.dart';
 import 'package:data/repository/UserRepository.dart';
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
@@ -13,7 +13,7 @@ class UserScreenBloc extends BaseBloc {
 
   UserRepository _userRepository = inject();
   BehaviorSubject<User> _user = BehaviorSubject();
-  Observable<User> get user => _user.stream;
+  ValueStream<User> get user => _user.stream;
 
   void getSession() {
     launchData(() async {

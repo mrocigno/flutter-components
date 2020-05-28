@@ -1,10 +1,12 @@
 /*
 * Created to flutter-components at 05/10/2020
 */
+import 'dart:core';
+import 'dart:core';
 import "dart:developer" as dev;
 import 'dart:math';
 
-import 'package:data/entity/Product.dart';
+import 'package:data/local/entity/Product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/base/BaseScreen.dart';

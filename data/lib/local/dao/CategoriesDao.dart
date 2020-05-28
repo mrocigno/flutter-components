@@ -1,7 +1,7 @@
-import 'package:data/db/DaoBase.dart';
-import 'package:data/entity/Category.dart';
+
+import 'package:data/local/db/DaoBase.dart';
+import 'package:data/local/entity/Category.dart';
 import 'package:data/mapper/CategoryMapper.dart';
-import 'package:data/mapper/ProductMapper.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:infrastructure/flutter/utils/Mapper.dart';
 import 'package:sqflite/sql.dart';

@@ -1,14 +1,13 @@
 
 import "dart:developer" as dev;
-import 'package:data/dao/CategoriesDao.dart';
-import 'package:data/db/Config.dart';
-import 'package:data/entity/Category.dart';
-import 'package:data/mapper/CategoryMapper.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:data/local/dao/CategoriesDao.dart';
+import 'package:data/local/db/Config.dart';
+import 'package:data/local/entity/Category.dart';
+import 'package:sqflite/sqflite.dart';
 
 class CategoryRepository {
-  final CategoryLocal _local = inject();
-  final CategoryRemote _remote = inject();
+  final _Local _local = _Local();
+  final _Remote _remote = _Remote();
 
   Future<List<Category>> getCategories(){
     return _local.getAllCategories();
@@ -23,12 +22,12 @@ class CategoryRepository {
 
 }
 
-class CategoryLocal {
+class _Local {
 
   CategoriesDao _dao = Config.daoProvider();
 
   void addCategory(Category category){
-    _dao.save(category);
+    _dao.save(category, conflictAlgorithm: ConflictAlgorithm.ignore);
   }
 
   Future<List<Category>> getAllCategories(){
@@ -37,28 +36,28 @@ class CategoryLocal {
 
 }
 
-class CategoryRemote {
+class _Remote {
 
   Future<List<Category>> getCategories() async {
-    await Future.delayed(Duration(seconds: 2));
-    CategoryMapper mapper = CategoryMapper();
-    return [
-      {
-        "id": 1,
-        "imgPath": "path",
-        "name": "Acessórios"
-      },
-      {
-        "id": 2,
-        "imgPath": "path",
-        "name": "Motos"
-      },
-      {
-        "id": 3,
-        "imgPath": "path",
-        "name": "Peças"
-      }
-    ].map((e) => mapper.fromResponse(e)).toList();
+//    await Future.delayed(Duration(seconds: 2));
+//
+//    return [
+//      {
+//        "id": 1,
+//        "imgPath": "path",
+//        "name": "Acessórios"
+//      },
+//      {
+//        "id": 2,
+//        "imgPath": "path",
+//        "name": "Motos"
+//      },
+//      {
+//        "id": 3,
+//        "imgPath": "path",
+//        "name": "Peças"
+//      }
+//    ].map((e) => mapper.fromResponse(e)).toList();
   }
 
 }

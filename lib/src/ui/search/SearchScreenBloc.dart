@@ -3,8 +3,8 @@
 */
 import "dart:developer" as dev;
 
-import 'package:data/entity/Favorite.dart';
-import 'package:data/entity/Product.dart';
+import 'package:data/local/entity/Favorite.dart';
+import 'package:data/local/entity/Product.dart';
 import 'package:data/repository/FavoritesRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
@@ -18,7 +18,7 @@ class SearchScreenBloc extends BaseBloc {
   final FavoritesRepository _favoritesRepository = inject();
 
   BehaviorSubject<List<Product>> _products = BehaviorSubject();
-  Observable<List<Product>> get products => _products.stream;
+  ValueStream<List<Product>> get products => _products.stream;
 
   void addToFavorite(Favorite favorite) {
     _favoritesRepository.addToFavorites(favorite);

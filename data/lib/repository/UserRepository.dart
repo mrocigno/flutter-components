@@ -1,15 +1,13 @@
 
 import "dart:developer" as dev;
-import "package:data/dao/UserDao.dart";
-import "package:data/db/Config.dart";
-import 'package:data/entity/User.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
+import 'package:data/local/dao/UserDao.dart';
+import 'package:data/local/db/Config.dart';
+import 'package:data/local/entity/User.dart';
 
 class UserRepository {
 
-  final UserLocal _local = inject();
-  final UserRemote _remote = inject();
+  final _Local _local = _Local();
+  final _Remote _remote = _Remote();
 
   Future<User> doLogin(String email, String password) async {
     var user = await _remote.login(email, password);
@@ -29,7 +27,7 @@ class UserRepository {
 
 }
 
-class UserLocal {
+class _Local {
 
   UserDao _dao = Config.daoProvider();
 
@@ -41,7 +39,7 @@ class UserLocal {
 
 }
 
-class UserRemote {
+class _Remote {
 
   Future<User> login(String email, String password) async {
     await Future.delayed(Duration(seconds: 2));

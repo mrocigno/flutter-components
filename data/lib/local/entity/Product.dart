@@ -1,6 +1,6 @@
-import 'package:data/entity/Cart.dart';
-import 'package:data/entity/Favorite.dart';
-import 'package:data/entity/Photo.dart';
+import 'Cart.dart';
+import 'Favorite.dart';
+import 'Photo.dart';
 
 class Product {
 

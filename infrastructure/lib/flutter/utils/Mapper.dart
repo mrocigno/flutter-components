@@ -1,9 +1,9 @@
 abstract class Mapper<Entity> {
 
-  Entity fromResponse(Map<String, Object> input);
+  Map<String, dynamic> toDataMap(Entity input);
 
-  Map<String, Object> toDataMap(Entity input);
+  Entity fromDataMap(Map<String, dynamic> input);
 
-  Entity fromDataMap(Map<String, Object> input);
+  Entity fromRemoteMap(Map<String, dynamic> input);
 
 }

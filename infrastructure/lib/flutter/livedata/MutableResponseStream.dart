@@ -7,14 +7,14 @@ import 'package:rxdart/rxdart.dart';
 class MutableResponseStream<T> {
 
   final BehaviorSubject<T> data;
-  final BehaviorSubject<bool> empty = BehaviorSubject(seedValue: false);
-  final BehaviorSubject<bool> loading = BehaviorSubject(seedValue: false);
+  final BehaviorSubject<bool> empty = BehaviorSubject();
+  final BehaviorSubject<bool> loading = BehaviorSubject();
   final BehaviorSubject<ErrorResponse> error = BehaviorSubject();
   ResponseStream<T> get observable => ResponseStream(this);
 
   final T seedValue;
 
-  MutableResponseStream({this.seedValue}) : data = BehaviorSubject(seedValue: seedValue);
+  MutableResponseStream({this.seedValue}) : data = BehaviorSubject();
 
   Future<void> postLoad(
     Future<T> execute(),

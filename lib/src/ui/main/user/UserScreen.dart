@@ -1,6 +1,6 @@
 import 'dart:developer' as dev;
 
-import 'package:data/entity/User.dart';
+import 'package:data/local/entity/User.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/components/alert/AlertConfig.dart';
 import 'package:infrastructure/flutter/components/alert/AlertActionSheet.dart';

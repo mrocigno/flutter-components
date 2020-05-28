@@ -11,10 +11,10 @@ class MainNavigationBloc extends BaseBloc {
 
   CartRepository cartRepository = inject();
 
-  BehaviorSubject<int> _page = BehaviorSubject(seedValue: INIT_PAGE);
-  Observable<int> get page => _page.stream;
-  BehaviorSubject<bool> _hasItemCart = BehaviorSubject(seedValue: false);
-  Observable<bool> get hasItemCart => _hasItemCart.stream;
+  BehaviorSubject<int> _page = BehaviorSubject();
+  ValueStream<int> get page => _page.stream;
+  BehaviorSubject<bool> _hasItemCart = BehaviorSubject();
+  ValueStream<bool> get hasItemCart => _hasItemCart.stream;
 
   void setPage(int page){
     _page.add(page);

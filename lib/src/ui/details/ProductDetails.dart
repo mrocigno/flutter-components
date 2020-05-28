@@ -1,8 +1,9 @@
 import 'dart:developer' as dev;
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:data/entity/Cart.dart';
-import 'package:data/entity/Favorite.dart';
-import 'package:data/entity/Photo.dart';
+import 'package:data/local/entity/Cart.dart';
+import 'package:data/local/entity/Favorite.dart';
+import 'package:data/local/entity/Photo.dart';
 import 'package:flutter/services.dart';
 import 'package:infrastructure/flutter/base/BaseScreen.dart';
 import 'package:infrastructure/flutter/components/backgrounds/BackgroundSliver.dart';
@@ -10,11 +11,12 @@ import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
 import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
 import 'package:infrastructure/flutter/components/carousel/Carousel.dart';
 import 'package:infrastructure/flutter/components/containers/BottomScaffoldContainer.dart';
+import 'package:infrastructure/flutter/components/image/ImagePlaceholder.dart';
 import 'package:infrastructure/flutter/components/textviews/Amount.dart';
 import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
-import 'package:data/entity/Product.dart';
+import 'package:data/local/entity/Product.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
@@ -101,11 +103,13 @@ class ProductDetails extends BaseScreen {
               Carousel(
                 itemCount: model.photos.length,
                 enableInfiniteScroll: model.photos.length > 1,
-                itemBuilder: (context, index) => Image.network(model.photos[index].path,
+                itemBuilder: (context, index) => CachedNetworkImage(
+                  placeholder: (context, url) => ImagePlaceholder(),
+                  imageUrl: model.photos[index].path,
                   alignment: Alignment.center,
-                  fit: BoxFit.cover,
                   height: double.infinity,
                   width: double.infinity,
+                  fit: BoxFit.cover,
                 ),
               )
             ],

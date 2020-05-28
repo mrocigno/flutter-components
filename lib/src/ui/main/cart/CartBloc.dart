@@ -1,7 +1,7 @@
 import 'dart:developer' as dev;
 
-import 'package:data/entity/Cart.dart';
-import 'package:data/entity/Product.dart';
+import 'package:data/local/entity/Cart.dart';
+import 'package:data/local/entity/Product.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,9 +15,9 @@ class CartBloc extends BaseBloc {
   final ProductsRepository productsRepository = inject();
 
   final BehaviorSubject<List<Product>> _products = BehaviorSubject();
-  Observable<List<Product>> get products => _products.stream;
+  ValueStream<List<Product>> get products => _products.stream;
   final BehaviorSubject<double> _total = BehaviorSubject();
-  Observable<double> get total => _total.stream;
+  ValueStream<double> get total => _total.stream;
 
   void getProducts() => launchData(() async {
     _products.add(await productsRepository.getInCart());

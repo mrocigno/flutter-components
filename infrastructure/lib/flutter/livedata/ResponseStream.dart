@@ -8,10 +8,10 @@ class ResponseStream<T> {
 
   final MutableResponseStream _mutable;
 
-  Observable<T> get success => _mutable.data.stream;
-  Observable<bool> get empty => _mutable.empty.stream;
-  Observable<bool> get loading => _mutable.loading.stream;
-  Observable<ErrorResponse> get error => _mutable.error.stream;
+  ValueStream<T> get success => _mutable.data.stream;
+  ValueStream<bool> get empty => _mutable.empty.stream;
+  ValueStream<bool> get loading => _mutable.loading.stream;
+  ValueStream<ErrorResponse> get error => _mutable.error.stream;
 
   ResponseStream(this._mutable);
 

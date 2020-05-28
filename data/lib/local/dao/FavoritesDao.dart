@@ -3,8 +3,8 @@
 */
 import "dart:developer" as dev;
 
-import 'package:data/db/DaoBase.dart';
-import 'package:data/entity/Favorite.dart';
+import 'package:data/local/db/DaoBase.dart';
+import 'package:data/local/entity/Favorite.dart';
 import 'package:data/mapper/FavoriteMapper.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 

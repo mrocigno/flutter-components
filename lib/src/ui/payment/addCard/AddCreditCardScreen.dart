@@ -3,7 +3,7 @@
 */
 import "dart:developer" as dev;
 
-import 'package:data/entity/CreditCard.dart';
+import 'package:data/local/entity/CreditCard.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/base/BaseScreen.dart';
 import 'package:infrastructure/flutter/components/backgrounds/Background.dart';

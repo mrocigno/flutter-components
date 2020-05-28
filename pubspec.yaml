@@ -14,7 +14,7 @@ description: The Mopei Flutter App
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter_localizations:
@@ -26,7 +26,9 @@ dependencies:
   sqflite:
   path:
 
-  rxdart: ^0.18.0
+  rxdart: 0.24.1
+  dio: 3.0.9
+  cached_network_image: 2.2.0+1
 
   data:
     path: data
@@ -41,15 +43,15 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
   flutter_stetho: 0.5.2
+  mock:
+    path: mock
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

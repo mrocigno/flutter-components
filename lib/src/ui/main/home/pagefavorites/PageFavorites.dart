@@ -1,4 +1,4 @@
-import 'package:data/entity/Product.dart';
+import 'package:data/local/entity/Product.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/animations/AnimatedStar.dart';
 import 'dart:developer' as dev;
@@ -59,7 +59,7 @@ class _PageFavorites extends StatelessWidget {
                       style: TextStyles.subtitleBlack,
                     ),
                     StreamBuilder(
-                        stream: bloc.isLoading,
+                        stream: bloc.highlights.loading,
                         builder: (context, snapshot) {
                           if(snapshot.data ?? false){
                             return Container(

@@ -3,7 +3,9 @@
 */
 import "dart:developer" as dev;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:infrastructure/flutter/components/image/ImagePlaceholder.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 
 class UserIcon extends StatelessWidget {
@@ -40,7 +42,13 @@ class UserIcon extends StatelessWidget {
         child: (imagePath != null? (
           IconButton(
             padding: const EdgeInsets.all(0),
-            icon: Image.network(imagePath, height: 50, width: 50, fit: BoxFit.cover),
+            icon: CachedNetworkImage(
+              imageUrl: imagePath,
+              height: 50,
+              width: 50,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => ImagePlaceholder(),
+            ),
             onPressed: onPressed
           )
         ) : (

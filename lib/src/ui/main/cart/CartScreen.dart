@@ -1,6 +1,6 @@
 import 'dart:developer' as dev;
-import 'package:data/entity/Cart.dart';
-import 'package:data/entity/Product.dart';
+import 'package:data/local/entity/Cart.dart';
+import 'package:data/local/entity/Product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/components/backgrounds/Background.dart';

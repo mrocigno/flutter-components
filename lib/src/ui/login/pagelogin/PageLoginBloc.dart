@@ -1,7 +1,7 @@
 
 import 'dart:developer' as dev;
 
-import 'package:data/entity/User.dart';
+import 'package:data/local/entity/User.dart';
 import 'package:data/repository/UserRepository.dart';
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';

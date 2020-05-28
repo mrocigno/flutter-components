@@ -1,40 +1,38 @@
 import 'dart:developer' as dev;
 
-import 'package:data/entity/Category.dart';
-import 'package:data/entity/Favorite.dart';
-import 'package:data/entity/Product.dart';
+import 'package:data/local/entity/Category.dart';
+import 'package:data/local/entity/Favorite.dart';
+import 'package:data/local/entity/Product.dart';
 import 'package:data/repository/CategoryRepository.dart';
 import 'package:data/repository/FavoritesRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
+import 'package:infrastructure/flutter/livedata/ResponseStream.dart';
 import 'package:rxdart/rxdart.dart';
 
-class HomeBloc extends BaseBloc {
+class HomeBloc {
 
-  BehaviorSubject<List<Product>> _highlights = BehaviorSubject();
-  Observable<List<Product>> get highlights => _highlights.stream;
+  MutableResponseStream<List<Product>> _highlights = MutableResponseStream();
+  ResponseStream<List<Product>> get highlights => _highlights.observable;
 
   BehaviorSubject<List<Category>> _categories = BehaviorSubject();
-  Observable<List<Category>> get categories => _categories.stream;
+  ValueStream<List<Category>> get categories => _categories.stream;
 
   BehaviorSubject<List<Product>> _favorites = BehaviorSubject();
-  Observable<List<Product>> get favorites => _favorites.stream;
+  ValueStream<List<Product>> get favorites => _favorites.stream;
 
   final ProductsRepository productsRepository = inject();
   final CategoryRepository categoryRepository = inject();
   final FavoritesRepository favoritesRepository = inject();
 
-  void getFavorites() {
-    launchData(() async {
-      _favorites.add(await productsRepository.getFavorites());
-    });
+  void getFavorites() async {
+    _favorites.add(await productsRepository.getFavorites());
   }
 
-  void getCategories() {
-    launchData(() async {
-      _categories.add(await categoryRepository.getCategories());
-    });
+  void getCategories() async {
+    _categories.add(await categoryRepository.getCategories());
   }
 
   void addToFavorite(Favorite favorite) {
@@ -46,9 +44,7 @@ class HomeBloc extends BaseBloc {
   }
 
   void getHighlights() {
-    launchData(() async {
-      _highlights.add(await productsRepository.getHighlights());
-    });
+    _highlights.postLoad(() => productsRepository.getHighlights());
   }
 
   void refreshCategories() {
@@ -56,9 +52,9 @@ class HomeBloc extends BaseBloc {
   }
 
   void refreshHighlights(){
-    launchData(() async {
+    _highlights.postLoad(() async {
       await productsRepository.refreshProducts();
-      _highlights.add(await productsRepository.getHighlights());
+      return await productsRepository.getHighlights();
     });
   }
 

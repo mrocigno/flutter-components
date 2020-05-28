@@ -1,8 +1,8 @@
 import 'dart:developer' as dev;
 
-import 'package:data/entity/Cart.dart';
-import 'package:data/entity/Favorite.dart';
-import 'package:data/entity/Product.dart';
+import 'package:data/local/entity/Cart.dart';
+import 'package:data/local/entity/Favorite.dart';
+import 'package:data/local/entity/Product.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/FavoritesRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
@@ -18,10 +18,10 @@ class ProductDetailsBloc extends BaseBloc {
   FavoritesRepository favoritesRepository = inject();
 
   BehaviorSubject<Cart> _cart = BehaviorSubject();
-  Observable<Cart> get cart => _cart.stream;
+  ValueStream<Cart> get cart => _cart.stream;
 
   BehaviorSubject<bool> _favorite = BehaviorSubject();
-  Observable<bool> get favorite => _favorite.stream;
+  ValueStream<bool> get favorite => _favorite.stream;
 
   void addToFavorite(Favorite favorite) {
     launchData(() async {

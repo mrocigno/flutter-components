@@ -1,13 +1,10 @@
 
 import "dart:developer" as dev;
-import 'package:data/dao/CartDao.dart';
-import 'package:data/dao/CategoriesDao.dart';
-import 'package:data/db/Config.dart';
-import 'package:data/entity/Cart.dart';
-import 'package:data/entity/Category.dart';
-import 'package:data/entity/Product.dart';
-import 'package:data/mapper/CategoryMapper.dart';
+import 'package:data/local/dao/CartDao.dart';
+import 'package:data/local/db/Config.dart';
+import 'package:data/local/entity/Cart.dart';
 import 'package:sqflite/sqflite.dart';
+
 // How cart is only local, we don't need a DataSource
 class CartRepository {
 

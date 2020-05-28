@@ -1,4 +1,4 @@
-import 'package:data/entity/Product.dart';
+import 'package:data/local/entity/Product.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
@@ -40,7 +40,7 @@ class _PageHighlights extends StatelessWidget{
                 style: TextStyles.subtitleBlack,
               ),
               StreamBuilder(
-                  stream: bloc.isLoading,
+                  stream: bloc.highlights.loading,
                   builder: (context, snapshot) {
                     if(snapshot.data ?? false){
                       return Container(
@@ -61,7 +61,7 @@ class _PageHighlights extends StatelessWidget{
         Expanded(
           flex: 1,
           child: StreamBuilder<List<Product>>(
-            stream: bloc.highlights,
+            stream: bloc.highlights.success,
             builder: (context, snapshot) {
               return RefreshIndicator(
                 onRefresh: () async => bloc.refreshHighlights(),

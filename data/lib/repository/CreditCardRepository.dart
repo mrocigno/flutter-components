@@ -1,18 +1,17 @@
 
 import "dart:developer" as dev;
 import 'dart:math';
-import "package:data/dao/CreditCardDao.dart";
-import "package:data/db/Config.dart";
-import 'package:data/entity/CreditCard.dart';
-import 'package:data/mapper/CreditCardMapper.dart';
+import 'package:data/local/dao/CreditCardDao.dart';
+import 'package:data/local/db/Config.dart';
+import 'package:data/local/entity/CreditCard.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CreditCardRepository {
 
-  final CreditCardLocal _local = inject();
-  final CreditCardRemote _remote = inject();
+  final _Local _local = _Local();
+  final _Remote _remote = _Remote();
 
   Future<List<CreditCard>> refreshCards() async {
     // This should be removed when the API arrives
@@ -44,7 +43,7 @@ class CreditCardRepository {
 
 }
 
-class CreditCardLocal {
+class _Local {
   CreditCardDao _dao = Config.daoProvider();
 
   void saveAll(List<CreditCard> list) {
@@ -64,34 +63,34 @@ class CreditCardLocal {
 
 }
 
-class CreditCardRemote {
+class _Remote {
 
-  CreditCardMapper mapper = inject();
+
 
   Future<List<CreditCard>> getCards() async {
-    await Future.delayed(Duration(seconds: 1));
-//    throw ErrorResponse(message: "erro mesmo");
-    return [
-      {
-        "id": 1,
-        "cardHolderName": "Matheus Rocigno",
-        "entityFlag": "MASTER",
-        "placeHolder": "xxxx xxxx xxxx 1234",
-        "isDefault": 1
-      },
-      {
-        "id": 2,
-        "cardHolderName": "Matheus R medeiros",
-        "entityFlag": "VISA",
-        "placeHolder": "xxxx xxxx xxxx 4321"
-      },
-      {
-        "id": 3,
-        "cardHolderName": "Matheus R medeiros",
-        "entityFlag": "VISA",
-        "placeHolder": "xxxx xxxx xxxx 5678"
-      },
-    ].map((e) => mapper.fromResponse(e)).toList();
+//    await Future.delayed(Duration(seconds: 1));
+////    throw ErrorResponse(message: "erro mesmo");
+//    return [
+//      {
+//        "id": 1,
+//        "cardHolderName": "Matheus Rocigno",
+//        "entityFlag": "MASTER",
+//        "placeHolder": "xxxx xxxx xxxx 1234",
+//        "isDefault": 1
+//      },
+//      {
+//        "id": 2,
+//        "cardHolderName": "Matheus R medeiros",
+//        "entityFlag": "VISA",
+//        "placeHolder": "xxxx xxxx xxxx 4321"
+//      },
+//      {
+//        "id": 3,
+//        "cardHolderName": "Matheus R medeiros",
+//        "entityFlag": "VISA",
+//        "placeHolder": "xxxx xxxx xxxx 5678"
+//      },
+//    ].map((e) => mapper.fromResponse(e)).toList();
   }
 
 }

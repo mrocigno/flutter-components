@@ -15,8 +15,8 @@ import 'package:mopei_app/src/ui/search/SearchScreen.dart';
 
 class HomeScreen extends StatelessWidget {
 
-  final HomeBloc homeBloc = bloc();
-  final InputController searchController = InputController(mask: "###");
+  final HomeBloc homeBloc = sharedBloc();
+  final InputController searchController = InputController();
 
   void goToSearchScreen(BuildContext context){
     var screen = SearchScreen(
@@ -26,12 +26,14 @@ class HomeScreen extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      homeBloc.refreshHighlights();
-      homeBloc.refreshCategories();
-    });
+  StatelessElement createElement() {
+    homeBloc.refreshHighlights();
+    homeBloc.refreshCategories();
+    return super.createElement();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Hero(

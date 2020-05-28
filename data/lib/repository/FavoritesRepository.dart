@@ -1,13 +1,14 @@
 
 import "dart:developer" as dev;
-import "package:data/dao/FavoritesDao.dart";
-import "package:data/db/Config.dart";
-import 'package:data/entity/Favorite.dart';
+import 'package:data/local/dao/FavoritesDao.dart';
+import 'package:data/local/db/Config.dart';
+import 'package:data/local/entity/Favorite.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
+
 class FavoritesRepository {
 
-    final FavoritesLocal _local = inject();
-    final FavoritesRemote _remote = inject();
+    final _Local _local = _Local();
+    final _Remote _remote = _Remote();
 
     void addToFavorites(Favorite favorite) {
         _local.add(favorite);
@@ -25,7 +26,7 @@ class FavoritesRepository {
 
 }
 
-class FavoritesLocal {
+class _Local {
 
     FavoritesDao dao = Config.daoProvider();
 
@@ -35,4 +36,4 @@ class FavoritesLocal {
 
 }
 
-class FavoritesRemote {}
+class _Remote {}

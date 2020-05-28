@@ -1,12 +1,14 @@
-import 'package:data/dao/CartDao.dart';
-import 'package:data/dao/FavoritesDao.dart';
-import 'package:data/dao/PhotosDao.dart';
-import 'package:data/db/Config.dart';
-import 'package:data/db/DaoBase.dart';
-import 'package:data/entity/Product.dart';
+
+import 'package:data/local/db/Config.dart';
+import 'package:data/local/db/DaoBase.dart';
+import 'package:data/local/entity/Product.dart';
 import 'package:data/mapper/ProductMapper.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:sqflite/sqflite.dart';
+
+import 'CartDao.dart';
+import 'FavoritesDao.dart';
+import 'PhotosDao.dart';
 
 class ProductsDao extends DaoBase<Product> {
   

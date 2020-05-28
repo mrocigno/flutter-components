@@ -5,7 +5,7 @@ import "dart:developer" as dev;
 
 import 'package:flutter/material.dart';
 
-class Matrix4Utils {
+extension Matrix4Utils on Matrix4 {
 
   static Matrix4 rotateByCenter(double size, double rotate) => Matrix4.identity()
     ..translate(size/2, size/2)

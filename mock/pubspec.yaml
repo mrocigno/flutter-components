@@ -1,5 +1,5 @@
-name: infrastructure
-description: The pack with some utils and components
+name: mock
+description: Mock dependencie
 version: 0.0.1
 author:
 homepage:
@@ -8,19 +8,10 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
-  flutter_localizations:
-    sdk: flutter
-
   flutter:
     sdk: flutter
 
-  flutter_svg: 0.17.1
-  rxdart: 0.24.1
-  connectivity: '>=0.4.8+5 <2.0.0'
-  carousel_slider: 2.0.0
-  flutter_credit_card: 0.1.1
   dio: 3.0.9
-  cached_network_image: 2.2.0+1
 
 dev_dependencies:
   flutter_test:
@@ -33,10 +24,8 @@ dev_dependencies:
 flutter:
 
   # To add assets to your package, add an assets section, like this:
-  # assets:
-  #  - assets/
-  #  - images/a_dot_burr.jpeg
-  #  - images/a_dot_ham.jpeg
+  assets:
+    - packages/mock/assets/products-highlights.json
   #
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages

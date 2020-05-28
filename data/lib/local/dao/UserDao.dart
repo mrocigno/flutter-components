@@ -1,6 +1,6 @@
 
-import 'package:data/db/DaoBase.dart';
-import 'package:data/entity/User.dart';
+import 'package:data/local/db/DaoBase.dart';
+import 'package:data/local/entity/User.dart';
 import 'package:data/mapper/UserMapper.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 

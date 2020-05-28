@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/animations/AnimatedStar.dart';
+import 'package:infrastructure/flutter/components/image/ImagePlaceholder.dart';
 
 class WhiteTable extends StatelessWidget{
 
@@ -13,7 +14,7 @@ class WhiteTable extends StatelessWidget{
       child: Scaffold(
         body: Container(
           alignment: Alignment.center,
-          child: AnimatedStar( autoStart: true,)
+          child: ImagePlaceholder()
         )
       ),
     );

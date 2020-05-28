@@ -1,4 +1,4 @@
-import 'package:data/entity/Category.dart';
+import 'package:data/local/entity/Category.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
