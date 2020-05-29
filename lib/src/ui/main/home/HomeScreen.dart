@@ -50,22 +50,22 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
         Expanded(
-            child: BackgroundContainer(
-                child: TabView(
-                  onPageChange: (page) {
-                    switch(page){
-                      case 0: homeBloc.getHighlights(); break;
-                      case 1: homeBloc.getCategories(); break;
-                      case 2: homeBloc.getFavorites(); break;
-                    }
-                  },
-                  children: [
-                    PageHighlights(),
-                    PageCategories(),
-                    PageFavorites()
-                  ],
-                )
+          child: BackgroundContainer(
+            child: TabView(
+              onPageChange: (page) {
+                switch(page){
+                  case 0: homeBloc.getHighlights(); break;
+                  case 1: homeBloc.getCategories(); break;
+                  case 2: homeBloc.getFavorites(); break;
+                }
+              },
+              children: [
+                PageHighlights(),
+                PageCategories(),
+                PageFavorites()
+              ],
             )
+          )
         )
       ],
     );

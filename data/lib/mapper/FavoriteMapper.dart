@@ -9,10 +9,10 @@ import 'package:infrastructure/flutter/utils/Mapper.dart';
 class FavoriteMapper extends Mapper<Favorite> {
 
   @override
-  Favorite fromRemoteMap(Map<String, Object> input) {
-    // TODO: implement fromRemoteMap
-    throw UnimplementedError();
-  }
+  Favorite fromRemoteMap(Map<String, Object> input) => Favorite(
+    productId: input["productId"],
+    userId: input["userId"]
+  );
 
   @override
   Favorite fromDataMap(Map<String, Object> input) => Favorite(

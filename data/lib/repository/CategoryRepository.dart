@@ -3,6 +3,8 @@ import "dart:developer" as dev;
 import 'package:data/local/dao/CategoriesDao.dart';
 import 'package:data/local/db/Config.dart';
 import 'package:data/local/entity/Category.dart';
+import 'package:data/remote/service/CategoryService.dart';
+import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CategoryRepository {
@@ -38,26 +40,8 @@ class _Local {
 
 class _Remote {
 
-  Future<List<Category>> getCategories() async {
-//    await Future.delayed(Duration(seconds: 2));
-//
-//    return [
-//      {
-//        "id": 1,
-//        "imgPath": "path",
-//        "name": "Acessórios"
-//      },
-//      {
-//        "id": 2,
-//        "imgPath": "path",
-//        "name": "Motos"
-//      },
-//      {
-//        "id": 3,
-//        "imgPath": "path",
-//        "name": "Peças"
-//      }
-//    ].map((e) => mapper.fromResponse(e)).toList();
-  }
+  CategoryService service = inject();
+
+  Future<List<Category>> getCategories() => service.getCategories();
 
 }

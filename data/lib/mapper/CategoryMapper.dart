@@ -6,10 +6,11 @@ import 'package:infrastructure/flutter/utils/Mapper.dart';
 class CategoryMapper extends Mapper<Category> {
 
   @override
-  Category fromRemoteMap(Map<String, Object> input) {
-    // TODO: implement fromRemoteMap
-    throw UnimplementedError();
-  }
+  Category fromRemoteMap(Map<String, Object> input) => Category(
+      id: input["id"],
+      name: input["name"],
+      imgPath: input["imgPath"]
+  );
 
   @override
   Category fromDataMap(Map<String, Object> input) => Category(

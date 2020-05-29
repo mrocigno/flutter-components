@@ -7,7 +7,10 @@ import 'package:data/mapper/FavoriteMapper.dart';
 import 'package:data/mapper/PhotoMapper.dart';
 import 'package:data/mapper/ProductMapper.dart';
 import 'package:data/mapper/UserMapper.dart';
+import 'package:data/remote/interceptor/UserInterceptor.dart';
+import 'package:data/remote/service/CategoryService.dart';
 import 'package:data/remote/service/ProductService.dart';
+import 'package:data/remote/service/UserService.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/CategoryRepository.dart';
 import 'package:data/repository/CreditCardRepository.dart';
@@ -23,6 +26,7 @@ import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:infrastructure/flutter/observer/ConnectionObserver.dart';
 import 'package:infrastructure/flutter/routing/AppRoute.dart';
+import 'package:mopei_app/src/ui/WhiteTable.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
 import 'package:mopei_app/src/ui/login/pagelogin/PageLoginBloc.dart';
 import 'package:mopei_app/src/ui/main/cart/CartBloc.dart';
@@ -37,6 +41,7 @@ import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_stetho/flutter_stetho.dart';
 import 'package:mock/MockInterceptor.dart';
+import 'package:mock/ui/MockBubble.dart';
 
 void main() => runApp(MyApp());
 
@@ -85,7 +90,6 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
               stream: _hasConnection.stream,
               initialData: true,
               builder: (context, snapshot) {
-
                 if(snapshot.data) return Wrap();
                 return TopSnackBar(
                   autoClose: false,
@@ -133,6 +137,8 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
 
   final InjectionInitializer initializer = (module) {
     module.singleton(() => ProductService());
+    module.singleton(() => CategoryService());
+    module.singleton(() => UserService());
 
     module.singleton(() => ProductsRepository());
     module.singleton(() => CategoryRepository());
@@ -163,8 +169,9 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
       var dio = Dio(BaseOptions(
         baseUrl: "https://api.mopei.com/"
       ));
-      if(kDebugMode) dio.interceptors.add(MockInterceptor(dio));
+      dio.interceptors.add(UserInterceptor(dio));
       dio.interceptors.add(LogInterceptor());
+      if(kDebugMode) dio.interceptors.add(MockInterceptor(dio));
       return dio;
     });
   };

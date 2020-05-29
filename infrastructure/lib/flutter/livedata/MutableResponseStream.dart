@@ -7,9 +7,9 @@ import 'package:rxdart/rxdart.dart';
 class MutableResponseStream<T> {
 
   final BehaviorSubject<T> data;
-  final BehaviorSubject<bool> empty = BehaviorSubject();
-  final BehaviorSubject<bool> loading = BehaviorSubject();
-  final BehaviorSubject<ErrorResponse> error = BehaviorSubject();
+  final BehaviorSubject<bool> empty = BehaviorSubject.seeded(false);
+  final BehaviorSubject<bool> loading = BehaviorSubject.seeded(false);
+  final BehaviorSubject<Exception> error = BehaviorSubject();
   ResponseStream<T> get observable => ResponseStream(this);
 
   final T seedValue;
@@ -26,6 +26,7 @@ class MutableResponseStream<T> {
   ) async {
     try {
       loading.add(true);
+      error.add(null);
       onLoading?.call(true);
 
       var response = await execute();

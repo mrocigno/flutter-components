@@ -17,22 +17,25 @@ class HomeBloc {
   MutableResponseStream<List<Product>> _highlights = MutableResponseStream();
   ResponseStream<List<Product>> get highlights => _highlights.observable;
 
-  BehaviorSubject<List<Category>> _categories = BehaviorSubject();
-  ValueStream<List<Category>> get categories => _categories.stream;
+  MutableResponseStream<List<Category>> _categories = MutableResponseStream();
+  ResponseStream<List<Category>> get categories => _categories.observable;
 
-  BehaviorSubject<List<Product>> _favorites = BehaviorSubject();
-  ValueStream<List<Product>> get favorites => _favorites.stream;
+  MutableResponseStream<List<Product>> _favorites = MutableResponseStream();
+  ResponseStream<List<Product>> get favorites => _favorites.observable;
 
   final ProductsRepository productsRepository = inject();
   final CategoryRepository categoryRepository = inject();
   final FavoritesRepository favoritesRepository = inject();
 
   void getFavorites() async {
-    _favorites.add(await productsRepository.getFavorites());
+    _favorites.postLoad(() async {
+      await favoritesRepository.refreshRemoteFavorites();
+      return await productsRepository.getFavorites();
+    });
   }
 
   void getCategories() async {
-    _categories.add(await categoryRepository.getCategories());
+    _categories.postLoad(() => categoryRepository.getCategories());
   }
 
   void addToFavorite(Favorite favorite) {

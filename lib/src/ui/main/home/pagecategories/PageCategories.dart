@@ -27,7 +27,7 @@ class _PageCategories extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: StreamBuilder<List<Category>>(
-        stream: bloc.categories,
+        stream: bloc.categories.success,
         builder: (context, snapshot) {
           return Container(
             child: GridView.count(

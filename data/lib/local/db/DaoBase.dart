@@ -16,20 +16,24 @@ abstract class DaoBase<Entity> {
   Database db;
 
   Future<Entity> save(Entity entity, {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.replace}) async {
-    var i = await db.insert(tableName, mapper.toDataMap(entity),
-        conflictAlgorithm: conflictAlgorithm
-    );
+    if(entity != null) {
+      var i = await db.insert(tableName, mapper.toDataMap(entity),
+          conflictAlgorithm: conflictAlgorithm
+      );
+    }
     return entity;
   }
 
   Future<void> saveMany(List<Entity> list, {ConflictAlgorithm conflictAlgorithm = ConflictAlgorithm.replace}) async {
-    var batch = db.batch();
-    list?.forEach((entity) {
-      batch.insert(tableName, mapper.toDataMap(entity),
-          conflictAlgorithm: conflictAlgorithm
-      );
-    });
-    await batch.commit(noResult: true);
+    if(list != null){
+      var batch = db.batch();
+      list?.forEach((entity) {
+        batch.insert(tableName, mapper.toDataMap(entity),
+            conflictAlgorithm: conflictAlgorithm
+        );
+      });
+      await batch.commit(noResult: true);
+    }
   }
 
   Future<void> delete(Entity entity) async {

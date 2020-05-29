@@ -50,8 +50,6 @@ class _Remote {
 
   ProductService service = inject();
 
-  Future<List<Product>> getProducts() {
-    return service.getHighlights();
-  }
+  Future<List<Product>> getProducts() => service.getHighlights();
 
 }

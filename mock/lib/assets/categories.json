@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "imgPath": "path",
+    "name": "Acessórios"
+  },
+  {
+    "id": 2,
+    "imgPath": "path",
+    "name": "Motos"
+  },
+  {
+    "id": 3,
+    "imgPath": "path",
+    "name": "Peças"
+  }
+]

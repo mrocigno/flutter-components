@@ -3,7 +3,9 @@ import "dart:developer" as dev;
 import 'package:data/local/dao/FavoritesDao.dart';
 import 'package:data/local/db/Config.dart';
 import 'package:data/local/entity/Favorite.dart';
+import 'package:data/remote/service/UserService.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:sqflite/sqflite.dart';
 
 class FavoritesRepository {
 
@@ -24,6 +26,11 @@ class FavoritesRepository {
 //        }
     }
 
+    Future<void> refreshRemoteFavorites() async {
+        List<Favorite> list = await _remote.getFavorites();
+        await _local.addAll(list);
+    }
+
 }
 
 class _Local {
@@ -34,6 +41,14 @@ class _Local {
 
     void remove(Favorite favorite) => dao.delete(favorite);
 
+    Future<void> addAll(List<Favorite> list) => dao.saveMany(list, conflictAlgorithm: ConflictAlgorithm.ignore);
+
 }
 
-class _Remote {}
+class _Remote {
+
+    UserService userService = inject();
+
+    Future<List<Favorite>> getFavorites() => userService.getFavorites();
+
+}
