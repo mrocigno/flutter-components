@@ -17,4 +17,9 @@ class PageLoginBloc extends BaseBloc {
   void doLogin({String email, String password}) {
     user.postLoad(() => _userRepository.doLogin(email, password));
   }
+
+  @override
+  void close() {
+    user.close();
+  }
 }

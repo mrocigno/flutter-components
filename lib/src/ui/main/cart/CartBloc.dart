@@ -4,9 +4,10 @@ import 'package:data/local/entity/Cart.dart';
 import 'package:data/local/entity/Product.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
+import 'package:infrastructure/flutter/livedata/ResponseStream.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CartBloc extends BaseBloc {
@@ -14,26 +15,34 @@ class CartBloc extends BaseBloc {
   final CartRepository cartRepository = inject();
   final ProductsRepository productsRepository = inject();
 
-  final BehaviorSubject<List<Product>> _products = BehaviorSubject();
-  ValueStream<List<Product>> get products => _products.stream;
+  final MutableResponseStream<List<Product>> _products = MutableResponseStream();
+  ResponseStream<List<Product>> get products => _products.observable;
+
   final BehaviorSubject<double> _total = BehaviorSubject();
   ValueStream<double> get total => _total.stream;
 
-  void getProducts() => launchData(() async {
-    _products.add(await productsRepository.getInCart());
+  void getProducts() {
+    _products.postLoad(() => productsRepository.getInCart());
     calculateTotal();
-  });
+  }
 
-  void save(Cart cart) => launchData(() async {
+  void save(Cart cart) async {
     cartRepository.save(cart);
-  });
+  }
 
-  void calculateTotal() => launchData(() async {
+  void calculateTotal() async {
     _total.add(await cartRepository.calculate());
-  });
+  }
 
-  void removeFromCart(Cart cart) => launchData(() async {
+  void removeFromCart(Cart cart) async {
     cartRepository.removeFromCart(cart);
-  });
+  }
+
+  @override
+  void close() {
+    super.close();
+    _total.close();
+    _products.close();
+  }
 
 }

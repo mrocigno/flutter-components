@@ -52,4 +52,10 @@ class CardListBloc extends BaseBloc {
     creditCardRepository.deleteRemoved();
   }
 
+  @override
+  void close() {
+    _cards.close();
+    _selectedCard.close();
+  }
+
 }

@@ -3,30 +3,21 @@
 */
 import "dart:developer" as dev;
 
+import 'package:data/local/entity/Photo.dart';
 import 'package:data/local/entity/Product.dart';
+import 'package:data/mapper/PhotoMapper.dart';
 import 'package:data/mapper/ProductMapper.dart';
 import 'package:data/remote/interceptor/UserInterceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 
-class ProductService {
+class PhotoService {
   
   Dio _dio = inject();
-  ProductMapper _mapper = inject();
+  PhotoMapper _mapper = inject();
 
-  Future<List<Product>> getHighlights() async {
-    Response response = await _dio.get("products/highlights");
-
-    if(response.data != null) {
-      return (response.data as List).map((e) => _mapper.fromRemoteMap(e)).toList();
-    }
-    return null;
-  }
-
-  Future<List<Product>> search(String search) async {
-    Response response = await _dio.post("products/search", data: {
-      "search": search
-    });
+  Future<List<Photo>> getPhotos(int productId) async {
+    Response response = await _dio.get("products/photos");
 
     if(response.data != null) {
       return (response.data as List).map((e) => _mapper.fromRemoteMap(e)).toList();

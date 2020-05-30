@@ -9,7 +9,7 @@ import 'package:infrastructure/flutter/components/textviews/Amount.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:mopei_app/src/ui/details/ProductDetails.dart';
+import 'package:mopei_app/src/ui/details/ProductDetailsScreen.dart';
 
 class CardCartProduct extends StatefulWidget {
 

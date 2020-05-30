@@ -12,7 +12,7 @@ import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
 import 'package:infrastructure/flutter/livedata/ResponseStream.dart';
 import 'package:rxdart/rxdart.dart';
 
-class HomeBloc {
+class HomeBloc extends BaseBloc {
 
   MutableResponseStream<List<Product>> _highlights = MutableResponseStream();
   ResponseStream<List<Product>> get highlights => _highlights.observable;
@@ -39,15 +39,15 @@ class HomeBloc {
   }
 
   void addToFavorite(Favorite favorite) {
-    favoritesRepository.addToFavorites(favorite);
+    favoritesRepository.addToFavorites(favorite.productId);
   }
 
   void removeFromFavorite(Favorite favorite) {
     favoritesRepository.removeFromFavorite(favorite);
   }
 
-  void getHighlights() {
-    _highlights.postLoad(() => productsRepository.getHighlights());
+  void getHighlights() async {
+    _highlights.addData(await productsRepository.getHighlights());
   }
 
   void refreshCategories() {
@@ -59,6 +59,13 @@ class HomeBloc {
       await productsRepository.refreshProducts();
       return await productsRepository.getHighlights();
     });
+  }
+
+  @override
+  void close() {
+    _highlights.close();
+    _categories.close();
+    _favorites.close();
   }
 
 }

@@ -6,10 +6,11 @@ import 'package:infrastructure/flutter/utils/Mapper.dart';
 class PhotoMapper extends Mapper<Photo> {
 
   @override
-  Photo fromRemoteMap(Map<String, Object> input) {
-    // TODO: implement fromRemoteMap
-    throw UnimplementedError();
-  }
+  Photo fromRemoteMap(Map<String, Object> input) => Photo(
+      path: input["path"],
+      num: input["num"],
+      productId: input["productId"]
+  );
 
   @override
   Photo fromDataMap(Map<String, Object> input) => Photo(

@@ -14,7 +14,7 @@ class CartRepository {
 
   Future<Cart> save(Cart cart) => _dao.save(cart, conflictAlgorithm: ConflictAlgorithm.replace);
 
-  void removeFromCart(Cart cart) => _dao.delete(cart);
+  Future<void> removeFromCart(Cart cart) => _dao.delete(cart);
 
   Future<double> calculate() async {
     var list = await _dao.getProducts();
@@ -29,6 +29,11 @@ class CartRepository {
     var list = await _dao.getList();
     return list.length > 0;
   }
+
+  Future<void> addToCart(int productId) => _dao.save(Cart(
+    productId: productId,
+    amount: 1
+  ));
 
 }
 

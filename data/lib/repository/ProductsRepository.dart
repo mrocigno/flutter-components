@@ -5,37 +5,11 @@ import 'package:data/local/db/Config.dart';
 import 'package:data/local/entity/Product.dart';
 import 'package:data/remote/service/ProductService.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/utils/Mapper.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:infrastructure/flutter/utils/IterableUtils.dart';
 
 class ProductsRepository {
-  final _Local _local = _Local();
-  final _Remote _remote = _Remote();
-
-  Future<List<Product>> getHighlights() => _local.getHighlights();
-
-  Future<List<Product>> getFavorites() => _local.getFavorites();
-
-  Future<List<Product>> getInCart() => _local.getInCart();
-
-  Future<List<Product>> search(String search) => _local.search(search);
-
-  Future<Product> getById(int id) => _local.getById(id);
-
-  Future<void> refreshProducts() async {
-    List<Product> products = await _remote.getProducts();
-    _local.saveAll(products);
-  }
-}
-
-class _Local {
   ProductsDao dao = Config.daoProvider();
-
-  void addProduct(Product product) => dao.save(product, conflictAlgorithm: ConflictAlgorithm.replace);
-
-  void saveAll(List<Product> list) => dao.saveAll(list);
-
-  Future<Product> getById(int id) => dao.findById(id);
+  ProductService service = inject();
 
   Future<List<Product>> getHighlights() => dao.getHighlights();
 
@@ -43,13 +17,19 @@ class _Local {
 
   Future<List<Product>> getInCart() => dao.getInCart();
 
-  Future<List<Product>> search(String search) => dao.search(search);
-}
+  Future<List<Product>> search(String search) async {
+    var list = await service.search(search);
+    await dao.saveAll(list);
+    String ids = list.joinString((e) => e.id);
+    return await listByIds(ids);
+  }
 
-class _Remote {
+  Future<Product> getById(int id) => dao.findById(id);
 
-  ProductService service = inject();
+  Future<List<Product>> listByIds(String ids) => dao.listByIds(ids);
 
-  Future<List<Product>> getProducts() => service.getHighlights();
-
+  Future<void> refreshProducts() async {
+    List<Product> products = await service.getHighlights();
+    dao.saveAll(products);
+  }
 }

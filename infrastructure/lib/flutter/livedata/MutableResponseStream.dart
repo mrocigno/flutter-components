@@ -13,6 +13,7 @@ class MutableResponseStream<T> {
   ResponseStream<T> get observable => ResponseStream(this);
 
   final T seedValue;
+  bool get isClosed => data.isClosed;
 
   MutableResponseStream({this.seedValue}) : data = BehaviorSubject();
 
@@ -30,8 +31,14 @@ class MutableResponseStream<T> {
       onLoading?.call(true);
 
       var response = await execute();
-      data.add(response);
-      empty.add(response == null || (response is List && response.length <= 0));
+      if(isClosed) return;
+      if(response == null || (response is List && response.length <= 0)) {
+        empty.add(true);
+        data.add(null);
+      } else {
+        empty.add(false);
+        data.add(response);
+      }
       onSuccess?.call(response);
 
     } catch (exception, stacktrace) {
@@ -40,8 +47,10 @@ class MutableResponseStream<T> {
       error.add(exception);
       onError?.call(exception);
     } finally {
-      loading.add(false);
-      onLoading?.call(false);
+      if(!isClosed){
+        loading.add(false);
+        onLoading?.call(false);
+      }
     }
   }
 

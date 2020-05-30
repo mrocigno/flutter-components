@@ -127,7 +127,6 @@ class _PageCreateAccountScreen extends State<PageCreateAccountScreen> {
           padding: EdgeInsets.all(20),
           child: MopeiButton(
             text: "salvar",
-            isLoading: pageCreateAccountBloc.isLoading,
             onTap: () {
               if(formKey.currentState.validate()){
                 pageCreateAccountBloc.createAccount();

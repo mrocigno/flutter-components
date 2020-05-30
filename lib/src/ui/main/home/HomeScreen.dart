@@ -13,23 +13,35 @@ import 'package:mopei_app/src/ui/main/home/pagefavorites/PageFavorites.dart';
 import 'package:mopei_app/src/ui/main/home/pagehighlights/PageHighlights.dart';
 import 'package:mopei_app/src/ui/search/SearchScreen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+
+}
+
+class _HomeScreenState extends State<HomeScreen> {
 
   final HomeBloc homeBloc = sharedBloc();
   final InputController searchController = InputController();
 
   void goToSearchScreen(BuildContext context){
     var screen = SearchScreen(
-      initialData: searchController.value.text
+        initialData: searchController.value.text
     );
     ScreenTransitions.push(context, screen, animation: Animations.FADE);
   }
 
   @override
-  StatelessElement createElement() {
+  void initState() {
+    super.initState();
     homeBloc.refreshHighlights();
-    homeBloc.refreshCategories();
-    return super.createElement();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
   }
 
   @override
@@ -41,33 +53,34 @@ class HomeScreen extends StatelessWidget {
           child: Material(
             color: Colors.transparent,
             child: Input(InputThemes.searchLightTheme,
-              controller: searchController,
-              icon: "assets/img/icSearchWhite.png",
-              margin: EdgeInsets.all(20),
-              onFieldSubmitted: (value) => goToSearchScreen(context),
-              onTapIcon: () => goToSearchScreen(context)
+                controller: searchController,
+                icon: "assets/img/icSearchWhite.png",
+                margin: EdgeInsets.all(20),
+                onFieldSubmitted: (value) => goToSearchScreen(context),
+                onTapIcon: () => goToSearchScreen(context)
             ),
           ),
         ),
         Expanded(
-          child: BackgroundContainer(
-            child: TabView(
-              onPageChange: (page) {
-                switch(page){
-                  case 0: homeBloc.getHighlights(); break;
-                  case 1: homeBloc.getCategories(); break;
-                  case 2: homeBloc.getFavorites(); break;
-                }
-              },
-              children: [
-                PageHighlights(),
-                PageCategories(),
-                PageFavorites()
-              ],
+            child: BackgroundContainer(
+                child: TabView(
+                  onPageChange: (page) {
+                    switch(page){
+                      case 0: homeBloc.getHighlights(); break;
+                      case 1: homeBloc.getCategories(); break;
+//                      case 2: homeBloc.getFavorites(); break;
+                    }
+                  },
+                  children: [
+                    PageHighlights(),
+                    PageCategories(),
+                    PageFavorites()
+                  ],
+                )
             )
-          )
         )
       ],
     );
   }
+
 }

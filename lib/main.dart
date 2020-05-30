@@ -9,12 +9,14 @@ import 'package:data/mapper/ProductMapper.dart';
 import 'package:data/mapper/UserMapper.dart';
 import 'package:data/remote/interceptor/UserInterceptor.dart';
 import 'package:data/remote/service/CategoryService.dart';
+import 'package:data/remote/service/PhotoService.dart';
 import 'package:data/remote/service/ProductService.dart';
 import 'package:data/remote/service/UserService.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/CategoryRepository.dart';
 import 'package:data/repository/CreditCardRepository.dart';
 import 'package:data/repository/FavoritesRepository.dart';
+import 'package:data/repository/PhotoRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:data/repository/UserRepository.dart';
 import 'package:dio/dio.dart';
@@ -32,10 +34,10 @@ import 'package:mopei_app/src/ui/login/pagelogin/PageLoginBloc.dart';
 import 'package:mopei_app/src/ui/main/cart/CartBloc.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
-import 'package:mopei_app/src/ui/main/user/UserScreenBloc.dart';
+import 'package:mopei_app/src/ui/main/user/UserBloc.dart';
 import 'package:mopei_app/src/ui/payment/CardListBloc.dart';
 import 'package:mopei_app/src/ui/payment/addCard/AddCreditCardBloc.dart';
-import 'package:mopei_app/src/ui/search/SearchScreenBloc.dart';
+import 'package:mopei_app/src/ui/search/SearchBloc.dart';
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:rxdart/rxdart.dart';
@@ -139,20 +141,22 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
     module.singleton(() => ProductService());
     module.singleton(() => CategoryService());
     module.singleton(() => UserService());
+    module.singleton(() => PhotoService());
 
     module.singleton(() => ProductsRepository());
     module.singleton(() => CategoryRepository());
     module.singleton(() => FavoritesRepository());
     module.singleton(() => CartRepository());
     module.singleton(() => UserRepository());
+    module.singleton(() => PhotoRepository());
     module.singleton(() => CreditCardRepository());
 
     module.bloc(() => HomeBloc());
     module.bloc(() => CartBloc());
     module.bloc(() => MainNavigationBloc());
-    module.bloc(() => UserScreenBloc());
+    module.bloc(() => UserBloc());
     module.bloc(() => ProductDetailsBloc());
-    module.bloc(() => SearchScreenBloc());
+    module.bloc(() => SearchBloc());
     module.bloc(() => PageLoginBloc());
     module.bloc(() => CardListBloc());
     module.bloc(() => AddCreditCardBloc());
@@ -170,8 +174,9 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
         baseUrl: "https://api.mopei.com/"
       ));
       dio.interceptors.add(UserInterceptor(dio));
-      dio.interceptors.add(LogInterceptor());
-      if(kDebugMode) dio.interceptors.add(MockInterceptor(dio));
+//      dio.interceptors.add(LogInterceptor());
+//      if(kDebugMode)
+        dio.interceptors.add(MockInterceptor(dio));
       return dio;
     });
   };

@@ -2,12 +2,18 @@ import 'dart:developer' as dev;
 
 import 'package:data/local/entity/Cart.dart';
 import 'package:data/local/entity/Favorite.dart';
+import 'package:data/local/entity/Photo.dart';
 import 'package:data/local/entity/Product.dart';
+import 'package:data/local/entity/User.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/FavoritesRepository.dart';
+import 'package:data/repository/PhotoRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
+import 'package:data/repository/UserRepository.dart';
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
+import 'package:infrastructure/flutter/livedata/ResponseStream.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -16,47 +22,52 @@ class ProductDetailsBloc extends BaseBloc {
   ProductsRepository productsRepository = inject();
   CartRepository cartRepository = inject();
   FavoritesRepository favoritesRepository = inject();
+  PhotoRepository photoRepository = inject();
+  UserRepository userRepository = inject();
 
-  BehaviorSubject<Cart> _cart = BehaviorSubject();
-  ValueStream<Cart> get cart => _cart.stream;
+  MutableResponseStream<Product> _product = MutableResponseStream();
+  ResponseStream<Product> get product => _product.observable;
 
-  BehaviorSubject<bool> _favorite = BehaviorSubject();
-  ValueStream<bool> get favorite => _favorite.stream;
+  MutableResponseStream<List<Photo>> _photos = MutableResponseStream();
+  ResponseStream<List<Photo>> get photos => _photos.observable;
 
-  void addToFavorite(Favorite favorite) {
-    launchData(() async {
-      favoritesRepository.addToFavorites(favorite);
-      _favorite.add(true);
-    });
+  void getProduct(int productId) {
+    _product.postLoad(() => productsRepository.getById(productId),
+      onSuccess: (data) {
+        _photos.postLoad(() => photoRepository.getPhotos(productId));
+      },
+    );
   }
 
-  void removeFromFavorite(Favorite favorite) {
-    launchData(() async {
-      favoritesRepository.removeFromFavorite(favorite);
-      _favorite.add(false);
-    });
+  void addToFavorite() async {
+    int productId = _product.getSyncValue().id;
+    await favoritesRepository.addToFavorites(productId);
+    _product.postLoad(() => productsRepository.getById(productId));
   }
 
-  void getCartData(Product product){
-    launchData(() async {
-      _cart.add(await cartRepository.getCart(product.id));
-    });
+  void removeFromFavorite() async {
+    Product product = _product.getSyncValue();
+    await favoritesRepository.removeFromFavorite(product.favorite);
+    _product.postLoad(() => productsRepository.getById(product.id));
   }
 
-  void addToCart(Product product){
-    launchData(() async {
-      _cart.add(await cartRepository.save(Cart(
-        productId: product.id,
-        amount: 1
-      )));
-    });
+  void addToCart() async {
+    int productId = _product.getSyncValue().id;
+    await cartRepository.addToCart(productId);
+    _product.postLoad(() => productsRepository.getById(productId));
   }
 
-  void removeFromCart(Cart cart) {
-    launchData(() async {
-      cartRepository.removeFromCart(cart);
-      _cart.add(null);
-    });
+  void removeFromCart() async {
+    Product product = _product.getSyncValue();
+    await cartRepository.removeFromCart(product.cart);
+    _product.postLoad(() => productsRepository.getById(product.id));
+  }
+
+  @override
+  void close() {
+    super.close();
+    _product.close();
+    _photos.close();
   }
 
 }

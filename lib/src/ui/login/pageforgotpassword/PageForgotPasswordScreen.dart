@@ -79,7 +79,6 @@ class _PageForgotPasswordScreenState extends State<PageForgotPasswordScreen> {
             padding: EdgeInsets.all(20),
             child: MopeiButton(
               text: Strings.strings["button_send"],
-              isLoading: pageForgotPasswordBloc.isLoading,
               onTap: () {
                 if(emailController.validate()){
                   pageForgotPasswordBloc.changePassword();

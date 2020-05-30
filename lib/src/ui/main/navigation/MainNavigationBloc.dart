@@ -24,4 +24,10 @@ class MainNavigationBloc extends BaseBloc {
 
   void checkCart() async => _hasItemCart.add(await cartRepository.hasItem());
 
+  @override
+  void close() {
+    _page.close();
+    _hasItemCart.close();
+  }
+
 }

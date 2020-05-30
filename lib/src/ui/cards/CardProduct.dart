@@ -12,7 +12,7 @@ import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'dart:developer' as dev;
 
-import 'package:mopei_app/src/ui/details/ProductDetails.dart';
+import 'package:mopei_app/src/ui/details/ProductDetailsScreen.dart';
 
 typedef OnFavoriteButtonPressed = Function(Favorite favorite, bool active);
 typedef OnCardClick = Function(Product product);

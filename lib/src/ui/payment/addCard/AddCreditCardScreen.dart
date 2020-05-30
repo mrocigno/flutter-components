@@ -35,7 +35,7 @@ class AddCreditCardScreen extends BaseScreen {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildScreen(BuildContext context) {
 
     return Background(
         bottomNavigation: BottomScaffoldContainer(

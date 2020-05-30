@@ -77,7 +77,7 @@ class CardListScreen extends BaseScreen with RouteObserverMixin {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildScreen(BuildContext context) {
 
     return Background(
       centerTitle: false,

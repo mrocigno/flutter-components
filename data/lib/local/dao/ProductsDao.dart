@@ -32,14 +32,14 @@ class ProductsDao extends DaoBase<Product> {
 
   // I know, this is a workaround, but flutter has no reflection
   FavoritesDao get favoritesDao => Config.daoProvider();
-  PhotosDao get photoDao => Config.daoProvider();
+//  PhotosDao get photoDao => Config.daoProvider();
   CartDao get cartDao => Config.daoProvider();
 
-  void saveAll(List<Product> list) {
-    this.saveMany(list, conflictAlgorithm: ConflictAlgorithm.replace);
-    list.forEach((product) {
-      photoDao.saveMany(product.photos, conflictAlgorithm: ConflictAlgorithm.replace);
-    });
+  Future<void> saveAll(List<Product> list) async {
+    await saveMany(list, conflictAlgorithm: ConflictAlgorithm.replace);
+//    for(int i = 0; i < list?.length ?? 0; i++){
+//      await photoDao.saveMany(list[i].photos, conflictAlgorithm: ConflictAlgorithm.replace);
+//    }
   }
 
   Future<List<Product>> getHighlights() async {
@@ -66,13 +66,26 @@ class ProductsDao extends DaoBase<Product> {
     return _transformMap(query);
   }
 
-  Future<List<Product>> search(String search) async {
-    var query = await db.rawQuery(
-      "SELECT pd.* FROM $tableName as pd WHERE name like ?",
-      ["%$search%"]
+  Future<List<Product>> listByIds(String ids) async {
+    var query = await db.query(tableName,
+      where: "id in ($ids)"
     );
 
     return _transformMap(query);
+  }
+
+  @override
+  Future<Product> findById(int id) async {
+    var listMap = await db.query(tableName,
+      where: "$identifier = ?",
+      whereArgs: [id]
+    );
+
+    if(listMap.length > 0){
+      var list = await _transformMap(listMap);
+      return list[0];
+    }
+    return null;
   }
 
   Future<List<Product>> _transformMap(List<Map<String, dynamic>> map) async {
@@ -81,7 +94,6 @@ class ProductsDao extends DaoBase<Product> {
       var product = mapper.fromDataMap(map[i]);
       product.favorite = await favoritesDao.findById(product.id);
       product.cart = await cartDao.findById(product.id);
-      product.photos = await photoDao.getList(where: "productId = ?", whereArgs: [product.id]);
       result.add(product);
     }
     return result;

@@ -5,11 +5,12 @@ import "dart:developer" as dev;
 
 import 'package:data/local/entity/CreditCard.dart';
 import 'package:data/repository/CreditCardRepository.dart';
+import 'package:infrastructure/flutter/base/BaseBloc.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
 import 'package:infrastructure/flutter/livedata/ResponseStream.dart';
 
-class AddCreditCardBloc {
+class AddCreditCardBloc extends BaseBloc {
 
   MutableResponseStream<CreditCard> _card = MutableResponseStream();
   ResponseStream<CreditCard> get card => _card.observable;
@@ -17,6 +18,11 @@ class AddCreditCardBloc {
 
   void addCreditCard(CreditCard card) {
     _card.postLoad(() => _repository.addCreditCard(card));
+  }
+
+  @override
+  void close() {
+    _card.close();
   }
 
 }

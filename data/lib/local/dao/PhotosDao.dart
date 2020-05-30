@@ -21,4 +21,9 @@ class PhotosDao extends DaoBase<Photo> {
   @override
   PhotoMapper get mapper => inject();
 
+  Future<List<Photo>> listByProductId(int productId) => getList(
+    where: "productId = ?",
+    whereArgs: [productId]
+  );
+
 }

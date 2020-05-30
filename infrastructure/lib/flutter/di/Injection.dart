@@ -1,11 +1,13 @@
 
-import 'package:infrastructure/flutter/base/BaseScreen.dart';
+import 'dart:developer';
+
+import 'package:infrastructure/flutter/base/BaseBloc.dart';
 
 T inject<T>({String named}) => Injection.inject(named: named);
 
-T bloc<T>({String named}) => Injection.inject(named: named);
+T bloc<T extends BaseBloc>({String named}) => Injection.inject(named: named);
 
-T sharedBloc<T>({String named}) => Injection.inject(named: named, shared: true);
+T sharedBloc<T extends BaseBloc>({String named}) => Injection.inject(named: named, shared: true);
 
 class Injection {
 
@@ -61,6 +63,11 @@ class Injection {
       module.singleton = module.build();
     }
     return module.singleton;
+  }
+
+  static void destroyInstance(dynamic instance){
+    var module = _moduleConstructor._modules.firstWhere((e) => e.singleton == instance);
+    module.singleton = null;
   }
 
 }
