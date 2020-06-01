@@ -30,6 +30,7 @@ flutter:
     - packages/mock/assets/products-favorites.json
     - packages/mock/assets/products-photos.json
     - packages/mock/assets/categories.json
+    - packages/mock/assets/autocomplete.json
   #
   # For details regarding assets in packages, see
   # https://flutter.dev/assets-and-images/#from-packages

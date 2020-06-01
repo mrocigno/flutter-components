@@ -156,68 +156,70 @@ class ProductDetailsScreen extends BaseScreen with RouteObserverMixin {
                     ],
                   )
               ),
-              child: Container(
-                padding: EdgeInsets.all(20),
-                color: Colors.transparent,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(model?.provider ?? "", style: TextStyles.poppinsMedium),
-                              Text(model?.name ?? "", style: TextStyles.titleBlack),
-                            ],
-                          ),
-                        ),
-                        Hero(
-                            tag: "favoriteStar ${model?.id}",
-                            child: Container(
-                              child: Material(
-                                borderRadius: BorderRadius.all(Radius.circular(25)),
-                                elevation: 3,
-                                child: FavoriteButton(
-                                  active: inFavorite,
-                                  onPressed: (active) {
-                                    if (active) detailsBloc.addToFavorite();
-                                    else detailsBloc.removeFromFavorite();
-                                  },
-                                ),
-                              ),
-                            )
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 8),
-                      child: Text(model?.description ?? "", style: TextStyles.poppinsMedium),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 30),
-                      child: Row(
-                        children: <Widget>[
+              child: SliverToBoxAdapter(
+                child: Container(
+                  padding: EdgeInsets.all(20),
+                  color: Colors.transparent,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
                           Expanded(
                             flex: 1,
-                            child: Amount(amount: model?.value ?? 0),
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: MopeiButton(
-                              text: Strings.strings[inCart? "added" : "buy"],
-                              onTap: () {
-                                if(!inCart) detailsBloc.addToCart();
-                                else detailsBloc.removeFromCart();
-                              },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text(model?.provider ?? "", style: TextStyles.poppinsMedium),
+                                Text(model?.name ?? "", style: TextStyles.titleBlack),
+                              ],
                             ),
+                          ),
+                          Hero(
+                              tag: "favoriteStar ${model?.id}",
+                              child: Container(
+                                child: Material(
+                                  borderRadius: BorderRadius.all(Radius.circular(25)),
+                                  elevation: 3,
+                                  child: FavoriteButton(
+                                    active: inFavorite,
+                                    onPressed: (active) {
+                                      if (active) detailsBloc.addToFavorite();
+                                      else detailsBloc.removeFromFavorite();
+                                    },
+                                  ),
+                                ),
+                              )
                           )
                         ],
                       ),
-                    )
-                  ],
+                      Padding(
+                        padding: EdgeInsets.only(top: 8),
+                        child: Text(model?.description ?? "", style: TextStyles.poppinsMedium),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(
+                              flex: 1,
+                              child: Amount(amount: model?.value ?? 0),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: MopeiButton(
+                                text: Strings.strings[inCart? "added" : "buy"],
+                                onTap: () {
+                                  if(!inCart) detailsBloc.addToCart();
+                                  else detailsBloc.removeFromCart();
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             );

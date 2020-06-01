@@ -6,12 +6,15 @@ import 'package:data/mapper/CreditCardMapper.dart';
 import 'package:data/mapper/FavoriteMapper.dart';
 import 'package:data/mapper/PhotoMapper.dart';
 import 'package:data/mapper/ProductMapper.dart';
+import 'package:data/mapper/SearchMapper.dart';
 import 'package:data/mapper/UserMapper.dart';
 import 'package:data/remote/interceptor/UserInterceptor.dart';
+import 'package:data/remote/service/AutoCompleteService.dart';
 import 'package:data/remote/service/CategoryService.dart';
 import 'package:data/remote/service/PhotoService.dart';
 import 'package:data/remote/service/ProductService.dart';
 import 'package:data/remote/service/UserService.dart';
+import 'package:data/repository/AutoCompleteRepository.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/CategoryRepository.dart';
 import 'package:data/repository/CreditCardRepository.dart';
@@ -142,6 +145,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
     module.singleton(() => CategoryService());
     module.singleton(() => UserService());
     module.singleton(() => PhotoService());
+    module.singleton(() => AutoCompleteService());
 
     module.singleton(() => ProductsRepository());
     module.singleton(() => CategoryRepository());
@@ -150,6 +154,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
     module.singleton(() => UserRepository());
     module.singleton(() => PhotoRepository());
     module.singleton(() => CreditCardRepository());
+    module.singleton(() => AutoCompleteRepository());
 
     module.bloc(() => HomeBloc());
     module.bloc(() => CartBloc());
@@ -168,6 +173,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
     module.singleton(() => UserMapper());
     module.singleton(() => PhotoMapper());
     module.singleton(() => CreditCardMapper());
+    module.singleton(() => SearchMapper());
 
     module.singleton(() {
       var dio = Dio(BaseOptions(
@@ -176,7 +182,7 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
       dio.interceptors.add(UserInterceptor(dio));
 //      dio.interceptors.add(LogInterceptor());
 //      if(kDebugMode)
-        dio.interceptors.add(MockInterceptor(dio));
+      dio.interceptors.add(MockInterceptor(dio));
       return dio;
     });
   };

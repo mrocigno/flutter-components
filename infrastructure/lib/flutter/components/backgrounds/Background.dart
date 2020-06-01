@@ -160,25 +160,3 @@ class AppBarAction extends StatelessWidget{
     onPressed: onTap,
   );
 }
-
-class teste extends FloatingActionButtonAnimator {
-
-  @override
-  Offset getOffset({Offset begin, Offset end, double progress}) {
-//    log("\n\n begin -> $begin \n end -> $end \n progress -> $progress");
-    return Offset(begin.dx, begin.dy - 50);
-  }
-
-  @override
-  Animation<double> getRotationAnimation({Animation<double> parent}) {
-
-    return Tween<double>(begin: 0.0, end: 3.1415).animate(parent);
-  }
-
-  @override
-  Animation<double> getScaleAnimation({Animation<double> parent}) {
-    log("${parent.value}");
-    return Tween<double>(begin: 0.0, end: 3.1415).animate(parent);
-  }
-
-}

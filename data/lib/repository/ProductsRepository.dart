@@ -21,6 +21,8 @@ class ProductsRepository {
     var list = await service.search(search);
     await dao.saveAll(list);
     String ids = list.joinString((e) => e.id);
+//    throw Exception();
+//    return [];
     return await listByIds(ids);
   }
 

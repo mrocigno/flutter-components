@@ -14,13 +14,25 @@ class PageCategories extends TabChild {
   String get title => Strings.strings["home_page_2"];
 
   @override
-  StatelessWidget get child => _PageCategories();
+  Widget get child => _PageCategories();
 
 }
 
-class _PageCategories extends StatelessWidget {
+class _PageCategories extends StatefulWidget {
+
+  _PageCategoriesState createState() => _PageCategoriesState();
+
+}
+
+class _PageCategoriesState extends State<_PageCategories> {
 
   final HomeBloc bloc = sharedBloc();
+
+  @override
+  void initState() {
+    super.initState();
+    bloc.getCategories();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +78,5 @@ class _PageCategories extends StatelessWidget {
       ),
     );
   }
-
-
 
 }

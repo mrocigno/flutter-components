@@ -21,6 +21,7 @@ class Input extends StatefulWidget {
   final ValueChanged<String> onFieldSubmitted;
   final FocusNode focusNode;
   final InputController controller;
+  final Function(String text) onTextChanged;
 
   Input(this.theme, {
     this.icon,
@@ -32,7 +33,8 @@ class Input extends StatefulWidget {
     this.controller,
     this.obscureText = false,
     this.onFieldSubmitted,
-    this.focusNode
+    this.focusNode,
+    this.onTextChanged
   });
 
   @override
@@ -93,6 +95,7 @@ class InputState extends State<Input> {
                       onChanged: (value) {
                         _controller.setError(null);
                         _controller.handleMask(value);
+                        widget.onTextChanged?.call(value);
                       },
                     ),
                     StreamBuilder<String>(

@@ -1,6 +1,7 @@
 /*
 * Created to flutter-components at 05/10/2020
 */
+import 'dart:async';
 import 'dart:core';
 import 'dart:core';
 import "dart:developer" as dev;
@@ -21,20 +22,25 @@ import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:infrastructure/flutter/routing/AppRoute.dart';
 import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
 import 'package:infrastructure/flutter/utils/Functions.dart';
+import 'package:mopei_app/src/ui/search/CardHistorySearch.dart';
 import 'package:mopei_app/src/ui/cards/CardProduct.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsScreen.dart';
 import 'package:mopei_app/src/ui/search/SearchBloc.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:mopei_app/src/ui/search/data/AutoCompleteModel.dart';
+import 'package:mopei_app/src/ui/search/data/StreamMergeModel.dart';
+import 'package:rxdart/rxdart.dart';
 
 class SearchScreen extends BaseScreen with RouteObserverMixin {
 
   @override
   String get name => "SearchScreen";
 
-  final SearchBloc searchBloc = bloc();
-  final String initialData;
+  SearchBloc searchBloc = bloc();
+  String initialData;
+  String search;
 
-  SearchScreen({this.initialData = ""});
+  SearchScreen({this.initialData = ""}) : search = initialData;
 
   @override
   void onCalled() {
@@ -64,9 +70,15 @@ class SearchScreen extends BaseScreen with RouteObserverMixin {
 
   @override
   Widget buildScreen(BuildContext context) {
-    Duration duration = Duration(milliseconds: 300);
-
     return BackgroundSliver(
+      onWillPop: () async {
+        if (searchBloc.isTyping) {
+          hideKeyboard(context);
+          searchBloc.isTyping = false;
+          return false;
+        }
+        return true;
+      },
       theme: BackgroundThemes.search,
       expandedHeight: 130,
       actions: [
@@ -77,91 +89,135 @@ class SearchScreen extends BaseScreen with RouteObserverMixin {
       flexibleSpaceBar: FlexibleSpaceSearchBar(
         key: _searchHeaderKey,
         initialData: initialData,
-        loadObserver: searchBloc.products.loading,
-        onPerformSearch: (search) {
-          if(search != ""){
-            searchBloc.performSearch(search);
-          }
+        loadObserver: Rx.combineLatest2(searchBloc.products.loading, searchBloc.autoComplete.loading, (a, b) {
+          if (a || b) return true;
+          return false;
+        }),
+        onPerformSearch: performSearch,
+        onTextChanged: (text) {
+          search = text;
+          searchBloc.isTyping = true;
+          searchBloc.handleAutoComplete(text);
         },
       ),
-      child: Stack(
-        children: <Widget>[
-          StreamBuilder<Exception>(
-            stream: searchBloc.products.error,
-            builder: (context, snapshot) {
-              var show = snapshot.hasData;
-              return AnimatedOpacity(
-                duration: duration,
-                opacity: show? 1 : 0,
-                child: Center(
-                  child: EmptyState(
-                    title: "Houve um erro",
-                    titleStyle: TextStyle(color: Colors.redAccent, fontSize: 20),
-                    icon: Icons.close,
-                    iconColor: Colors.redAccent
-                  ),
+      child: StreamBuilder<StreamMergeModel>(
+        stream: Rx.combineLatest4(searchBloc.products.empty, searchBloc.products.error, searchBloc.products.success, searchBloc.typing, (a, b, c, d) {
+          return StreamMergeModel(
+            empty: a,
+            error: b,
+            success: c,
+            typing: d
+          );
+        }),
+        initialData: StreamMergeModel(),
+        builder: (context, snapshot) {
+          StreamMergeModel merge = snapshot.data;
+          if (merge.isSearching) return searchingWidget;
+          if (merge.isError) return errorWidget;
+          if (merge.isEmpty) return emptyWidget;
+          if (merge.isSuccess) return successWidget(merge.success);
+          return SliverToBoxAdapter();
+        },
+      )
+    );
+  }
+
+  void performSearch(String search) {
+    if(search != ""){
+      searchBloc.isTyping = false;
+      searchBloc.performSearch(search);
+      hideKeyboard(context);
+    }
+  }
+
+  Widget get searchingWidget {
+    searchBloc.getHistory(search);
+    return StreamBuilder<List<AutoCompleteModel>>(
+      stream: searchBloc.autoComplete.success,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || snapshot.data == null || snapshot.data.length <= 0) return SliverToBoxAdapter();
+        List<AutoCompleteModel> list = snapshot.data;
+        return SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return Padding(
+                padding: EdgeInsets.only(bottom: (index + 1) == list.length? insetBottom(context) : 0),
+                child: CardHistorySearch(
+                  model: list[index],
+                  onPressed: (selected) {
+                    _searchHeaderKey.currentState.searchText = selected;
+                    performSearch(selected);
+                  },
                 ),
               );
             },
+            childCount: list.length
           ),
-          StreamBuilder<bool>(
-            stream: searchBloc.products.empty,
-            initialData: false,
-            builder: (context, snapshot) {
-              bool show = snapshot.data;
-              return AnimatedOpacity(
-                duration: duration,
-                opacity: show? 1 : 0,
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: <Widget>[
-                      Image.asset("assets/img/icSadFace.webp", width: 200, height: 200),
-                      Container(
-                        margin: const EdgeInsets.only(top: 20),
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                            color: Constants.Colors.COLOR_PRIMARY.withOpacity(.8),
-                            borderRadius: BorderRadius.all(Radius.circular(10))
-                        ),
-                        child: Text(Strings.strings["empty_search"], style: TextStyles.subtitleWhite, textAlign: TextAlign.center),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-          StreamBuilder<List<Product>>(
-            stream: searchBloc.products.success,
-            builder: (context, snapshot) {
-              if(!snapshot.hasData) return Wrap();
-              var list = snapshot.data;
-              return ListView.builder(
-                padding: EdgeInsets.only(bottom: insetBottom(context)),
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  return CardProduct(
-                    model: list[index],
-                    onCardClick: (product) => ScreenTransitions.push(context, ProductDetailsScreen(
-                      productId: product.id,
-                    )),
-                    onFavoriteButtonPressed: (favorite, active) {
-                      if(active){
-                        searchBloc.addToFavorite(favorite);
-                        list[index].favorite = favorite;
-                      } else {
-                        searchBloc.removeFromFavorite(favorite);
-                        list[index].favorite = null;
-                      }
-                    },
-                  );
-                },
-              );
-            },
-          ),
-        ],
+        );
+      },
+    );
+  }
+
+  Widget get errorWidget {
+    return SliverFillRemaining(
+      child: Center(
+        child: EmptyState(
+          title: "Houve um erro",
+          titleStyle: TextStyle(color: Colors.redAccent, fontSize: 20),
+          icon: Icons.close,
+          iconColor: Colors.redAccent
+        )
       ),
+    );
+  }
+
+  Widget get emptyWidget {
+    return SliverToBoxAdapter(
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          children: <Widget>[
+            Image.asset("assets/img/icSadFace.webp", width: 200, height: 200),
+            Container(
+              margin: const EdgeInsets.only(top: 20),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: Constants.Colors.COLOR_PRIMARY.withOpacity(.8),
+                borderRadius: BorderRadius.all(Radius.circular(10))
+              ),
+              child: Text(Strings.strings["empty_search"], style: TextStyles.subtitleWhite, textAlign: TextAlign.center),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget successWidget(List<Product> list) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          return Padding(
+            padding: EdgeInsets.only(bottom: (index + 1) == list.length? insetBottom(context) : 0),
+            child: CardProduct(
+              model: list[index],
+              onCardClick: (product) => ScreenTransitions.push(context, ProductDetailsScreen(
+                productId: product.id,
+              )),
+              onFavoriteButtonPressed: (favorite, active) {
+                if(active){
+                  searchBloc.addToFavorite(favorite);
+                  list[index].favorite = favorite;
+                } else {
+                  searchBloc.removeFromFavorite(favorite);
+                  list[index].favorite = null;
+                }
+              },
+            ),
+          );
+        },
+        childCount: list.length,
+      )
     );
   }
 }

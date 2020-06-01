@@ -36,6 +36,8 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     homeBloc.refreshHighlights();
+    homeBloc.refreshCategories();
+    homeBloc.refreshFavorites();
   }
 
   @override
@@ -62,22 +64,15 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         Expanded(
-            child: BackgroundContainer(
-                child: TabView(
-                  onPageChange: (page) {
-                    switch(page){
-                      case 0: homeBloc.getHighlights(); break;
-                      case 1: homeBloc.getCategories(); break;
-//                      case 2: homeBloc.getFavorites(); break;
-                    }
-                  },
-                  children: [
-                    PageHighlights(),
-                    PageCategories(),
-                    PageFavorites()
-                  ],
-                )
+          child: BackgroundContainer(
+            child: TabView(
+              children: [
+                PageHighlights(),
+                PageCategories(),
+                PageFavorites()
+              ],
             )
+          )
         )
       ],
     );

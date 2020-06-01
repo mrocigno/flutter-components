@@ -1,7 +1,9 @@
 
+import 'package:data/local/dao/UserDao.dart';
 import 'package:data/local/db/Config.dart';
 import 'package:data/local/db/DaoBase.dart';
 import 'package:data/local/entity/Product.dart';
+import 'package:data/local/entity/User.dart';
 import 'package:data/mapper/ProductMapper.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:sqflite/sqflite.dart';
@@ -32,14 +34,11 @@ class ProductsDao extends DaoBase<Product> {
 
   // I know, this is a workaround, but flutter has no reflection
   FavoritesDao get favoritesDao => Config.daoProvider();
-//  PhotosDao get photoDao => Config.daoProvider();
+  UserDao get userDao => Config.daoProvider();
   CartDao get cartDao => Config.daoProvider();
 
   Future<void> saveAll(List<Product> list) async {
     await saveMany(list, conflictAlgorithm: ConflictAlgorithm.replace);
-//    for(int i = 0; i < list?.length ?? 0; i++){
-//      await photoDao.saveMany(list[i].photos, conflictAlgorithm: ConflictAlgorithm.replace);
-//    }
   }
 
   Future<List<Product>> getHighlights() async {
@@ -51,9 +50,14 @@ class ProductsDao extends DaoBase<Product> {
   }
 
   Future<List<Product>> getFavorites() async {
-    var query = await db.rawQuery(
+    User session = await userDao.getSession();
+    String sql = (session == null? (
       "SELECT pd.* FROM $tableName as pd INNER JOIN ${favoritesDao.tableName} as fv ON pd.id = fv.productId"
-    );
+    ) : (
+      "SELECT pd.* FROM $tableName as pd INNER JOIN ${favoritesDao.tableName} as fv ON pd.id = fv.productId AND fv.userId = ${session.id}"
+    ));
+
+    var query = await db.rawQuery(sql);
 
     return _transformMap(query);
   }

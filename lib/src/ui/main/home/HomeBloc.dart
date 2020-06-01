@@ -6,6 +6,7 @@ import 'package:data/local/entity/Product.dart';
 import 'package:data/repository/CategoryRepository.dart';
 import 'package:data/repository/FavoritesRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
+import 'package:data/repository/UserRepository.dart';
 import 'package:infrastructure/flutter/base/BaseBloc.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
@@ -26,12 +27,12 @@ class HomeBloc extends BaseBloc {
   final ProductsRepository productsRepository = inject();
   final CategoryRepository categoryRepository = inject();
   final FavoritesRepository favoritesRepository = inject();
+  final UserRepository userRepository = inject();
 
+  Future<bool> hasSession() async => await userRepository.getSession() != null; 
+  
   void getFavorites() async {
-    _favorites.postLoad(() async {
-      await favoritesRepository.refreshRemoteFavorites();
-      return await productsRepository.getFavorites();
-    });
+    _favorites.postLoad(() => productsRepository.getFavorites());
   }
 
   void getCategories() async {
@@ -48,6 +49,13 @@ class HomeBloc extends BaseBloc {
 
   void getHighlights() async {
     _highlights.addData(await productsRepository.getHighlights());
+  }
+
+  void refreshFavorites() async {
+    _favorites.postLoad(() async {
+      await favoritesRepository.refreshFavorites();
+      return await productsRepository.getFavorites();
+    });
   }
 
   void refreshCategories() {

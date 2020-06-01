@@ -28,9 +28,10 @@ class FavoritesRepository {
 //        }
   }
 
-  Future<void> refreshRemoteFavorites() async {
+  Future<List<Favorite>> refreshFavorites() async {
     List<Favorite> list = await _remote.getFavorites();
     await _local.addAll(list);
+    return list;
   }
 
 }

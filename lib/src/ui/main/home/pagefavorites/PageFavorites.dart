@@ -9,7 +9,6 @@ import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
 import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
-import 'package:infrastructure/flutter/utils/Functions.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/cards/CardProduct.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsScreen.dart';
@@ -43,6 +42,12 @@ class _PageFavoritesFragment extends BaseFragment {
   }
 
   @override
+  void onComeback() {
+    super.onComeback();
+    bloc.getFavorites();
+  }
+
+  @override
   Widget buildFragment(BuildContext context) {
     return Stack(
       children: <Widget>[
@@ -51,20 +56,6 @@ class _PageFavoritesFragment extends BaseFragment {
           initialData: false,
           builder: (context, snapshot) {
             if(!snapshot.data) return Wrap();
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                AnimatedStar(autoStart: true),
-                Text(Strings.strings["not_favored"], style: TextStyles.subtitleBlack)
-              ],
-            );
-          },
-        ),
-        StreamBuilder<Exception>(
-          stream: bloc.favorites.error,
-          builder: (context, snapshot) {
-            if(snapshot.data == null) return Wrap();
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -72,10 +63,27 @@ class _PageFavoritesFragment extends BaseFragment {
                 children: <Widget>[
                   AnimatedStar(autoStart: true),
                   Text(Strings.strings["not_favored"], style: TextStyles.subtitleBlack),
-                  Hyperlink("Já tem uma conta?", onPress: () => showLogin(context))
+                  FutureBuilder<bool>(
+                    future: bloc.hasSession(),
+                    initialData: true,
+                    builder: (context, snapshot) {
+                      return (snapshot.data? (
+                        Wrap()
+                      ) : (
+                        Hyperlink("Já tem uma conta?", onPress: () => showLogin(context))
+                      ));
+                    },
+                  )
                 ],
               ),
             );
+          },
+        ),
+        StreamBuilder<Exception>(
+          stream: bloc.favorites.error,
+          builder: (context, snapshot) {
+            if(snapshot.data == null) return Wrap();
+            return Text("Erro");
           },
         ),
         StreamBuilder<List<Product>>(
@@ -107,13 +115,13 @@ class _PageFavoritesFragment extends BaseFragment {
           stream: bloc.favorites.loading,
           initialData: false,
           builder: (context, snapshot) => snapshot.data? (
-              IgnorePointer(
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  height: 100,
-                  child: RefreshProgressIndicator(),
-                ),
-              )
+            IgnorePointer(
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                height: 100,
+                child: RefreshProgressIndicator(),
+              ),
+            )
           ) : Wrap(),
         ),
       ],
@@ -122,9 +130,8 @@ class _PageFavoritesFragment extends BaseFragment {
 
   showLogin(BuildContext context) {
     LoginModal(context, onSuccess: () {
-      bloc.getFavorites();
+      bloc.refreshFavorites();
     }).show();
   }
-
 
 }

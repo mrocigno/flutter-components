@@ -28,8 +28,6 @@ abstract class BaseScreen extends State<BaseScreenStateful> implements RouteObse
   Set<BaseFragment> _fragments = Set();
   void register(BaseFragment fragment){
     _fragments.add(fragment);
-    log("registrado $fragment");
-    log("registrados $_fragments");
   }
 
   void unregister(BaseFragment fragment){

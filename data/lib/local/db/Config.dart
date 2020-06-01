@@ -4,6 +4,7 @@ import 'package:data/local/dao/CreditCardDao.dart';
 import 'package:data/local/dao/FavoritesDao.dart';
 import 'package:data/local/dao/PhotosDao.dart';
 import 'package:data/local/dao/ProductsDao.dart';
+import 'package:data/local/dao/SearchDao.dart';
 import 'package:data/local/dao/UserDao.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
@@ -20,7 +21,8 @@ class Config {
     FavoritesDao(),
     UserDao(),
     PhotosDao(),
-    CreditCardDao()
+    CreditCardDao(),
+    SearchDao()
   ];
 
   static T daoProvider<T extends DaoBase>() {

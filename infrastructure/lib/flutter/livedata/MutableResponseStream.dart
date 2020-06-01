@@ -27,11 +27,12 @@ class MutableResponseStream<T> {
   ) async {
     try {
       loading.add(true);
-      error.add(null);
       onLoading?.call(true);
 
       var response = await execute();
       if(isClosed) return;
+
+      error.add(null);
       if(response == null || (response is List && response.length <= 0)) {
         empty.add(true);
         data.add(null);

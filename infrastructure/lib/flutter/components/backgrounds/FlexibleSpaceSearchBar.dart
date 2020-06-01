@@ -14,12 +14,14 @@ class FlexibleSpaceSearchBar extends StatefulWidget {
   final OnPerformSearch onPerformSearch;
   final String initialData;
   final Stream<bool> loadObserver;
+  final Function(String text) onTextChanged;
 
   FlexibleSpaceSearchBar({
     Key key,
     this.onPerformSearch,
     this.initialData,
-    this.loadObserver
+    this.loadObserver,
+    this.onTextChanged
   }) : super(key: key);
 
   @override
@@ -33,12 +35,13 @@ class FlexibleSpaceSearchBarState extends State<FlexibleSpaceSearchBar> {
 
   InputController _controller;
   String get searchText => _controller?.value?.text ?? "";
+  set searchText(String value) => _controller.text = value;
 
   @override
   void initState() {
     super.initState();
     _controller = InputController(
-        text: widget.initialData
+      text: widget.initialData,
     );
   }
 
@@ -78,6 +81,7 @@ class FlexibleSpaceSearchBarState extends State<FlexibleSpaceSearchBar> {
                   margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   controller: _controller,
                   icon: "assets/img/icSearchPurple.png",
+                  onTextChanged: widget.onTextChanged,
                   onFieldSubmitted: (value) => widget.onPerformSearch?.call(value),
                   onTapIcon: (){
                     widget.onPerformSearch?.call(_controller.value.text);
