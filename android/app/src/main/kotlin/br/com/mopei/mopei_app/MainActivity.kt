@@ -1,4 +1,4 @@
-package br.com.mopei.mopei_app
+package br.com.rapidus
 
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
