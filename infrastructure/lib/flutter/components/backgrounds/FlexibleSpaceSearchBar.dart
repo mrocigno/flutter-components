@@ -8,6 +8,8 @@ import 'package:infrastructure/flutter/components/inputs/InputController.dart';
 import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 import 'package:flutter/material.dart';
 import 'package:infrastructure/flutter/components/inputs/InputText.dart';
+import 'package:infrastructure/flutter/constants/Strings.dart';
+import 'package:rxdart/rxdart.dart';
 
 class FlexibleSpaceSearchBar extends StatefulWidget {
 
@@ -67,7 +69,7 @@ class FlexibleSpaceSearchBarState extends State<FlexibleSpaceSearchBar> {
             child: Container(
               alignment: Alignment.center,
               height: 56,
-              child: Text("Mopei", style: TextStyle(fontSize: 20, color: Constants.Colors.PRIMARY_SWATCH),),
+              child: Text(Strings.strings["app_name"], style: TextStyle(fontSize: 20, color: Constants.Colors.PRIMARY_SWATCH),),
             )
           ),
           Container(
@@ -80,7 +82,8 @@ class FlexibleSpaceSearchBarState extends State<FlexibleSpaceSearchBar> {
                 child: Input(InputThemes.searchDarkTheme,
                   margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   controller: _controller,
-                  icon: "assets/img/icSearchPurple.png",
+                  icon: "assets/img/icSearchWhite.png",
+                  iconColor: Constants.Colors.PRIMARY_SWATCH,
                   onTextChanged: widget.onTextChanged,
                   onFieldSubmitted: (value) => widget.onPerformSearch?.call(value),
                   onTapIcon: (){

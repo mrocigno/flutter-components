@@ -37,7 +37,7 @@ class BackgroundThemes {
     statusBarBrightness: Brightness.light,
     centralizeTitle: true,
     pinned: true,
-    titleColor: Constants.Colors.COLOR_PRIMARY,
+    titleColor: Constants.Colors.PRIMARY_SWATCH,
     appBarColor: Constants.Colors.WHITE_TRANSPARENT_HIGH,
     elevation: 0,
     decoration: BoxDecoration(

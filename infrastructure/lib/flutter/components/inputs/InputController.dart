@@ -85,6 +85,12 @@ class InputController extends TextEditingController{
   }
 
   bool isEmpty() => text.length == 0;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _errorMsg.close();
+  }
 }
 
 class _ValidateWrapper {

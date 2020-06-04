@@ -77,6 +77,7 @@ class Background extends StatelessWidget{
               textTheme: TextTheme(headline6: TextStyle(color: _theme.titleColor, fontSize: 20, fontFamily: "lato")),
               title: title,
               backgroundColor: Colors.transparent,
+              brightness: Brightness.dark,
               elevation: 0,
               leading: leading,
               actions: actions,

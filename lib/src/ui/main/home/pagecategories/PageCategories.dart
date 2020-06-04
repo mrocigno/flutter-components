@@ -7,6 +7,7 @@ import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
 import 'package:infrastructure/flutter/constants/Strings.dart';
 import 'package:infrastructure/flutter/di/Injection.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
+import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
 
 class PageCategories extends TabChild {
 
@@ -62,7 +63,7 @@ class _PageCategoriesState extends State<_PageCategories> {
                           Expanded(
                               child: Padding(
                                 padding: EdgeInsets.all(20),
-                                child: Image.asset("assets/img/icCategoryHelm.png"),
+                                child: Image.asset("assets/img/icCategoryHelm.png", color: Constants.Colors.PRIMARY_SWATCH),
                               )
                           ),
                           Text(category.name, style: TextStyles.poppinsMedium)

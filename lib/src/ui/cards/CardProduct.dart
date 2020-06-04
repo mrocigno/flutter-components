@@ -84,7 +84,7 @@ class CardProductState extends State<CardProduct> {
                       (widget.model.cart != null ?
                       Padding(
                         padding: const EdgeInsets.only(right: 45, top: 15),
-                        child: Image.asset('assets/img/icCartActive.png', height: 20, width: 20,),
+                        child: Image.asset('assets/img/icCartActive.png', height: 20, width: 20, color: Constants.Colors.PRIMARY_SWATCH,),
                       ) : Container()
                       )
                     ],

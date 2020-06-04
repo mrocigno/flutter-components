@@ -13,6 +13,7 @@ class Input extends StatefulWidget {
   final InputThemes theme;
   final bool obscureText;
   final String icon;
+  final Color iconColor;
   final String hint;
   final TextInputType keyboardType;
   final onTapIcon;
@@ -25,6 +26,7 @@ class Input extends StatefulWidget {
 
   Input(this.theme, {
     this.icon,
+    this.iconColor,
     this.keyboardType = TextInputType.text,
     this.hint,
     this.onTapIcon,
@@ -130,6 +132,7 @@ class InputState extends State<Input> {
                         width: 30,
                         height: 30,
                         fit: widget.theme.iconFit,
+                        color: widget.iconColor,
                       ),
                       onPressed: widget.onTapIcon
                   ),
