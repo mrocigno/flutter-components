@@ -35,39 +35,38 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     return positionTitle.dy - positionAnimated.dy;
   }
 
-  AnimationController _controller;
+  AnimationController _translateYController;
   Animation<double> _translateY;
+  AnimationController _opacityController;
   Animation<double> _opacity;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+    _opacityController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 2000)
+      duration: Duration(milliseconds: 700)
+    );
+    _translateYController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 1500)
     );
   }
 
   @override
   Widget build(BuildContext context) {
     Strings.initialize().then((value) {
-      double position = calculateTitlePosition();
-
-      _opacity = Tween(begin: 0.0, end: 1.0).animate(
-        CurvedAnimation(
-          parent: _controller,
-          curve: Interval(.0, .3)
-        )
-      );
-
-      _translateY = Tween(begin: 0.0, end: position).animate(
-        CurvedAnimation(
-          parent: _controller,
-          curve: Interval(.5, 1.0, curve: Curves.fastOutSlowIn)
-        )
-      );
-      _controller.forward().then((value) {
-        toHome();
+      _opacity = Tween(begin: 0.0, end: 1.0).animate(_opacityController);
+      _opacityController.forward().then((value) {
+        _translateY = Tween(begin: 0.0, end: calculateTitlePosition()).animate(
+          CurvedAnimation(
+            parent: _translateYController,
+            curve: Curves.fastOutSlowIn
+          )
+        );
+        _translateYController.forward().then((value) {
+          toHome();
+        });
       });
     });
 
@@ -76,16 +75,21 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     return Background(
         title: Container(height: LOGO_HEIGHT, width: LOGO_WIDTH, key: _titleKey),
         child: AnimatedBuilder(
-          animation: _controller,
+          animation: _translateYController,
           builder: (context, child) {
             return Center(
               child: Container(
                 key: _logoKey,
                 height: LOGO_HEIGHT, width: LOGO_WIDTH,
                 transform: Matrix4.translationValues(0, _translateY?.value ?? 0, 0),
-                child: Opacity(
-                  opacity: _opacity?.value ?? 0,
-                  child: Image.asset("assets/img/icLogo.webp"),
+                child: AnimatedBuilder(
+                  animation: _opacityController,
+                  builder: (context, child) {
+                    return Opacity(
+                      opacity: _opacity?.value ?? 0,
+                      child: Image.asset("assets/img/icLogo.webp"),
+                    );
+                  },
                 ),
               ),
             );
