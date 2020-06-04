@@ -69,7 +69,7 @@ class FlexibleSpaceSearchBarState extends State<FlexibleSpaceSearchBar> {
             child: Container(
               alignment: Alignment.center,
               height: 56,
-              child: Text(Strings.strings["app_name"], style: TextStyle(fontSize: 20, color: Constants.Colors.PRIMARY_SWATCH),),
+              child: Text(Strings.strings["search_screen_title"], style: TextStyle(fontSize: 20, color: Constants.Colors.PRIMARY_SWATCH),),
             )
           ),
           Container(

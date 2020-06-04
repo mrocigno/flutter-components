@@ -1,5 +1,5 @@
 {
-  "app_name": "Mopei",
+  "app_name": "Rapidus",
 
   "forgot_password": "Esqueci a senha",
 
@@ -38,5 +38,7 @@
 
   "error_invalid_email": "Email inválido",
   "error_invalid_empty_email": "Informe o email",
-  "error_invalid_empty_password": "Informe a senha"
+  "error_invalid_empty_password": "Informe a senha",
+
+  "search_screen_title": "Produtos"
 }
