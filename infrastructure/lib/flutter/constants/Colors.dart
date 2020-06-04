@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 
 class Colors {
 
-  static const MaterialColor PRIMARY_SWATCH = MaterialColor(0xFF521588, {
-    50:  Color.fromRGBO(82, 21, 136, .1),
-    100: Color.fromRGBO(82, 21, 136, .2),
-    200: Color.fromRGBO(82, 21, 136, .3),
-    300: Color.fromRGBO(82, 21, 136, .4),
-    400: Color.fromRGBO(82, 21, 136, .5),
-    500: Color.fromRGBO(82, 21, 136, .6),
-    600: Color.fromRGBO(82, 21, 136, .7),
-    700: Color.fromRGBO(82, 21, 136, .8),
-    800: Color.fromRGBO(82, 21, 136, .9),
-    900: Color.fromRGBO(82, 21, 136, 1)
+  static const MaterialColor PRIMARY_SWATCH = MaterialColor(0xFF13d2ba, {
+    50:  Color.fromRGBO(6, 92, 111, .1),
+    100: Color.fromRGBO(6, 92, 111, .2),
+    200: Color.fromRGBO(6, 92, 111, .3),
+    300: Color.fromRGBO(6, 92, 111, .4),
+    400: Color.fromRGBO(6, 92, 111, .5),
+    500: Color.fromRGBO(6, 92, 111, .6),
+    600: Color.fromRGBO(6, 92, 111, .7),
+    700: Color.fromRGBO(6, 92, 111, .8),
+    800: Color.fromRGBO(6, 92, 111, .9),
+    900: Color.fromRGBO(6, 92, 111, 1)
   });
 
-  static const Color COLOR_PRIMARY = Color.fromRGBO(82, 21, 136, 1);
+  static const Color COLOR_PRIMARY = Color.fromRGBO(6, 92, 111, 1);
 
-  static const Color GRADIENT_BACKGROUND_INI = Color.fromRGBO(31, 20, 49, 1);
+  static const Color GRADIENT_BACKGROUND_INI = COLOR_PRIMARY;
   static const Color GRADIENT_BACKGROUND_END = COLOR_PRIMARY;
-  static const Color GRADIENT_BUTTON_INI = Color.fromRGBO(155, 111, 255, 1);
-  static const Color GRADIENT_BUTTON_END = Color.fromRGBO(104, 91, 255, 1);
+  static const Color GRADIENT_BUTTON_INI = Color.fromRGBO(46, 201, 233, 1);
+  static const Color GRADIENT_BUTTON_END = Color.fromRGBO(19, 210, 186, 1);
 
   static const Color WHITE_TRANSPARENT_LOW = Color.fromRGBO(255, 255, 255, .3);
   static const Color WHITE_TRANSPARENT_MEDIUM = Color.fromRGBO(255, 255, 255, .5);
