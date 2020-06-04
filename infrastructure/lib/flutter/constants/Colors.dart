@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Colors {
 
-  static const MaterialColor PRIMARY_SWATCH = MaterialColor(0xFF13d2ba, {
+  static const MaterialColor PRIMARY_SWATCH = MaterialColor(0xFF105C6F, {
     50:  Color.fromRGBO(6, 92, 111, .1),
     100: Color.fromRGBO(6, 92, 111, .2),
     200: Color.fromRGBO(6, 92, 111, .3),
