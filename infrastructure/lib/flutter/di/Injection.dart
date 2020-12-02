@@ -1,7 +1,7 @@
 
 import 'dart:developer';
 
-import 'package:infrastructure/flutter/base/BaseBloc.dart';
+import 'package:flutter_useful_things/base/BaseBloc.dart';
 
 T inject<T>({String named}) => Injection.inject(named: named);
 

@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:infrastructure/flutter/components/inputs/FormValidate.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/components/inputs/FormValidate.dart';
+import 'package:core/constants/Colors.dart' as Constants;
 import 'package:rxdart/rxdart.dart';
 import 'dart:developer' as dev;
 

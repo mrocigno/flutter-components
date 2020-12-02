@@ -4,11 +4,11 @@
 import "dart:developer" as dev;
 
 import 'package:flutter/cupertino.dart';
-import 'package:infrastructure/flutter/components/inputs/InputController.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/components/inputs/InputController.dart';
+import 'package:core/constants/Colors.dart' as Constants;
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/inputs/InputText.dart';
-import 'package:infrastructure/flutter/constants/Strings.dart';
+import 'package:flutter_useful_things/components/inputs/InputText.dart';
+import 'package:core/constants/Strings.dart';
 import 'package:rxdart/rxdart.dart';
 
 class FlexibleSpaceSearchBar extends StatefulWidget {

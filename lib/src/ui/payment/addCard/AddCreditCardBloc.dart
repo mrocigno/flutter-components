@@ -5,10 +5,10 @@ import "dart:developer" as dev;
 
 import 'package:data/local/entity/CreditCard.dart';
 import 'package:data/repository/CreditCardRepository.dart';
-import 'package:infrastructure/flutter/base/BaseBloc.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
-import 'package:infrastructure/flutter/livedata/ResponseStream.dart';
+import 'package:flutter_useful_things/base/BaseBloc.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/livedata/MutableResponseStream.dart';
+import 'package:flutter_useful_things/livedata/ResponseStream.dart';
 
 class AddCreditCardBloc extends BaseBloc {
 

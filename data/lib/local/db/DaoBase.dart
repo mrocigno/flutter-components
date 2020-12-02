@@ -1,5 +1,5 @@
+import 'package:data/local/db/Mapper.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/utils/Mapper.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class DaoBase<Entity> {

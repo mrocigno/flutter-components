@@ -1,6 +1,6 @@
 import 'dart:developer' as dev;
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/animations/BumpAnimate.dart';
+import 'package:flutter_useful_things/animations/BumpAnimate.dart';
 
 class FavoriteButton extends StatefulWidget {
 

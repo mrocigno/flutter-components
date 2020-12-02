@@ -5,12 +5,12 @@ import "dart:developer" as dev;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/alert/AlertConfig.dart';
-import 'package:infrastructure/flutter/components/backgrounds/BackgroundActionSheet.dart';
-import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
-import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
-import 'package:infrastructure/flutter/utils/Functions.dart';
+import 'package:flutter_useful_things/components/alert/AlertConfig.dart';
+import 'package:flutter_useful_things/components/backgrounds/BackgroundActionSheet.dart';
+import 'package:flutter_useful_things/components/buttons/MopeiButton.dart';
+import 'package:flutter_useful_things/components/textviews/Hyperlink.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
+import 'package:flutter_useful_things/utils/Functions.dart';
 
 class AlertActionSheet {
 

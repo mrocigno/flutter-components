@@ -4,8 +4,8 @@
 import "dart:developer" as dev;
 
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
+import 'package:flutter_useful_things/components/textviews/Hyperlink.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
 
 class EmptyState extends StatefulWidget {
 

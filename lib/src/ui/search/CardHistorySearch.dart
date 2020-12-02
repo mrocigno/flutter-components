@@ -4,7 +4,7 @@
 import "dart:developer" as dev;
 
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
 import 'package:mopei_app/src/ui/search/data/AutoCompleteModel.dart';
 
 class CardHistorySearch extends StatelessWidget {

@@ -4,10 +4,10 @@ import 'package:data/local/entity/Cart.dart';
 import 'package:data/local/entity/Product.dart';
 import 'package:data/repository/CartRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
-import 'package:infrastructure/flutter/base/BaseBloc.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
-import 'package:infrastructure/flutter/livedata/ResponseStream.dart';
+import 'package:flutter_useful_things/base/BaseBloc.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/livedata/MutableResponseStream.dart';
+import 'package:flutter_useful_things/livedata/ResponseStream.dart';
 import 'package:rxdart/rxdart.dart';
 
 class CartBloc extends BaseBloc {

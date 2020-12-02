@@ -2,8 +2,8 @@
 import 'package:data/local/db/DaoBase.dart';
 import 'package:data/local/entity/Category.dart';
 import 'package:data/mapper/CategoryMapper.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/utils/Mapper.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:data/local/db/Mapper.dart';
 import 'package:sqflite/sql.dart';
 
 class CategoriesDao extends DaoBase<Category> {

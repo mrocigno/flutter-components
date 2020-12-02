@@ -5,8 +5,8 @@ import "dart:developer" as dev;
 
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
-import 'package:infrastructure/flutter/utils/Matrix4Utils.dart';
+import 'package:core/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/utils/Matrix4Utils.dart';
 
 class ImagePlaceholder extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:developer' as dev;
-import 'package:infrastructure/flutter/livedata/ErrorResponse.dart';
-import 'package:infrastructure/flutter/livedata/ResponseStream.dart';
+import 'package:flutter_useful_things/livedata/ErrorResponse.dart';
+import 'package:flutter_useful_things/livedata/ResponseStream.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MutableResponseStream<T> {

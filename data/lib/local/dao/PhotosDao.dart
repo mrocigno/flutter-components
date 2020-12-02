@@ -3,7 +3,7 @@ import 'dart:developer' as dev;
 import 'package:data/local/db/DaoBase.dart';
 import 'package:data/local/entity/Photo.dart';
 import 'package:data/mapper/PhotoMapper.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 
 class PhotosDao extends DaoBase<Photo> {
 

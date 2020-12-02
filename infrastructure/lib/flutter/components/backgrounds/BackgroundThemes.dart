@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:core/constants/Colors.dart' as Constants;
 
 class BackgroundThemes {
 

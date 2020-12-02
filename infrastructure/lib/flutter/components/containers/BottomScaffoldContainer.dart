@@ -1,7 +1,7 @@
 import 'dart:developer' as dev;
 import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/utils/Functions.dart';
+import 'package:flutter_useful_things/utils/Functions.dart';
 
 class BottomScaffoldContainer extends StatelessWidget{
 

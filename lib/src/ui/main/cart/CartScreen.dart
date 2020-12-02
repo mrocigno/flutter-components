@@ -1,20 +1,21 @@
 import 'dart:developer' as dev;
+import 'package:core/theme/CoreButtonTheme.dart';
 import 'package:data/local/entity/Cart.dart';
 import 'package:data/local/entity/Product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
-import 'package:infrastructure/flutter/components/buttons/BumpButton.dart';
-import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
-import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
-import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
-import 'package:infrastructure/flutter/components/textviews/Amount.dart';
-import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
-import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
+import 'package:flutter_useful_things/components/backgrounds/Background.dart';
+import 'package:flutter_useful_things/components/buttons/BumpButton.dart';
+import 'package:flutter_useful_things/components/buttons/FavoriteButton.dart';
+import 'package:flutter_useful_things/components/buttons/MopeiButton.dart';
+import 'package:flutter_useful_things/components/containers/BackgroundContainer.dart';
+
+import 'package:flutter_useful_things/components/textviews/Hyperlink.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
+import 'package:core/constants/Colors.dart' as Constants;
+import 'package:core/constants/Strings.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/routing/ScreenTransitions.dart';
 import 'package:mopei_app/src/ui/cards/CardCartProduct.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsScreen.dart';
 import 'package:mopei_app/src/ui/main/cart/CartBloc.dart';
@@ -80,7 +81,7 @@ class _CartScreenState extends State<CartScreen> {
                               alignment: Alignment.bottomCenter,
                               padding: const EdgeInsets.all(20),
                               child: MopeiButton(
-                                theme: MopeiButtonTheme.outlined,
+                                theme: CoreButtonTheme.outlined,
                                 text: Strings.strings["go_to_shop"],
                                 onTap: () => ScreenTransitions.push(context, SearchScreen(), animation: Animations.FADE),
                               )
@@ -159,7 +160,7 @@ class _CartScreenState extends State<CartScreen> {
                           padding: const EdgeInsets.only(top: 20),
                           alignment: Alignment.center,
                           child: MopeiButton(
-                            theme: MopeiButtonTheme.outlined,
+                            theme: CoreButtonTheme.outlined,
                             text: Strings.strings["receive_in_home"],
                           ),
                         ),
@@ -167,7 +168,7 @@ class _CartScreenState extends State<CartScreen> {
                             padding: const EdgeInsets.symmetric(vertical: 20),
                             alignment: Alignment.center,
                             child: MopeiButton(
-                              theme: MopeiButtonTheme.mainTheme,
+                              theme: CoreButtonTheme.mainTheme,
                               text: Strings.strings["schedule_exchange"],
                             )
                         )

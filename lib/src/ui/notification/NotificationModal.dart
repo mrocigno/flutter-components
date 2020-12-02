@@ -4,10 +4,10 @@
 import "dart:developer" as dev;
 
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/backgrounds/BackgroundActionSheet.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
-import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:infrastructure/flutter/utils/Functions.dart';
+import 'package:flutter_useful_things/components/backgrounds/BackgroundActionSheet.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
+import 'package:core/constants/Strings.dart';
+import 'package:flutter_useful_things/utils/Functions.dart';
 
 class NotificationModal extends StatefulWidget {
   NotificationModal(this.context, {this.onSuccess});

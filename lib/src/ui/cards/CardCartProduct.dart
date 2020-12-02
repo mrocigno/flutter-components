@@ -2,13 +2,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:data/local/entity/Cart.dart';
 import 'package:data/local/entity/Product.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/animations/FadeAnimation.dart';
-import 'package:infrastructure/flutter/components/buttons/BumpButton.dart';
-import 'package:infrastructure/flutter/components/image/ImagePlaceholder.dart';
-import 'package:infrastructure/flutter/components/textviews/Amount.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
-import 'package:infrastructure/flutter/constants/Strings.dart';
+import 'package:flutter_useful_things/animations/FadeAnimation.dart';
+import 'package:flutter_useful_things/components/buttons/BumpButton.dart';
+import 'package:flutter_useful_things/components/image/ImagePlaceholder.dart';
+import 'package:core/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/components/textviews/Amount.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
+import 'package:core/constants/Strings.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsScreen.dart';
 
 class CardCartProduct extends StatefulWidget {

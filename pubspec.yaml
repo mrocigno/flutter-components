@@ -32,8 +32,12 @@ dependencies:
 
   data:
     path: data
-  infrastructure:
-    path: infrastructure
+  core:
+    path: core
+  flutter_useful_things:
+    git:
+      url: https://github.com/mrocigno/flutter_useful_things
+      ref: 749434f
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -43,7 +47,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_stetho: 0.5.2
   mock:
     path: mock
 

@@ -9,7 +9,7 @@ import 'package:data/local/entity/User.dart';
 import 'package:data/repository/UserRepository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 
 const String HEADER_VERIFIERS = "verifiers";
 const String HEADER_USER_TOKEN = "user-token";

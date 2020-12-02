@@ -6,7 +6,7 @@ import "dart:developer" as dev;
 import 'package:data/local/entity/Category.dart';
 import 'package:data/mapper/CategoryMapper.dart';
 import 'package:dio/dio.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 
 class CategoryService {
 

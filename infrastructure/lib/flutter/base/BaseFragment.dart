@@ -4,8 +4,8 @@
 import "dart:developer" as dev;
 
 import 'package:flutter/cupertino.dart';
-import 'package:infrastructure/flutter/base/BaseScreen.dart';
-import 'package:infrastructure/flutter/routing/AppRoute.dart';
+import 'package:flutter_useful_things/base/BaseScreen.dart';
+import 'package:flutter_useful_things/routing/AppRoute.dart';
 
 abstract class BaseFragment<T extends StatefulWidget> extends State<T> implements RouteObserverMixin {
 

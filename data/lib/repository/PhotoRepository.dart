@@ -7,8 +7,7 @@ import 'package:data/local/entity/Photo.dart';
 import 'package:data/local/entity/Product.dart';
 import 'package:data/remote/service/PhotoService.dart';
 import 'package:data/remote/service/ProductService.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/utils/IterableUtils.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 import 'package:sqflite/sqflite.dart';
 
 class PhotoRepository {

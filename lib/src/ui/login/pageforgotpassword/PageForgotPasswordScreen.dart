@@ -1,10 +1,12 @@
-import 'package:infrastructure/flutter/components/inputs/FormValidate.dart';
-import 'package:infrastructure/flutter/components/inputs/InputController.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:core/theme/CoreButtonTheme.dart';
+import 'package:core/theme/CoreInputThemes.dart';
+import 'package:flutter_useful_things/components/inputs/FormValidate.dart';
+import 'package:flutter_useful_things/components/inputs/InputController.dart';
+import 'package:core/constants/Colors.dart' as Constants;
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/inputs/InputText.dart';
-import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
-import 'package:infrastructure/flutter/constants/Strings.dart';
+import 'package:flutter_useful_things/components/inputs/InputText.dart';
+import 'package:flutter_useful_things/components/buttons/MopeiButton.dart';
+import 'package:core/constants/Strings.dart';
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:mopei_app/src/ui/login/pageforgotpassword/PageForgotPasswordBloc.dart';
 
@@ -65,7 +67,7 @@ class _PageForgotPasswordScreenState extends State<PageForgotPasswordScreen> {
               padding: EdgeInsets.all(20),
               child: Column(
                 children: <Widget>[
-                  Input(InputThemes.loginTheme,
+                  Input(CoreInputThemes.loginTheme,
                     hint: Strings.strings["hint_email"],
                     keyboardType: TextInputType.emailAddress,
                     margin: EdgeInsets.only(top: 10),
@@ -78,6 +80,7 @@ class _PageForgotPasswordScreenState extends State<PageForgotPasswordScreen> {
           Container(
             padding: EdgeInsets.all(20),
             child: MopeiButton(
+              theme: CoreButtonTheme.mainTheme,
               text: Strings.strings["button_send"],
               onTap: () {
                 if(emailController.validate()){

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/inputs/InputText.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/components/inputs/InputText.dart';
+import 'package:core/constants/Colors.dart' as Constants;
 import 'dart:developer' as dev;
 
 class TabView extends StatefulWidget {

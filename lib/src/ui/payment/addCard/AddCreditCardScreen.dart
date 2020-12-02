@@ -3,18 +3,19 @@
 */
 import "dart:developer" as dev;
 
+import 'package:core/theme/CoreButtonTheme.dart';
 import 'package:data/local/entity/CreditCard.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/base/BaseScreen.dart';
-import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
-import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
-import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
-import 'package:infrastructure/flutter/components/containers/BottomScaffoldContainer.dart';
-import 'package:infrastructure/flutter/components/containers/CreditCardForm.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/routing/AppRoute.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
-import 'package:infrastructure/flutter/utils/Functions.dart';
+import 'package:flutter_useful_things/base/BaseScreen.dart';
+import 'package:flutter_useful_things/components/backgrounds/Background.dart';
+import 'package:flutter_useful_things/components/buttons/MopeiButton.dart';
+import 'package:flutter_useful_things/components/containers/BackgroundContainer.dart';
+import 'package:flutter_useful_things/components/containers/BottomScaffoldContainer.dart';
+import 'package:flutter_useful_things/components/containers/CreditCardForm.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/routing/AppRoute.dart';
+import 'package:core/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/utils/Functions.dart';
 import 'package:mopei_app/src/ui/payment/addCard/AddCreditCardBloc.dart';
 
 class AddCreditCardScreen extends BaseScreen {
@@ -53,7 +54,7 @@ class AddCreditCardScreen extends BaseScreen {
                       width: (snapshot.data? 0 : widthByPercent(context, 45)),
                       margin: EdgeInsets.only(right: snapshot.data? 0 : 10),
                       child: MopeiButton(
-                        theme: MopeiButtonTheme.outlined,
+                        theme: CoreButtonTheme.outlined,
                         text: "Cancelar",
                         onTap: () => Navigator.pop(context),
                       ),
@@ -63,7 +64,7 @@ class AddCreditCardScreen extends BaseScreen {
                 Expanded(
                   flex: 1,
                   child: MopeiButton(
-                    theme: MopeiButtonTheme.mainTheme,
+                    theme: CoreButtonTheme.mainTheme,
                     text: "Adicionar",
                     isLoading: _bloc.card.loading,
                     onTap: () {

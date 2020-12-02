@@ -2,8 +2,8 @@
 * Created to flutter-components at 05/09/2020
 */
 import "dart:developer" as dev;
-import 'package:infrastructure/flutter/animations/BumpAnimate.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/animations/BumpAnimate.dart';
+import 'package:core/constants/Colors.dart' as Constants;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

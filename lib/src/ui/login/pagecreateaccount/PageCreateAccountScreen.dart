@@ -1,10 +1,10 @@
-import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
-import 'package:infrastructure/flutter/components/inputs/FormValidate.dart';
-import 'package:infrastructure/flutter/components/inputs/InputController.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:core/theme/CoreButtonTheme.dart';
+import 'package:flutter_useful_things/components/inputs/FormValidate.dart';
+import 'package:flutter_useful_things/components/inputs/InputController.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/inputs/InputText.dart';
-import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
+import 'package:core/theme/CoreInputThemes.dart';
+import 'package:flutter_useful_things/components/buttons/MopeiButton.dart';
+import 'package:flutter_useful_things/components/inputs/InputText.dart';
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:mopei_app/src/ui/login/pagecreateaccount/PageCreateAccountBloc.dart';
 
@@ -96,23 +96,23 @@ class _PageCreateAccountScreen extends State<PageCreateAccountScreen> {
                 key: formKey,
                 child: Column(
                   children: <Widget>[
-                    Input(InputThemes.loginTheme,
+                    Input(CoreInputThemes.loginTheme,
                       hint: "E-mail",
                       margin: EdgeInsets.only(top: 20),
                       controller: emailController,
                     ),
-                    Input(InputThemes.loginTheme,
+                    Input(CoreInputThemes.loginTheme,
                       hint: "Telefone",
                       margin: EdgeInsets.only(top: 20),
                       controller: phoneController,
                     ),
-                    Input(InputThemes.loginTheme,
+                    Input(CoreInputThemes.loginTheme,
                       hint: "Senha",
                       margin: EdgeInsets.only(top: 20),
                       controller: passwordController,
                       obscureText: true,
                     ),
-                    Input(InputThemes.loginTheme,
+                    Input(CoreInputThemes.loginTheme,
                       hint: "Confirme a senha",
                       margin: EdgeInsets.only(top: 20),
                       controller: confirmPasswordController,
@@ -126,6 +126,7 @@ class _PageCreateAccountScreen extends State<PageCreateAccountScreen> {
         Container(
           padding: EdgeInsets.all(20),
           child: MopeiButton(
+            theme: CoreButtonTheme.mainTheme,
             text: "salvar",
             onTap: () {
               if(formKey.currentState.validate()){

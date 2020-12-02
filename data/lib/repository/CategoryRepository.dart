@@ -4,7 +4,7 @@ import 'package:data/local/dao/CategoriesDao.dart';
 import 'package:data/local/db/Config.dart';
 import 'package:data/local/entity/Category.dart';
 import 'package:data/remote/service/CategoryService.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CategoryRepository {

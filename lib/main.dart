@@ -26,11 +26,11 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:infrastructure/flutter/components/containers/TopSnackBar.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/observer/ConnectionObserver.dart';
-import 'package:infrastructure/flutter/routing/AppRoute.dart';
+import 'package:flutter_useful_things/components/containers/TopSnackBar.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/observer/ConnectionObserver.dart';
+import 'package:flutter_useful_things/routing/AppRoute.dart';
 import 'package:mopei_app/src/ui/WhiteTable.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
 import 'package:mopei_app/src/ui/login/pagelogin/PageLoginBloc.dart';
@@ -42,9 +42,8 @@ import 'package:mopei_app/src/ui/payment/CardListBloc.dart';
 import 'package:mopei_app/src/ui/payment/addCard/AddCreditCardBloc.dart';
 import 'package:mopei_app/src/ui/search/SearchBloc.dart';
 import 'package:mopei_app/src/ui/splash/SplashScreen.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:core/constants/Colors.dart' as Constants;
 import 'package:rxdart/rxdart.dart';
-import 'package:flutter_stetho/flutter_stetho.dart';
 import 'package:mock/MockInterceptor.dart';
 import 'package:mock/ui/MockBubble.dart';
 
@@ -72,8 +71,6 @@ class MyApp extends StatelessWidget with WidgetsBindingObserver, ConnectionBindi
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
-    if(kDebugMode) Stetho.initialize();
 
     configSystemStyleUI();
     WidgetsBinding.instance.addObserver(this);

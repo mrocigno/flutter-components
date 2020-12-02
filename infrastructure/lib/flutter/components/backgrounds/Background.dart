@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
-import 'package:infrastructure/flutter/utils/Functions.dart';
+import 'package:core/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/utils/Functions.dart';
 
 class Background extends StatelessWidget{
   Background({

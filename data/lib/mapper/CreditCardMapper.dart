@@ -2,7 +2,7 @@ import 'dart:developer' as dev;
 
 
 import 'package:data/local/entity/CreditCard.dart';
-import 'package:infrastructure/flutter/utils/Mapper.dart';
+import 'package:data/local/db/Mapper.dart';
 
 class CreditCardMapper extends Mapper<CreditCard> {
 

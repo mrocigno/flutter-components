@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
-import 'package:infrastructure/flutter/base/BaseScreen.dart';
-import 'package:infrastructure/flutter/routing/AppRoute.dart';
+import 'package:flutter_useful_things/base/BaseScreen.dart';
+import 'package:flutter_useful_things/routing/AppRoute.dart';
 
 class ScreenTransitions {
 

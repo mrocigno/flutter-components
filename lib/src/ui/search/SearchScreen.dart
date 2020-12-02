@@ -7,26 +7,26 @@ import 'dart:core';
 import "dart:developer" as dev;
 import 'dart:math';
 
+import 'package:core/theme/CoreBackgroundTheme.dart';
 import 'package:data/local/entity/Product.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/base/BaseScreen.dart';
-import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
-import 'package:infrastructure/flutter/components/backgrounds/BackgroundSliver.dart';
-import 'package:infrastructure/flutter/components/backgrounds/BackgroundThemes.dart';
-import 'package:infrastructure/flutter/components/backgrounds/FlexibleSpaceSearchBar.dart';
-import 'package:infrastructure/flutter/components/textviews/EmptyState.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
-import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/routing/AppRoute.dart';
-import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
-import 'package:infrastructure/flutter/utils/Functions.dart';
+import 'package:flutter_useful_things/base/BaseScreen.dart';
+import 'package:flutter_useful_things/components/backgrounds/Background.dart';
+import 'package:flutter_useful_things/components/backgrounds/BackgroundTheme.dart';
+import 'package:flutter_useful_things/components/textviews/EmptyState.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
+import 'package:core/constants/Strings.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/routing/AppRoute.dart';
+import 'package:flutter_useful_things/routing/ScreenTransitions.dart';
+import 'package:flutter_useful_things/utils/Functions.dart';
 import 'package:mopei_app/src/ui/search/CardHistorySearch.dart';
 import 'package:mopei_app/src/ui/cards/CardProduct.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsScreen.dart';
+import 'package:mopei_app/src/ui/search/FlexibleSpaceSearchBar.dart';
 import 'package:mopei_app/src/ui/search/SearchBloc.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:core/constants/Colors.dart' as Constants;
 import 'package:mopei_app/src/ui/search/data/AutoCompleteModel.dart';
 import 'package:mopei_app/src/ui/search/data/StreamMergeModel.dart';
 import 'package:rxdart/rxdart.dart';
@@ -70,7 +70,7 @@ class SearchScreen extends BaseScreen with RouteObserverMixin {
 
   @override
   Widget buildScreen(BuildContext context) {
-    return BackgroundSliver(
+    return Background(
       onWillPop: () async {
         if (searchBloc.isTyping) {
           hideKeyboard(context);
@@ -79,26 +79,33 @@ class SearchScreen extends BaseScreen with RouteObserverMixin {
         }
         return true;
       },
-      theme: BackgroundThemes.search,
-      expandedHeight: 130,
-      actions: [
-        AppBarAction(
-          icon: Icon(Icons.filter_list, color: Constants.Colors.PRIMARY_SWATCH),
-        )
-      ],
-      flexibleSpaceBar: FlexibleSpaceSearchBar(
-        key: _searchHeaderKey,
-        initialData: initialData,
-        loadObserver: Rx.combineLatest2(searchBloc.products.loading, searchBloc.autoComplete.loading, (a, b) {
-          if (a || b) return true;
-          return false;
-        }),
-        onPerformSearch: performSearch,
-        onTextChanged: (text) {
-          search = text;
-          searchBloc.isTyping = true;
-          searchBloc.handleAutoComplete(text);
-        },
+      theme: BackgroundTheme.search,
+      appBarConfig: AppBarConfig(
+        sliverConfig: AppBarSliverConfig(
+          expandedHeight: 130,
+          isFloating: false,
+          isSnap: false,
+          isPinned: true
+        ),
+        actions: [
+          AppBarAction(
+            icon: Icon(Icons.filter_list, color: Constants.Colors.PRIMARY_SWATCH),
+          )
+        ],
+        flexibleSpace: FlexibleSpaceSearchBar(
+          key: _searchHeaderKey,
+          initialData: initialData,
+          loadObserver: Rx.combineLatest2(searchBloc.products.loading, searchBloc.autoComplete.loading, (a, b) {
+            if (a || b) return true;
+            return false;
+          }),
+          onPerformSearch: performSearch,
+          onTextChanged: (text) {
+            search = text;
+            searchBloc.isTyping = true;
+            searchBloc.handleAutoComplete(text);
+          },
+        ),
       ),
       child: StreamBuilder<StreamMergeModel>(
         stream: Rx.combineLatest4(searchBloc.products.empty, searchBloc.products.error, searchBloc.products.success, searchBloc.typing, (a, b, c, d) {

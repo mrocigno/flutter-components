@@ -1,12 +1,13 @@
 import 'dart:developer' as dev;
 
+import 'package:core/theme/CoreInputThemes.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/carousel/TabView.dart';
-import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
-import 'package:infrastructure/flutter/components/inputs/InputController.dart';
-import 'package:infrastructure/flutter/components/inputs/InputText.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
+import 'package:flutter_useful_things/components/carousel/TabView.dart';
+import 'package:flutter_useful_things/components/containers/BackgroundContainer.dart';
+import 'package:flutter_useful_things/components/inputs/InputController.dart';
+import 'package:flutter_useful_things/components/inputs/InputText.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/routing/ScreenTransitions.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
 import 'package:mopei_app/src/ui/main/home/pagecategories/PageCategories.dart';
 import 'package:mopei_app/src/ui/main/home/pagefavorites/PageFavorites.dart';
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
           tag: "SearchField",
           child: Material(
             color: Colors.transparent,
-            child: Input(InputThemes.searchLightTheme,
+            child: Input(CoreInputThemes.searchLightTheme,
                 controller: searchController,
                 icon: "assets/img/icSearchWhite.png",
                 margin: EdgeInsets.all(20),

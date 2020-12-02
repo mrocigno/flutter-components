@@ -11,7 +11,7 @@ else
 import \"dart:developer\" as dev;
 import \"package:data/dao/$1Dao.dart\";
 import \"package:data/local/db/Config.dart\";
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 
 class $1Repository {
   _Local _local = _Local();

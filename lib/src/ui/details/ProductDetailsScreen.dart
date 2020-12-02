@@ -1,26 +1,23 @@
-import 'dart:developer' as dev;
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:data/local/entity/Cart.dart';
-import 'package:data/local/entity/Favorite.dart';
+import 'package:core/theme/CoreBackgroundTheme.dart';
+import 'package:core/theme/CoreButtonTheme.dart';
 import 'package:data/local/entity/Photo.dart';
-import 'package:flutter/services.dart';
-import 'package:infrastructure/flutter/base/BaseScreen.dart';
-import 'package:infrastructure/flutter/components/backgrounds/BackgroundSliver.dart';
-import 'package:infrastructure/flutter/components/buttons/FavoriteButton.dart';
-import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
-import 'package:infrastructure/flutter/components/carousel/Carousel.dart';
-import 'package:infrastructure/flutter/components/containers/BottomScaffoldContainer.dart';
-import 'package:infrastructure/flutter/components/image/ImagePlaceholder.dart';
-import 'package:infrastructure/flutter/components/textviews/Amount.dart';
-import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/base/BaseScreen.dart';
+import 'package:flutter_useful_things/components/backgrounds/Background.dart';
+import 'package:flutter_useful_things/components/backgrounds/BackgroundSliver.dart';
+import 'package:flutter_useful_things/components/buttons/FavoriteButton.dart';
+import 'package:flutter_useful_things/components/buttons/MopeiButton.dart';
+import 'package:flutter_useful_things/components/carousel/Carousel.dart';
+import 'package:flutter_useful_things/components/containers/BottomScaffoldContainer.dart';
+import 'package:flutter_useful_things/components/image/ImagePlaceholder.dart';
+import 'package:flutter_useful_things/components/textviews/Amount.dart';
+import 'package:flutter_useful_things/components/textviews/Hyperlink.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
 import 'package:data/local/entity/Product.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/routing/AppRoute.dart';
+import 'package:core/constants/Strings.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/routing/AppRoute.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsBloc.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 import 'package:rxdart/rxdart.dart';
@@ -77,8 +74,8 @@ class ProductDetailsScreen extends BaseScreen with RouteObserverMixin {
             bool inCart = model.cart != null;
             bool inFavorite = model.favorite != null;
 
-            return BackgroundSliver(
-              expandedHeight: 300,
+            return Background(
+              theme: CoreBackgroundTheme.details,
               bottomNavigation: AnimatedContainer(
                 duration: Duration(milliseconds: 300),
                 constraints: inCart? BoxConstraints(maxHeight: 200) : BoxConstraints(maxHeight: 0),
@@ -101,7 +98,7 @@ class ProductDetailsScreen extends BaseScreen with RouteObserverMixin {
                           flex: 1,
                           child: MopeiButton(
                             text: Strings.strings["see_cart"],
-                            theme: MopeiButtonTheme.outlined,
+                            theme: CoreButtonTheme.outlined,
                             onTap: () {
                               navigationBloc.setPage(1);
                               Navigator.pop(context);
@@ -113,7 +110,9 @@ class ProductDetailsScreen extends BaseScreen with RouteObserverMixin {
                   ),
                 ),
               ),
-              flexibleSpaceBar: FlexibleSpaceBar(
+              appBarConfig: AppBarConfig(
+                sliverConfig: AppBarSliverConfig(expandedHeight: 300, isFloating: false, isPinned: false, isSnap: false),
+                flexibleSpace: FlexibleSpaceBar(
                   collapseMode: CollapseMode.parallax,
                   background: Stack(
                     children: <Widget>[
@@ -155,6 +154,7 @@ class ProductDetailsScreen extends BaseScreen with RouteObserverMixin {
                       ),
                     ],
                   )
+                )
               ),
               child: SliverToBoxAdapter(
                 child: Container(
@@ -208,6 +208,7 @@ class ProductDetailsScreen extends BaseScreen with RouteObserverMixin {
                             Expanded(
                               flex: 1,
                               child: MopeiButton(
+                                theme: CoreButtonTheme.mainTheme,
                                 text: Strings.strings[inCart? "added" : "buy"],
                                 onTap: () {
                                   if(!inCart) detailsBloc.addToCart();

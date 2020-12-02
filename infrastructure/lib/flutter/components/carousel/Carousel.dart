@@ -5,7 +5,7 @@ import "dart:developer" as dev;
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:core/constants/Colors.dart' as Constants;
 
 class Carousel extends StatefulWidget {
 

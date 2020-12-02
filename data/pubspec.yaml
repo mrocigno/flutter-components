@@ -16,8 +16,12 @@ dependencies:
   dio: 3.0.9
 
   # Clean architecture modules "domain", "data" and my plus "infrastructure"
-  infrastructure:
-    path: ../infrastructure
+#  infrastructure:
+#    path: ../infrastructure
+  flutter_useful_things:
+    git:
+      url: https://github.com/mrocigno/flutter_useful_things
+      ref: 749434f
 
 dev_dependencies:
   flutter_test:

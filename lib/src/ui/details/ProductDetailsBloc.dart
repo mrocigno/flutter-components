@@ -10,10 +10,10 @@ import 'package:data/repository/FavoritesRepository.dart';
 import 'package:data/repository/PhotoRepository.dart';
 import 'package:data/repository/ProductsRepository.dart';
 import 'package:data/repository/UserRepository.dart';
-import 'package:infrastructure/flutter/base/BaseBloc.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
-import 'package:infrastructure/flutter/livedata/ResponseStream.dart';
+import 'package:flutter_useful_things/base/BaseBloc.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/livedata/MutableResponseStream.dart';
+import 'package:flutter_useful_things/livedata/ResponseStream.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:rxdart/subjects.dart';
 

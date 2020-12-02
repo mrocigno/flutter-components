@@ -1,8 +1,8 @@
 import 'dart:developer' as dev;
 
 import 'package:data/repository/CartRepository.dart';
-import 'package:infrastructure/flutter/base/BaseBloc.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/base/BaseBloc.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MainNavigationBloc extends BaseBloc {

@@ -1,14 +1,14 @@
 import 'package:data/local/entity/Product.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/base/BaseFragment.dart';
+import 'package:flutter_useful_things/base/BaseFragment.dart';
 import 'dart:developer' as dev;
 
-import 'package:infrastructure/flutter/components/carousel/TabView.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
-import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
-import 'package:infrastructure/flutter/utils/Functions.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/components/carousel/TabView.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
+import 'package:core/constants/Strings.dart';
+import 'package:flutter_useful_things/routing/ScreenTransitions.dart';
+import 'package:flutter_useful_things/utils/Functions.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 import 'package:mopei_app/src/ui/cards/CardProduct.dart';
 import 'package:mopei_app/src/ui/details/ProductDetailsScreen.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';

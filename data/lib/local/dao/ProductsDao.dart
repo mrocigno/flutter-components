@@ -5,7 +5,7 @@ import 'package:data/local/db/DaoBase.dart';
 import 'package:data/local/entity/Product.dart';
 import 'package:data/local/entity/User.dart';
 import 'package:data/mapper/ProductMapper.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'CartDao.dart';

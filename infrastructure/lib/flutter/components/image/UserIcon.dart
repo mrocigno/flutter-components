@@ -5,8 +5,8 @@ import "dart:developer" as dev;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/image/ImagePlaceholder.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
+import 'package:flutter_useful_things/components/image/ImagePlaceholder.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
 
 class UserIcon extends StatelessWidget {
 

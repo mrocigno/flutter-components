@@ -2,7 +2,7 @@ import 'dart:developer' as dev;
 
 
 import 'package:data/local/entity/Cart.dart';
-import 'package:infrastructure/flutter/utils/Mapper.dart';
+import 'package:data/local/db/Mapper.dart';
 
 class CartMapper extends Mapper<Cart> {
 

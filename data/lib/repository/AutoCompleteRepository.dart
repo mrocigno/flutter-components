@@ -4,7 +4,7 @@ import "dart:developer" as dev;
 import 'package:data/local/dao/SearchDao.dart';
 import 'package:data/local/db/Config.dart';
 import 'package:data/remote/service/AutoCompleteService.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 
 class AutoCompleteRepository {
   _Local _local = _Local();

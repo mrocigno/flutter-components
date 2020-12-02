@@ -1,7 +1,7 @@
 
 import 'package:data/local/entity/Photo.dart';
 import 'package:data/local/entity/Product.dart';
-import 'package:infrastructure/flutter/utils/Mapper.dart';
+import 'package:data/local/db/Mapper.dart';
 
 class ProductMapper extends Mapper<Product> {
 

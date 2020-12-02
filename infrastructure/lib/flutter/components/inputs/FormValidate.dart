@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
-import 'package:infrastructure/flutter/components/inputs/InputText.dart';
+import 'package:flutter_useful_things/components/inputs/InputText.dart';
 
 class FormValidate extends StatefulWidget {
   FormValidate({

@@ -1,10 +1,11 @@
 import 'dart:developer' as dev;
 
+import 'package:data/local/db/Mapper.dart';
 import 'package:data/local/db/DaoBase.dart';
 import 'package:data/local/entity/Cart.dart';
 import 'package:data/mapper/CartMapper.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/utils/Mapper.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:data/mapper/CartMapper.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CartDao extends DaoBase<Cart> {

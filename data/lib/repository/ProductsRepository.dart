@@ -4,8 +4,8 @@ import 'package:data/local/dao/ProductsDao.dart';
 import 'package:data/local/db/Config.dart';
 import 'package:data/local/entity/Product.dart';
 import 'package:data/remote/service/ProductService.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/utils/IterableUtils.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/utils/IterableUtils.dart';
 
 class ProductsRepository {
   ProductsDao dao = Config.daoProvider();

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
-import 'package:infrastructure/flutter/utils/Functions.dart';
+import 'package:core/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/utils/Functions.dart';
 
 class BackgroundActionSheet extends StatelessWidget {
 

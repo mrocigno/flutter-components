@@ -2,12 +2,12 @@ import 'package:data/local/entity/Category.dart';
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
 
-import 'package:infrastructure/flutter/components/carousel/TabView.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
-import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/components/carousel/TabView.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
+import 'package:core/constants/Strings.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 import 'package:mopei_app/src/ui/main/home/HomeBloc.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:core/constants/Colors.dart' as Constants;
 
 class PageCategories extends TabChild {
 

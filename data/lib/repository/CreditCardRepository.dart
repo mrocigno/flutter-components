@@ -4,8 +4,7 @@ import 'dart:math';
 import 'package:data/local/dao/CreditCardDao.dart';
 import 'package:data/local/db/Config.dart';
 import 'package:data/local/entity/CreditCard.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/livedata/MutableResponseStream.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 import 'package:sqflite/sqflite.dart';
 
 class CreditCardRepository {

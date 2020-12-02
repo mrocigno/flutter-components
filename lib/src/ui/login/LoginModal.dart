@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:developer' as dev;
-import 'package:infrastructure/flutter/components/backgrounds/BackgroundActionSheet.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
-import 'package:infrastructure/flutter/components/inputs/InputText.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/utils/Functions.dart';
+import 'package:flutter_useful_things/components/backgrounds/BackgroundActionSheet.dart';
+import 'package:core/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/components/inputs/InputText.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/utils/Functions.dart';
 import 'package:mopei_app/main.dart';
 import 'package:mopei_app/src/ui/login/pagecreateaccount/PageCreateAccountScreen.dart';
 import 'package:mopei_app/src/ui/login/pageforgotpassword/PageForgotPasswordScreen.dart';

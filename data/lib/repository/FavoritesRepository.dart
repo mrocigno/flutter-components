@@ -6,7 +6,7 @@ import 'package:data/local/db/Config.dart';
 import 'package:data/local/entity/Favorite.dart';
 import 'package:data/local/entity/User.dart';
 import 'package:data/remote/service/UserService.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 import 'package:sqflite/sqflite.dart';
 
 class FavoritesRepository {

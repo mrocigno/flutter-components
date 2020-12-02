@@ -1,14 +1,16 @@
 import 'dart:developer' as dev;
 
+import 'package:core/theme/CoreButtonTheme.dart';
+import 'package:core/theme/CoreInputThemes.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/components/inputs/FormValidate.dart';
-import 'package:infrastructure/flutter/components/textviews/Hyperlink.dart';
-import 'package:infrastructure/flutter/components/inputs/InputController.dart';
-import 'package:infrastructure/flutter/components/inputs/InputText.dart';
-import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
-import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/components/inputs/FormValidate.dart';
+import 'package:flutter_useful_things/components/textviews/Hyperlink.dart';
+import 'package:flutter_useful_things/components/inputs/InputController.dart';
+import 'package:flutter_useful_things/components/inputs/InputText.dart';
+import 'package:flutter_useful_things/components/buttons/MopeiButton.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
+import 'package:core/constants/Strings.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:mopei_app/src/ui/login/pagelogin/PageLoginBloc.dart';
 
@@ -71,14 +73,14 @@ class _PageLoginScreenState extends State<PageLoginScreen> {
               child: Column(
                 children: <Widget>[
                   Input(
-                    InputThemes.loginTheme,
+                    CoreInputThemes.loginTheme,
                     hint: Strings.strings["hint_email"],
                     margin: EdgeInsets.only(top: 20),
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
                   ),
                   Input(
-                    InputThemes.loginTheme,
+                    CoreInputThemes.loginTheme,
                     obscureText: true,
                     hint: Strings.strings["hint_password"],
                     margin: EdgeInsets.only(top: 20),
@@ -91,6 +93,7 @@ class _PageLoginScreenState extends State<PageLoginScreen> {
           Container(
             margin: EdgeInsets.only(bottom: 20),
             child: MopeiButton(
+              theme: CoreButtonTheme.mainTheme,
               text: Strings.strings["button_login"],
               isLoading: pageLoginBloc.user.loading,
               onTap: () {

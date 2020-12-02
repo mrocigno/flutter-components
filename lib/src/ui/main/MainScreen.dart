@@ -1,11 +1,13 @@
 import 'dart:developer' as dev;
+import 'package:core/theme/CoreBackgroundTheme.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/base/BaseScreen.dart';
-import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
-import 'package:infrastructure/flutter/constants/Numbers.dart';
-import 'package:infrastructure/flutter/constants/Strings.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/routing/AppRoute.dart';
+import 'package:flutter_useful_things/animations/FadeAnimation.dart';
+import 'package:flutter_useful_things/base/BaseScreen.dart';
+import 'package:flutter_useful_things/components/backgrounds/Background.dart';
+import 'package:flutter_useful_things/constants/Numbers.dart';
+import 'package:core/constants/Strings.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/routing/AppRoute.dart';
 import 'package:mopei_app/main.dart';
 import 'package:mopei_app/src/ui/login/LoginModal.dart';
 import 'package:mopei_app/src/ui/main/cart/CartScreen.dart';
@@ -39,27 +41,30 @@ class MainScreen extends BaseScreen {
   @override
   Widget buildScreen(BuildContext context) {
     return Background(
-      title: StreamBuilder<int>(
-        stream: navigationBloc.page,
-        initialData: MainNavigationBloc.INIT_PAGE,
-        builder: (context, snapshot) {
-          if(snapshot.data == 0) return Image.asset("assets/img/icLogo.webp", height: LOGO_HEIGHT, width: LOGO_WIDTH);
-          return Text(Strings.strings["main_title_${snapshot.data}"]);
-        },
+      appBarConfig: AppBarConfig(
+        isTitleCentralized: true,
+        title: StreamBuilder<int>(
+          stream: navigationBloc.page,
+          initialData: MainNavigationBloc.INIT_PAGE,
+          builder: (context, snapshot) {
+            if(snapshot.data == 0) return Image.asset("assets/img/icLogo.webp", height: LOGO_HEIGHT, width: LOGO_WIDTH);
+            return Text(Strings.strings["main_title_${snapshot.data}"]);
+          },
+        ),
+        actions: [
+          AppBarAction(
+            imgPath: "assets/img/icNotification.png",
+            onTap: () => NotificationModal(context).show(),
+          )
+        ],
       ),
-      showDrawer: true,
+      theme: CoreBackgroundTheme.main,
       bottomNavigation: MainNavigation(),
       onWillPop: () {
         int page = navigationBloc.getPage();
         navigationBloc.setPage(0);
         return Future.sync(() => page == 0);
       },
-      actions: [
-        AppBarAction(
-          imgPath: "assets/img/icNotification.png",
-          onTap: () => NotificationModal(context).show(),
-        )
-      ],
       child: StreamBuilder<int>(
         stream: navigationBloc.page,
         initialData: MainNavigationBloc.INIT_PAGE,

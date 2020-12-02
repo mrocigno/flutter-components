@@ -5,28 +5,29 @@ import "dart:developer" as dev;
 import 'dart:ui';
 
 
+import 'package:core/theme/CoreBackgroundTheme.dart';
+import 'package:core/theme/CoreButtonTheme.dart';
 import 'package:data/local/entity/CreditCard.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/base/BaseScreen.dart';
-import 'package:infrastructure/flutter/components/alert/AlertActionSheet.dart';
-import 'package:infrastructure/flutter/components/alert/AlertConfig.dart';
-import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
-import 'package:infrastructure/flutter/components/buttons/MopeiButton.dart';
-import 'package:infrastructure/flutter/components/carousel/Carousel.dart';
-import 'package:infrastructure/flutter/components/containers/BackgroundContainer.dart';
-import 'package:infrastructure/flutter/components/containers/BottomScaffoldContainer.dart';
-import 'package:infrastructure/flutter/components/containers/CreditCardForm.dart';
-import 'package:infrastructure/flutter/components/menu/ExpandableMenu.dart';
-import 'package:infrastructure/flutter/components/textviews/CreditCardView.dart';
-import 'package:infrastructure/flutter/components/textviews/EmptyState.dart';
-import 'package:infrastructure/flutter/components/textviews/TextStyles.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
-import 'package:infrastructure/flutter/di/Injection.dart';
-import 'package:infrastructure/flutter/routing/AppRoute.dart';
-import 'package:infrastructure/flutter/routing/ScreenTransitions.dart';
+import 'package:flutter_useful_things/base/BaseScreen.dart';
+import 'package:flutter_useful_things/components/alert/AlertActionSheet.dart';
+import 'package:flutter_useful_things/components/alert/AlertConfig.dart';
+import 'package:flutter_useful_things/components/backgrounds/Background.dart';
+import 'package:flutter_useful_things/components/buttons/MopeiButton.dart';
+import 'package:flutter_useful_things/components/carousel/Carousel.dart';
+import 'package:flutter_useful_things/components/containers/BackgroundContainer.dart';
+import 'package:flutter_useful_things/components/containers/BottomScaffoldContainer.dart';
+import 'package:flutter_useful_things/components/containers/CreditCardForm.dart';
+import 'package:flutter_useful_things/components/menu/ExpandableMenu.dart';
+import 'package:flutter_useful_things/components/textviews/CreditCardView.dart';
+import 'package:flutter_useful_things/components/textviews/EmptyState.dart';
+import 'package:flutter_useful_things/components/textviews/TextStyles.dart';
+import 'package:core/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/di/Injection.dart';
+import 'package:flutter_useful_things/routing/AppRoute.dart';
+import 'package:flutter_useful_things/routing/ScreenTransitions.dart';
 import 'dart:math' as math;
 
-import 'package:infrastructure/flutter/utils/Functions.dart';
 import 'package:mopei_app/src/ui/payment/CardListBloc.dart';
 import 'package:mopei_app/src/ui/payment/addCard/AddCreditCardScreen.dart';
 
@@ -80,8 +81,10 @@ class CardListScreen extends BaseScreen with RouteObserverMixin {
   Widget buildScreen(BuildContext context) {
 
     return Background(
-      centerTitle: false,
-      title: Text("Cartões cadastrados"),
+      appBarConfig: AppBarConfig(
+        isTitleCentralized: false,
+        title: Text("Cartões cadastrados"),
+      ),
       bottomNavigation: BottomScaffoldContainer(
         child: Padding(
           padding: const EdgeInsets.all(10),
@@ -96,6 +99,7 @@ class CardListScreen extends BaseScreen with RouteObserverMixin {
                 );
               }
               return MopeiButton(
+                theme: CoreButtonTheme.mainTheme,
                 text: "Adicionar cartão",
                 onTap: () => goToAddCard(context)
               );
@@ -103,7 +107,7 @@ class CardListScreen extends BaseScreen with RouteObserverMixin {
           )
         ),
       ),
-      theme: BackgroundTheme.main,
+      theme: CoreBackgroundTheme.main,
       child: Stack(
         children: <Widget>[
           StreamBuilder<bool>(

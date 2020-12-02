@@ -5,13 +5,13 @@ import "dart:developer" as dev;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/flutter_credit_card.dart';
-import 'package:infrastructure/flutter/components/backgrounds/Background.dart';
-import 'package:infrastructure/flutter/components/buttons/BumpButton.dart';
-import 'package:infrastructure/flutter/components/inputs/FormValidate.dart';
-import 'package:infrastructure/flutter/components/inputs/InputController.dart';
-import 'package:infrastructure/flutter/components/inputs/InputText.dart';
-import 'package:infrastructure/flutter/utils/Functions.dart';
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:flutter_useful_things/components/backgrounds/Background.dart';
+import 'package:flutter_useful_things/components/buttons/BumpButton.dart';
+import 'package:flutter_useful_things/components/inputs/FormValidate.dart';
+import 'package:flutter_useful_things/components/inputs/InputController.dart';
+import 'package:flutter_useful_things/components/inputs/InputText.dart';
+import 'package:flutter_useful_things/utils/Functions.dart';
+import 'package:core/constants/Colors.dart' as Constants;
 
 class CreditCardForm extends StatefulWidget {
 

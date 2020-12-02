@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:developer' as dev;
-import 'package:infrastructure/flutter/constants/Colors.dart' as Constants;
+import 'package:core/constants/Colors.dart' as Constants;
 import 'package:flutter/services.dart';
-import 'package:infrastructure/flutter/di/Injection.dart';
+import 'package:flutter_useful_things/di/Injection.dart';
 import 'package:mopei_app/src/ui/main/navigation/MainNavigationBloc.dart';
 
 class MainNavigation extends StatelessWidget {

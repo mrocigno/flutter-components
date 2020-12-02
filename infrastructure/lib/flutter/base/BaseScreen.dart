@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:infrastructure/flutter/base/BaseFragment.dart';
-import 'package:infrastructure/flutter/routing/AppRoute.dart';
+import 'package:flutter_useful_things/base/BaseFragment.dart';
+import 'package:flutter_useful_things/routing/AppRoute.dart';
 
 class BaseScreenStateful extends StatefulWidget {
 
